@@ -222,7 +222,7 @@ bool TargaImage::To_Grayscale()
 			unsigned char* pixel = data + offset + (j*4);
 	        RGBA_To_RGB(pixel, pixel);
 			unsigned char gray = (0.299 * pixel[RED]) + (0.587 * pixel[GREEN]) + (0.114 * pixel[BLUE]);
-			pixel[RED] = pixel[GREEN] = pixel[BLUE] = gray * pixel[ALPHA];
+			pixel[RED] = pixel[GREEN] = pixel[BLUE] = gray;// * pixel[ALPHA];
 	    }
     }
     return true;
@@ -317,8 +317,28 @@ bool TargaImage::Quant_Populosity()
 ///////////////////////////////////////////////////////////////////////////////
 bool TargaImage::Dither_Threshold()
 {
-    ClearToBlack();
-    return false;
+	if (To_Grayscale())
+	{
+		for (int i = 0 ; i < height ; i++)
+		{
+			int offset = i * width * 4;
+			for (int j = 0 ; j < width ; j++)
+			{
+				unsigned char* pixel = data + offset + (j*4);
+
+				if (((float)pixel[RED] / 256.0f) < 0.5f)
+				{
+					pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
+				}
+				else
+				{
+					pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
+				}
+			}
+		}
+		return true;
+	}
+	return false;
 }// Dither_Threshold
 
 
