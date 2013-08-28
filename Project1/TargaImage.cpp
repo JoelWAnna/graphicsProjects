@@ -237,8 +237,25 @@ bool TargaImage::To_Grayscale()
 ///////////////////////////////////////////////////////////////////////////////
 bool TargaImage::Quant_Uniform()
 {
-    ClearToBlack();
-    return false;
+	for (int i = 0 ; i < height ; i++)
+    {
+		int offset = i * width * 4;
+	    for (int j = 0 ; j < width ; j++)
+        {
+			unsigned char* pixel = data + offset + (j*4);
+	        RGBA_To_RGB(pixel, pixel);
+			ROUND_DOWN(pixel[RED], 32);
+			//pixel[RED] = ((pixel[RED]) / 32);
+			//pixel[RED]*=32;
+			ROUND_DOWN(pixel[GREEN], 32);
+			//pixel[GREEN] = (pixel[GREEN]) / 32;
+			//pixel[GREEN]*=32;
+			ROUND_DOWN(pixel[BLUE], 64);
+			//pixel[BLUE] = (pixel[BLUE]) / 64;
+			//pixel[BLUE]*=64;
+	    }
+    }
+    return true;
 }// Quant_Uniform
 
 
@@ -252,6 +269,44 @@ bool TargaImage::Quant_Populosity()
 {
     ClearToBlack();
     return false;
+	/*
+	std::vector<int> histogram;
+	histogram.reserve(32*32*32);
+	std::fill(histogram.begin(), histogram.end(), 0);
+		//;32*32*32;
+	// First covert colors to 32 levels of coor
+	for (int i = 0 ; i < height ; i++)
+    {
+		int offset = i * width * 4;
+	    for (int j = 0 ; j < width ; j++)
+        {
+			unsigned char rgb[3];
+			unsigned char* pixel = data + offset + (j*4);
+	        RGBA_To_RGB(pixel, rgb);			
+			ROUND_DOWN(rgb[RED], 4);
+			//rgb[RED] = ((rgb[RED]) / 4);
+			//rgb[RED]*=4;
+			ROUND_DOWN(rgb[GREEN], 4);
+			//rgb[GREEN] = (rgb[GREEN]) / 4;
+			//rgb[GREEN]*=4;
+			ROUND_DOWN(rgb[BLUE], 4);
+			//rgb[BLUE] = (rgb[BLUE]) / 4;
+			//rgb[BLUE]*=4;
+			++histogram.at( (((rgb[RED]>>2))<<10)  | (((rgb[GREEN]>>2))<<5) |(rgb[BLUE]>>2) );
+	    }
+    }
+	std::priority_queue<histPair, vector<histPair>, std::less<histPair>> top;
+	for (int i = 0; i < 32*32*32; ++i)
+	{
+		top.push(histPair(i, histogram[i]));
+	}
+
+	for (int i = 0; i < 256; ++i)
+	{
+		cout  << top.top()._val;
+		top.pop();
+	}
+    return true;*/
 }// Quant_Populosity
 
 

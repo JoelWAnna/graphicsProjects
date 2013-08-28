@@ -15,9 +15,25 @@
 #include <Fl/Fl.h>
 #include <Fl/Fl_Widget.h>
 #include <stdio.h>
+#include <queue>
+/*
+class histPair
+{
+	public:
+		histPair(int value, int count): _val(value), _count(count){ ; }
+		int _val, _count;
+
+};
+
+template<class histPair> struct less {
+	bool operator() (const histPair &one, const histPair &other) const { return one._count < other._count;}
+};*/
+
 
 class Stroke;
 class DistanceImage;
+
+#define ROUND_DOWN(x, a)	((x) & ~((a) - 1))
 
 class TargaImage
 {
