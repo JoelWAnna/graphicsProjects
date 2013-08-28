@@ -349,7 +349,28 @@ bool TargaImage::Dither_Threshold()
 ///////////////////////////////////////////////////////////////////////////////
 bool TargaImage::Dither_Random()
 {
-    ClearToBlack();
+
+	if (To_Grayscale())
+	{
+		srand(time(NULL));
+		float brightness = 0;
+		for (int i = 0 ; i < height ; i++)
+		{
+			int offset = i * width * 4;
+			for (int j = 0 ; j < width ; j++)
+			{
+				unsigned char* pixel = data + offset + (j*4);
+
+				// generate number between 0 and 2000
+				// subtract 1000 to have a new number between -1000 and 1000
+				// divide by 5000.0f to scale to a number between [-.2,.2]
+				float newPixel = (((rand()%2001)-1000)/5000.0f);
+				newPixel += ((float)pixel[RED] / 256.0f);
+				pixel[RED] = pixel[GREEN] = pixel[BLUE] = (unsigned char)(newPixel*256.0f);
+			}
+		}
+		return Dither_Bright();
+	}
     return false;
 }// Dither_Random
 
@@ -375,7 +396,41 @@ bool TargaImage::Dither_FS()
 ///////////////////////////////////////////////////////////////////////////////
 bool TargaImage::Dither_Bright()
 {
-    ClearToBlack();
+    if (To_Grayscale())
+	{
+		float brightness = 0;
+		for (int i = 0 ; i < height ; i++)
+		{
+			int offset = i * width * 4;
+			for (int j = 0 ; j < width ; j++)
+			{
+				unsigned char* pixel = data + offset + (j*4);
+
+				brightness += ((float)pixel[RED] / 256.0f);
+			}
+		}
+		brightness /= (width*height);
+		float thresh = (float)brightness;
+
+		for (int i = 0 ; i < height ; i++)
+		{
+			int offset = i * width * 4;
+			for (int j = 0 ; j < width ; j++)
+			{
+				unsigned char* pixel = data + offset + (j*4);
+
+				if (((float)pixel[RED] / 256.0f) < thresh)
+				{
+					pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
+				}
+				else
+				{
+					pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
+				}
+			}
+		}
+		return true;
+	}
     return false;
 }// Dither_Bright
 
@@ -387,8 +442,33 @@ bool TargaImage::Dither_Bright()
 ///////////////////////////////////////////////////////////////////////////////
 bool TargaImage::Dither_Cluster()
 {
-    ClearToBlack();
-    return false;
+	float thresh[4][4] = {{ 0.7500f, 0.3750f, 0.6250f, 0.2500f},
+						{ 0.0625f, 1.0000f, 0.8750f, 0.4375f},
+						{ 0.5000f, 0.8125f, 0.9375f, 0.1250f},
+						{ 0.1875f, 0.5625f, 0.3125f, 0.6875f}};
+
+    if (To_Grayscale())
+	{
+		for (int i = 0 ; i < height ; i++)
+		{
+			int offset = i * width * 4;
+			for (int j = 0 ; j < width ; j++)
+			{
+				unsigned char* pixel = data + offset + (j*4);
+
+				if (((float)pixel[RED] / 256.0f) < thresh[i&3][j&3])
+				{
+					pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
+				}
+				else
+				{
+					pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
+				}
+			}
+		}
+		return true;
+	}
+	return false;
 }// Dither_Cluster
 
 

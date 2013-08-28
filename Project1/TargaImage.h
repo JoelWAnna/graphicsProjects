@@ -15,7 +15,9 @@
 #include <Fl/Fl.h>
 #include <Fl/Fl_Widget.h>
 #include <stdio.h>
+
 #include <queue>
+#include <time.h>
 /*
 class histPair
 {
