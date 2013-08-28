@@ -29,6 +29,7 @@ using namespace std;
 const int           RED             = 0;                // red channel
 const int           GREEN           = 1;                // green channel
 const int           BLUE            = 2;                // blue channel
+const int			ALPHA			= 3;				// alpha channel
 const unsigned char BACKGROUND[3]   = { 0, 0, 0 };      // background color
 
 
@@ -213,8 +214,18 @@ TargaImage* TargaImage::Load_Image(char *filename)
 ///////////////////////////////////////////////////////////////////////////////
 bool TargaImage::To_Grayscale()
 {
-    ClearToBlack();
-    return false;
+	for (int i = 0 ; i < height ; i++)
+    {
+		int offset = i * width * 4;
+	    for (int j = 0 ; j < width ; j++)
+        {
+			unsigned char* pixel = data + offset + (j*4);
+	        RGBA_To_RGB(pixel, pixel);
+			unsigned char gray = (0.299 * pixel[RED]) + (0.587 * pixel[GREEN]) + (0.114 * pixel[BLUE]);
+			pixel[RED] = pixel[GREEN] = pixel[BLUE] = gray * pixel[ALPHA];
+	    }
+    }
+    return true;
 }// To_Grayscale
 
 
