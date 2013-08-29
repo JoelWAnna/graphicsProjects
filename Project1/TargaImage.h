@@ -18,6 +18,7 @@
 
 #include <queue>
 #include <time.h>
+#include <stdint.h>
 /*
 class histPair
 {
@@ -36,6 +37,9 @@ class Stroke;
 class DistanceImage;
 
 #define ROUND_DOWN(x, a)	((x) & ~((a) - 1))
+void Set_rgba_px_black(unsigned char * px);
+void Set_rgba_px_white(unsigned char * px);
+void Set_rgba_px_gray(unsigned char * px, unsigned char gray);
 
 class TargaImage
 {
@@ -89,7 +93,8 @@ class TargaImage
     private:
 	// helper function for format conversion
         void RGBA_To_RGB(unsigned char *rgba, unsigned char *rgb);
-		inline void Dither_Threshold(float threshold);
+		void Dither_Threshold(float threshold);
+		unsigned char * Run_Filter(int filter_size, float* kernel);
 
         // reverse the rows of the image, some targas are stored bottom to top
 	TargaImage* Reverse_Rows(void);

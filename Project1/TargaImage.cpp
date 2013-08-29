@@ -204,7 +204,23 @@ TargaImage* TargaImage::Load_Image(char *filename)
     return result;
 }// Load_Image
 
-
+///////////////////////////////////////////////////////////////////////////////
+//
+//    helper functions
+//
+/////////////////////////////////////////////////////////////////////////////
+inline void Set_rgba_px_black(unsigned char * px)
+{
+	*(uint32_t*)(px) &= 0xFF000000;
+}
+inline void Set_rgba_px_white(unsigned char * px)
+{
+	*(uint32_t*)(px) |= ~0xFF000000;
+}
+inline void Set_rgba_px_gray(unsigned char * px, unsigned char gray)
+{
+	(px)[RED]=(px)[GREEN]=(px)[BLUE]=gray;
+}
 ///////////////////////////////////////////////////////////////////////////////
 //
 //      Convert image to grayscale.  Red, green, and blue channels should all 
@@ -221,8 +237,9 @@ bool TargaImage::To_Grayscale()
         {
 			unsigned char* pixel = data + offset + (j*4);
 	        RGBA_To_RGB(pixel, pixel);
-			unsigned char gray = (0.299 * pixel[RED]) + (0.587 * pixel[GREEN]) + (0.114 * pixel[BLUE]);
-			pixel[RED] = pixel[GREEN] = pixel[BLUE] = gray;// * pixel[ALPHA];
+			unsigned char gray = (unsigned char)((0.299 * pixel[RED]) + (0.587 * pixel[GREEN]) + (0.114 * pixel[BLUE]));
+			Set_rgba_px_gray(pixel, gray);
+			//pixel[RED] = pixel[GREEN] = pixel[BLUE] = gray;// * pixel[ALPHA];
 	    }
     }
     return true;
@@ -321,11 +338,15 @@ inline void TargaImage::Dither_Threshold(float threshold)
 
 			if (((float)pixel[RED] / 256.0f) < threshold)
 			{
-				pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
+				//pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
+				Set_rgba_px_black(pixel);
+				//*(uint32_t*)(pixel) &= 0xFF;
 			}
 			else
 			{
-				pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
+				//pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
+				//*(uint32_t*)(pixel) |= ~0xFF;
+				Set_rgba_px_white(pixel);
 			}
 		}
 	}
@@ -356,7 +377,7 @@ bool TargaImage::Dither_Random()
 
 	if (To_Grayscale())
 	{
-		srand(time(NULL));
+		srand((unsigned int)time(NULL));
 		float brightness = 0;
 		for (int i = 0 ; i < height ; i++)
 		{
@@ -370,7 +391,10 @@ bool TargaImage::Dither_Random()
 				// divide by 5000.0f to scale to a number between [-.2,.2]
 				float newPixel = (((rand()%2001)-1000)/5000.0f);
 				newPixel += ((float)pixel[RED] / 256.0f);
-				pixel[RED] = pixel[GREEN] = pixel[BLUE] = (unsigned char)(newPixel*256.0f);
+				
+		
+				Set_rgba_px_gray(pixel, (unsigned char)(newPixel*256.0f));
+				//pixel[RED] = pixel[GREEN] = pixel[BLUE] = (unsigned char)(newPixel*256.0f);
 			}
 		}
 		return Dither_Bright();
@@ -401,13 +425,13 @@ bool TargaImage::Dither_FS()
 					float e = ((float)(pixel[RED]) / 256.0f);
 					if (e < threshold)
 					{
-
-						pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
-						
+						Set_rgba_px_black(pixel);
+						//pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
 					}
 					else
 					{
-						pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
+						Set_rgba_px_white(pixel);
+						//pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
 						e = e-1;
 					}
 					
@@ -556,13 +580,15 @@ bool TargaImage::Dither_Cluster()
 			{
 				unsigned char* pixel = data + offset + (j*4);
 
-				if (((float)pixel[RED] / 256.0f) < thresh[i&3][j&3])
+				if (((float)pixel[RED] / 255.0f) < thresh[i&3][j&3])
 				{
-					pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
+					Set_rgba_px_black(pixel);
+					//pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
 				}
 				else
 				{
-					pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
+					Set_rgba_px_white(pixel);
+					//pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
 				}
 			}
 		}
