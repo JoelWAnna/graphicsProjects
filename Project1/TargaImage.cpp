@@ -383,8 +383,87 @@ bool TargaImage::Dither_Random()
 ///////////////////////////////////////////////////////////////////////////////
 bool TargaImage::Dither_FS()
 {
-    ClearToBlack();
-    return false;
+	const float threshold = 0.5f;
+	if (To_Grayscale())
+	{
+		for (int i = 0 ; i < height ; i++)
+		{
+			int offset = i * width * 4;
+			if ((i & 1) == 1)
+			{
+				for (int j = width-1; j >= 0; --j)
+				{
+					unsigned char* pixel = data + offset + (j*4);
+					float e = ((float)(pixel[RED]) / 256.0f);
+					if (e < threshold)
+					{
+
+						pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
+						
+					}
+					else
+					{
+						pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
+						e = e-1;
+					}
+					
+					//Propagate error
+					if (j > 0)
+					{
+						// next
+						(pixel - 4)[RED] += e*256.0f * 7.0f/16.0f;
+						//
+						(pixel - 4 + (width*4))[RED] += e*256.0f * 1.0f/16.0f;
+					}
+					if ( j < (width - 1))
+					{
+						(pixel + 4 + (width*4))[RED] += e*256.0f * 3.0f/16.0f;;
+					}
+					if (i < height-1)
+					{							
+						(pixel + (width*4))[RED] += e*256.0f  * 5.0f/16.0f;;
+					}
+				}
+			}
+			else
+			{
+				for (int j = 0 ; j < width ; j++)
+				{
+					unsigned char* pixel = data + offset + (j*4);
+					
+					float e = ((float)(pixel[RED]) / 256.0f);
+					if (e < threshold)
+					{
+						pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
+					}
+					else
+					{
+						pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
+						e = e-1;
+					}
+
+					//Propagate error
+					if (j < width-1)
+					{
+						// next
+						(pixel + 4)[RED] += e*256.0f * 7.0f/16.0f;
+						//
+						(pixel + 4 + (width*4))[RED] += e*256.0f * 1.0f/16.0f;
+					}
+					if ( j > 0)
+					{
+						(pixel - 4 + (width*4))[RED] += e*256.0f * 3.0f/16.0f;;
+					}
+					if (i < height-1)
+					{							
+						(pixel + (width*4))[RED] += e*256.0f  * 5.0f/16.0f;;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	return false;
 }// Dither_FS
 
 
