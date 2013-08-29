@@ -415,17 +415,31 @@ bool TargaImage::Dither_FS()
 					if (j > 0)
 					{
 						// next
-						(pixel - 4)[RED] += e*256.0f * 7.0f/16.0f;
-						//
-						(pixel - 4 + (width*4))[RED] += e*256.0f * 1.0f/16.0f;
+						nextpix = pixel - 4;
+						gray = (nextpix)[RED] + (unsigned char)(e*256.0f * 7.0f/16.0f);
+						Set_rgba_px_gray(nextpix, gray);
 					}
-					if ( j < (width - 1))
-					{
-						(pixel + 4 + (width*4))[RED] += e*256.0f * 3.0f/16.0f;;
-					}
+
 					if (i < height-1)
-					{							
-						(pixel + (width*4))[RED] += e*256.0f  * 5.0f/16.0f;;
+					{	
+						nextpix = pixel + (width*4);
+						gray = (nextpix)[RED] + (unsigned char)(e*256.0f  * 5.0f/16.0f);
+						Set_rgba_px_gray(nextpix, gray);
+
+						if (j > 0)
+						{
+							//
+							nextpix = pixel - 4 + (width*4);
+							gray = (nextpix)[RED] + (unsigned char)(e*256.0f * 1.0f/16.0f);
+							Set_rgba_px_gray(nextpix, gray);
+						}
+
+						if ( j < (width - 1))
+						{
+							nextpix = pixel + 4 + (width*4);
+							gray = (nextpix)[RED] + (unsigned char)(e*256.0f * 3.0f/16.0f);
+							Set_rgba_px_gray(nextpix, gray);
+						}
 					}
 				}
 			}
@@ -438,29 +452,49 @@ bool TargaImage::Dither_FS()
 					float e = ((float)(pixel[RED]) / 256.0f);
 					if (e < threshold)
 					{
-						pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
+						Set_rgba_px_black(pixel);										
+						//pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
 					}
 					else
 					{
-						pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
+						Set_rgba_px_white(pixel);
+						//pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
 						e = e-1;
 					}
 
 					//Propagate error
 					if (j < width-1)
 					{
-						// next
-						(pixel + 4)[RED] += e*256.0f * 7.0f/16.0f;
-						//
-						(pixel + 4 + (width*4))[RED] += e*256.0f * 1.0f/16.0f;
+						// next	
+						nextpix = pixel + 4;
+						if (maxsize <= nextpix)
+						{
+							cout << "e";
+						}
+						gray = (nextpix)[RED] + (unsigned char)(e*256.0f * 7.0f/16.0f);
+						Set_rgba_px_gray(nextpix, gray);
+
 					}
-					if ( j > 0)
-					{
-						(pixel - 4 + (width*4))[RED] += e*256.0f * 3.0f/16.0f;;
-					}
+
 					if (i < height-1)
-					{							
-						(pixel + (width*4))[RED] += e*256.0f  * 5.0f/16.0f;;
+					{	
+						nextpix = pixel + (width*4);
+						gray = (nextpix)[RED] + (unsigned char)(e*256.0f  * 5.0f/16.0f);
+						Set_rgba_px_gray(nextpix, gray);
+
+						if ( j > 0)
+						{
+							nextpix = pixel - 4 + (width*4);
+							gray = (nextpix)[RED] + (unsigned char)(e*256.0f * 3.0f/16.0f);
+							Set_rgba_px_gray(nextpix, gray);
+						}
+						if (j < width-1)
+						{
+							//
+							nextpix = pixel + 4 + (width*4);
+							gray = (nextpix)[RED] + (unsigned char)(e*256.0f * 1.0f/16.0f);
+							Set_rgba_px_gray(nextpix, gray);
+						}
 					}
 				}
 			}
