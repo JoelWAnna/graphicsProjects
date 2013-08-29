@@ -309,7 +309,27 @@ bool TargaImage::Quant_Populosity()
     return true;*/
 }// Quant_Populosity
 
+inline void TargaImage::Dither_Threshold(float threshold)
+{	
+	for (int i = 0; i < height ; i++)
+	{
+		int offset = i * width * 4;
 
+		for (int j = 0; j < width; j++)
+		{
+			unsigned char* pixel = data + offset + (j*4);
+
+			if (((float)pixel[RED] / 256.0f) < threshold)
+			{
+				pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
+			}
+			else
+			{
+				pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
+			}
+		}
+	}
+}
 ///////////////////////////////////////////////////////////////////////////////
 //
 //      Dither the image using a threshold of 1/2.  Return success of operation.
@@ -319,23 +339,7 @@ bool TargaImage::Dither_Threshold()
 {
 	if (To_Grayscale())
 	{
-		for (int i = 0 ; i < height ; i++)
-		{
-			int offset = i * width * 4;
-			for (int j = 0 ; j < width ; j++)
-			{
-				unsigned char* pixel = data + offset + (j*4);
-
-				if (((float)pixel[RED] / 256.0f) < 0.5f)
-				{
-					pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
-				}
-				else
-				{
-					pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
-				}
-			}
-		}
+		Dither_Threshold(0.5f);
 		return true;
 	}
 	return false;
@@ -490,24 +494,7 @@ bool TargaImage::Dither_Bright()
 		}
 		brightness /= (width*height);
 		float thresh = (float)brightness;
-
-		for (int i = 0 ; i < height ; i++)
-		{
-			int offset = i * width * 4;
-			for (int j = 0 ; j < width ; j++)
-			{
-				unsigned char* pixel = data + offset + (j*4);
-
-				if (((float)pixel[RED] / 256.0f) < thresh)
-				{
-					pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
-				}
-				else
-				{
-					pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
-				}
-			}
-		}
+		Dither_Threshold(thresh);
 		return true;
 	}
     return false;
