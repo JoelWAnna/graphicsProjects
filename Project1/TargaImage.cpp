@@ -566,8 +566,28 @@ bool TargaImage::Comp_Over(TargaImage* pImage)
         return false;
     }
 
-    ClearToBlack();
-    return false;
+	for (int i = 0 ; i < height ; i++)
+	{
+		int offset = i * width * 4;
+		for (int j = 0 ; j < width ; j++)
+		{
+			unsigned char* pixelF = data + offset + (j*4);
+			unsigned char* pixelG= pImage->data + offset + (j*4);
+
+			unsigned char alpha_f = pixelF[ALPHA];
+			unsigned char alpha_g = pixelG[ALPHA];
+			
+			float F = 1;
+			float G = 1- alpha_f/255.0f;
+			
+			pixelF[RED]   = pixelF[RED]   * F + pixelG[RED]   * G;
+			pixelF[GREEN] = pixelF[GREEN] * F + pixelG[GREEN] * G;
+			pixelF[BLUE]  = pixelF[BLUE]  * F + pixelG[BLUE]  * G;
+			pixelF[ALPHA] = pixelF[ALPHA] * F + pixelG[ALPHA] * G; 
+			
+		}
+	}
+	return true;
 }// Comp_Over
 
 
