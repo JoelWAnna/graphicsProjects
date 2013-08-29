@@ -239,7 +239,6 @@ bool TargaImage::To_Grayscale()
 	        RGBA_To_RGB(pixel, pixel);
 			unsigned char gray = (unsigned char)((0.299 * pixel[RED]) + (0.587 * pixel[GREEN]) + (0.114 * pixel[BLUE]));
 			Set_rgba_px_gray(pixel, gray);
-			//pixel[RED] = pixel[GREEN] = pixel[BLUE] = gray;// * pixel[ALPHA];
 	    }
     }
     return true;
@@ -262,14 +261,8 @@ bool TargaImage::Quant_Uniform()
 			unsigned char* pixel = data + offset + (j*4);
 	        RGBA_To_RGB(pixel, pixel);
 			ROUND_DOWN(pixel[RED], 32);
-			//pixel[RED] = ((pixel[RED]) / 32);
-			//pixel[RED]*=32;
 			ROUND_DOWN(pixel[GREEN], 32);
-			//pixel[GREEN] = (pixel[GREEN]) / 32;
-			//pixel[GREEN]*=32;
 			ROUND_DOWN(pixel[BLUE], 64);
-			//pixel[BLUE] = (pixel[BLUE]) / 64;
-			//pixel[BLUE]*=64;
 	    }
     }
     return true;
@@ -338,14 +331,10 @@ inline void TargaImage::Dither_Threshold(float threshold)
 
 			if (((float)pixel[RED] / 256.0f) < threshold)
 			{
-				//pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
 				Set_rgba_px_black(pixel);
-				//*(uint32_t*)(pixel) &= 0xFF;
 			}
 			else
 			{
-				//pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
-				//*(uint32_t*)(pixel) |= ~0xFF;
 				Set_rgba_px_white(pixel);
 			}
 		}
@@ -394,7 +383,6 @@ bool TargaImage::Dither_Random()
 				
 		
 				Set_rgba_px_gray(pixel, (unsigned char)(newPixel*256.0f));
-				//pixel[RED] = pixel[GREEN] = pixel[BLUE] = (unsigned char)(newPixel*256.0f);
 			}
 		}
 		return Dither_Bright();
@@ -412,6 +400,8 @@ bool TargaImage::Dither_Random()
 bool TargaImage::Dither_FS()
 {
 	const float threshold = 0.5f;
+	unsigned char * nextpix;
+	unsigned char gray;
 	if (To_Grayscale())
 	{
 		for (int i = 0 ; i < height ; i++)
@@ -426,12 +416,10 @@ bool TargaImage::Dither_FS()
 					if (e < threshold)
 					{
 						Set_rgba_px_black(pixel);
-						//pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
 					}
 					else
 					{
 						Set_rgba_px_white(pixel);
-						//pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
 						e = e-1;
 					}
 					
@@ -476,13 +464,11 @@ bool TargaImage::Dither_FS()
 					float e = ((float)(pixel[RED]) / 256.0f);
 					if (e < threshold)
 					{
-						Set_rgba_px_black(pixel);										
-						//pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
+						Set_rgba_px_black(pixel);						
 					}
 					else
 					{
 						Set_rgba_px_white(pixel);
-						//pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
 						e = e-1;
 					}
 
@@ -491,10 +477,6 @@ bool TargaImage::Dither_FS()
 					{
 						// next	
 						nextpix = pixel + 4;
-						if (maxsize <= nextpix)
-						{
-							cout << "e";
-						}
 						gray = (nextpix)[RED] + (unsigned char)(e*256.0f * 7.0f/16.0f);
 						Set_rgba_px_gray(nextpix, gray);
 
@@ -583,12 +565,10 @@ bool TargaImage::Dither_Cluster()
 				if (((float)pixel[RED] / 255.0f) < thresh[i&3][j&3])
 				{
 					Set_rgba_px_black(pixel);
-					//pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0;
 				}
 				else
 				{
 					Set_rgba_px_white(pixel);
-					//pixel[RED] = pixel[GREEN] = pixel[BLUE] = 0xFF;
 				}
 			}
 		}
