@@ -1,3 +1,6 @@
 *.vcxproj.user
 *.sdf
 *.opensdf
+*.ilk
+ipch
+*.suo
