@@ -643,9 +643,28 @@ bool TargaImage::Comp_Out(TargaImage* pImage)
         cout << "Comp_Out: Images not the same size\n";
         return false;
     }
-
-    ClearToBlack();
-    return false;
+	
+	for (int i = 0 ; i < height ; i++)
+	{
+		int offset = i * width * 4;
+		for (int j = 0 ; j < width ; j++)
+		{
+			unsigned char* pixelF = data + offset + (j*4);
+			unsigned char* pixelG= pImage->data + offset + (j*4);
+			
+			//unsigned char alpha_f = pixelF[ALPHA];
+			unsigned char alpha_g = pixelG[ALPHA];
+			
+			float F = 1- alpha_g/255.0f;
+			//float G = 0;
+			
+			pixelF[RED]   = pixelF[RED]   * F; // + pixelG[RED]   * G;
+			pixelF[GREEN] = pixelF[GREEN] * F; // + pixelG[GREEN] * G;
+			pixelF[BLUE]  = pixelF[BLUE]  * F; // + pixelG[BLUE]  * G;
+			pixelF[ALPHA] = pixelF[ALPHA] * F; // + pixelG[ALPHA] * G; 
+		}
+	}
+	return true;
 }// Comp_Out
 
 
