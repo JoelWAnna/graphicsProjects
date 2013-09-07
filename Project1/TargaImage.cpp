@@ -225,6 +225,13 @@ inline void Set_rgba_px_gray(unsigned char * px, unsigned char gray)
 {
 	(px)[RED]=(px)[GREEN]=(px)[BLUE]=gray;
 }
+inline unsigned char clampToU8(float val)
+{
+	if (val > 255.0f) return 0xFF;
+	if (val < 0.0f) return 0;
+	return (unsigned char)val;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 //      Convert image to grayscale.  Red, green, and blue channels should all 
@@ -893,9 +900,9 @@ unsigned char * TargaImage::Run_Filter(int filter_size, float* kernel)
 					accum[BLUE] += (px[BLUE]*k);
 				}
 			}
-			pixel[RED]   = (unsigned char) (accum[RED]   / total_weight);
-			pixel[GREEN] = (unsigned char) (accum[GREEN] / total_weight);
-			pixel[BLUE]  = (unsigned char) (accum[BLUE]  / total_weight);
+			pixel[RED]   = clampToU8(accum[RED]   / total_weight);
+			pixel[GREEN] = clampToU8(accum[GREEN] / total_weight);
+			pixel[BLUE]  = clampToU8(accum[BLUE]  / total_weight);
 			pixel[ALPHA] = 0xFF;
 		}
 	}
@@ -961,6 +968,25 @@ bool TargaImage::Filter_Bartlett()
 ///////////////////////////////////////////////////////////////////////////////
 bool TargaImage::Filter_Gaussian()
 {
+	const int filter_size = 5;
+/*	float kernel[25] = {1,4,6,4,1,
+						4,16,24,16,4,
+						6,24,36,24,6,
+						4,16,24,16,4,
+						1,4,6,4,1};*/
+	float kernel[25] = {1,4,7,4,1,
+						4,16,26,16,4,
+						7,26,41,26,7,
+						4,16,26,16,4,
+						1,4,7,4,1};
+
+	unsigned char * newImage = Run_Filter(filter_size, kernel);
+	if (newImage)
+	{
+		delete [] data;
+		data = newImage;
+    	return true;
+	}
     ClearToBlack();
     return false;
 }// Filter_Gaussian

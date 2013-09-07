@@ -42,6 +42,7 @@ class DistanceImage;
 void Set_rgba_px_black(unsigned char * px);
 void Set_rgba_px_white(unsigned char * px);
 void Set_rgba_px_gray(unsigned char * px, unsigned char gray);
+unsigned char clampToU8(float val);
 
 class TargaImage
 {
