@@ -23,6 +23,10 @@
 #include <vector>
 #include <algorithm>
 
+#ifndef M_PI
+#define M_PI       3.14159265358979323846
+#endif
+
 using namespace std;
 
 // constants
@@ -620,10 +624,10 @@ bool TargaImage::Comp_Over(TargaImage* pImage)
 			float F = 1;
 			float G = 1- alpha_f/255.0f;
 			
-			pixelF[RED]   = pixelF[RED]   * F + pixelG[RED]   * G;
-			pixelF[GREEN] = pixelF[GREEN] * F + pixelG[GREEN] * G;
-			pixelF[BLUE]  = pixelF[BLUE]  * F + pixelG[BLUE]  * G;
-			pixelF[ALPHA] = pixelF[ALPHA] * F + pixelG[ALPHA] * G; 
+			pixelF[RED]   = (unsigned char) (pixelF[RED]   * F + pixelG[RED]   * G);
+			pixelF[GREEN] = (unsigned char) (pixelF[GREEN] * F + pixelG[GREEN] * G);
+			pixelF[BLUE]  = (unsigned char) (pixelF[BLUE]  * F + pixelG[BLUE]  * G);
+			pixelF[ALPHA] = (unsigned char) (pixelF[ALPHA] * F + pixelG[ALPHA] * G); 
 			
 		}
 	}
@@ -659,10 +663,10 @@ bool TargaImage::Comp_In(TargaImage* pImage)
 			float F = alpha_g/255.0f;
 			//float G = 0;
 			
-			pixelF[RED]   = pixelF[RED]   * F; // + pixelG[RED]   * G;
-			pixelF[GREEN] = pixelF[GREEN] * F; // + pixelG[GREEN] * G;
-			pixelF[BLUE]  = pixelF[BLUE]  * F; // + pixelG[BLUE]  * G;
-			pixelF[ALPHA] = pixelF[ALPHA] * F; // + pixelG[ALPHA] * G; 
+			pixelF[RED]   = (unsigned char)(pixelF[RED]   * F); // + pixelG[RED]   * G;
+			pixelF[GREEN] = (unsigned char)(pixelF[GREEN] * F); // + pixelG[GREEN] * G;
+			pixelF[BLUE]  = (unsigned char)(pixelF[BLUE]  * F); // + pixelG[BLUE]  * G;
+			pixelF[ALPHA] = (unsigned char)(pixelF[ALPHA] * F); // + pixelG[ALPHA] * G; 
 			
 		}
 	}
@@ -698,10 +702,10 @@ bool TargaImage::Comp_Out(TargaImage* pImage)
 			float F = 1- alpha_g/255.0f;
 			//float G = 0;
 			
-			pixelF[RED]   = pixelF[RED]   * F; // + pixelG[RED]   * G;
-			pixelF[GREEN] = pixelF[GREEN] * F; // + pixelG[GREEN] * G;
-			pixelF[BLUE]  = pixelF[BLUE]  * F; // + pixelG[BLUE]  * G;
-			pixelF[ALPHA] = pixelF[ALPHA] * F; // + pixelG[ALPHA] * G; 
+			pixelF[RED]   = (unsigned char) (pixelF[RED]   * F); // + pixelG[RED]   * G;
+			pixelF[GREEN] = (unsigned char) (pixelF[GREEN] * F); // + pixelG[GREEN] * G;
+			pixelF[BLUE]  = (unsigned char) (pixelF[BLUE]  * F); // + pixelG[BLUE]  * G;
+			pixelF[ALPHA] = (unsigned char) (pixelF[ALPHA] * F); // + pixelG[ALPHA] * G; 
 		}
 	}
 	return true;
@@ -735,11 +739,10 @@ bool TargaImage::Comp_Atop(TargaImage* pImage)
 			float F = alpha_g/255.0f;
 			float G = 1 - alpha_f/255.0f;
 			
-			pixelF[RED]   = pixelF[RED]   * F + pixelG[RED]   * G;
-			pixelF[GREEN] = pixelF[GREEN] * F + pixelG[GREEN] * G;
-			pixelF[BLUE]  = pixelF[BLUE]  * F + pixelG[BLUE]  * G;
-			pixelF[ALPHA] = pixelF[ALPHA] * F + pixelG[ALPHA] * G; 
-			
+			pixelF[RED]   = (unsigned char) (pixelF[RED]   * F + pixelG[RED]   * G);
+			pixelF[GREEN] = (unsigned char) (pixelF[GREEN] * F + pixelG[GREEN] * G);
+			pixelF[BLUE]  = (unsigned char) (pixelF[BLUE]  * F + pixelG[BLUE]  * G);
+			pixelF[ALPHA] = (unsigned char) (pixelF[ALPHA] * F + pixelG[ALPHA] * G);			
 		}
 	}
 	return true;
@@ -774,10 +777,10 @@ bool TargaImage::Comp_Xor(TargaImage* pImage)
 			float F = 1 - alpha_g/255.0f;
 			float G = 1 - alpha_f/255.0f;
 			
-			pixelF[RED]   = pixelF[RED]   * F + pixelG[RED]   * G;
-			pixelF[GREEN] = pixelF[GREEN] * F + pixelG[GREEN] * G;
-			pixelF[BLUE]  = pixelF[BLUE]  * F + pixelG[BLUE]  * G;
-			pixelF[ALPHA] = pixelF[ALPHA] * F + pixelG[ALPHA] * G; 
+			pixelF[RED]   = (unsigned char) (pixelF[RED]   * F + pixelG[RED]   * G);
+			pixelF[GREEN] = (unsigned char) (pixelF[GREEN] * F + pixelG[GREEN] * G);
+			pixelF[BLUE]  = (unsigned char) (pixelF[BLUE]  * F + pixelG[BLUE]  * G);
+			pixelF[ALPHA] = (unsigned char) (pixelF[ALPHA] * F + pixelG[ALPHA] * G); 
 			
 		}
 	}
