@@ -850,6 +850,8 @@ unsigned char * TargaImage::Run_Filter(int filter_size, float* kernel)
 				for (int j2 = -radius; j2 <= radius; ++j2)
 				{
 					float k = kernel[j2+radius + (i2+radius)*radius];
+					int w = j - j2;
+					int h = i - i2;
 #if REPLICATE
 					if (w < 0)
 					{
@@ -941,7 +943,7 @@ bool TargaImage::Filter_Bartlett()
 	unsigned char * newImage = Run_Filter(filter_size, kernel);
 	if (newImage)
 	{
-		//delete [] data;
+		delete [] data;
 		data = newImage;
     	return true;
 	}
