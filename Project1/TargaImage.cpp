@@ -900,53 +900,6 @@ unsigned char * TargaImage::Run_Filter(int filter_size, float* kernel)
 	return newImage;
 }
 
-unsigned char * TargaImage::Run_Filtera(int filter_size, float* kernel)
-{
-	if ((filter_size & 1) == 0) return NULL;
-	unsigned char * newImage = data;//new unsigned char[width*height*4];
-
-	float total_weight = 0.0f;
-	for (int i = 0; i < filter_size*filter_size; ++i)
-	{
-		total_weight += kernel[i];
-	}
-	// avoid division by 0
-	if (total_weight == 0.0f) total_weight = 1.0f;
-	for (int i = 0; i < height; ++i)
-	{
-		int offset = i * width * 4;
-		for (int j = 0; j < width; ++j)
-		{
-			unsigned char* pixel = newImage + offset + (j*4);
-			float accum[4] = {0,0,0,0};
-			for (int y = -filter_size/2; y <= filter_size/2; ++y)
-			{
-				int y_pos = i + y;
-				if (y_pos < 0)  y_pos = i - y;//-y_pos;//0;
-				else if (y_pos >= height) y_pos = i - y;//height-1;
-				for (int x = -filter_size/2; x <= filter_size/2; ++x)
-				{
-					//if (x == y == 0) continue;
-					int x_pos = j + x;
-					if (x_pos < 0) x_pos = j -x; //-x_pos;//0
-					else if (x_pos >= width)  x_pos = j - x;//j - x;//width-1
-					
-					unsigned char * neighbor = data + ((y_pos*width+x_pos)*4);
-					float k =  kernel[x+filter_size/2+(y+filter_size/2)*filter_size];
-					accum[RED]   += neighbor[RED]   * k;
-					accum[GREEN] += neighbor[GREEN] * k;
-					accum[BLUE]  += neighbor[BLUE]  * k;
-				}
-			}
-
-			pixel[RED] = accum[RED]/total_weight;
-			pixel[GREEN] = accum[GREEN]/total_weight;
-			pixel[BLUE] = accum[BLUE]/total_weight;
-
-		}
-	}
-	return newImage;
-}
 
 ///////////////////////////////////////////////////////////////////////////////
 //
