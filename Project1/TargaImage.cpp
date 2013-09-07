@@ -1133,6 +1133,32 @@ bool TargaImage::Resize(float scale)
 ///////////////////////////////////////////////////////////////////////////////
 bool TargaImage::Rotate(float angleDegrees)
 {
+	float angleRad = angleDegrees*M_PI/180.0f;
+	float sin_Theta = sin(angleRad);
+	float cos_Theta = cos(angleRad);
+	int a = width/2;
+	int b = height/2;
+	unsigned char * oldImage = data;
+	data = new unsigned char[width*height*4];
+    ClearToBlack();
+	//ClearToAlpha();
+	for (int i = 0 ; i < height ; i++)
+    {
+	    for (int j = 0 ; j < width ; j++)
+        {
+			int x_prime = a + ((j-a) * cos_Theta) - ((i-b) * sin_Theta);
+			int y_prime = b + ((j-a) * sin_Theta) + ((i-b) * cos_Theta);
+
+			if ((0 <= x_prime && x_prime < width) && (0 <= y_prime && y_prime < height))
+			{
+				*(uint32_t*)(data+(((y_prime * width) + x_prime)*4))
+					= *(uint32_t*)(oldImage + (((i * width) + j)*4));
+			}
+		}
+	}
+	Filter_Bartlett();
+	//ClearFullAlphaToBlack();
+	return true;
     ClearToBlack();
     return false;
 }// Rotate
