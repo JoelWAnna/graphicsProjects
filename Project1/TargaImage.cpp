@@ -836,21 +836,7 @@ unsigned char * TargaImage::Run_Filter(int filter_size, float* kernel)
 	
 	// avoid division by 0
 	if (total_weight == 0.0f) total_weight = 1.0f;
-/*	else
-	{
-		for (int i = 0; i < filter_size*filter_size; ++i)
-		{
-			kernel[i]/=total_weight;
-		}
-	}
-/*	for (int i = 0; i < filter_size; ++i)
-	{
-		for (int j = 0; j < filter_size; ++j)
-		{
-			cout << kernel[i*filter_size+j] << " ";
-		}
-		cout << endl;
-	}*/
+
 	for (int i = 0; i < height; ++i)
 	{
 		int offset = i * width * 4;
@@ -864,58 +850,50 @@ unsigned char * TargaImage::Run_Filter(int filter_size, float* kernel)
 				for (int j2 = -radius; j2 <= radius; ++j2)
 				{
 					float k = kernel[j2+radius + (i2+radius)*radius];
-					int w = j - j2;
-					int h = i - i2;
-				//	cout << "wanted" << w << "," << h << endl;
+#if REPLICATE
 					if (w < 0)
 					{
-						//w = j+ j2;
-						w = -w;
-			//			k = kernel[-j2+radius + (i2+radius)*radius];
-				/*		if (h < 0)
-						{
-							h = w;
-							w = i + i2;
-							k = kernel[-j2+radius + (-i2+radius)*radius];
-						}
-						*/
+						w = 0;
 					}
 					if (w >= width)
 					{
-						//w = j + j2;
-						w = 2*(width-1)-w;
-				//		k = kernel[-j2+radius + (i2+radius)*radius];
-				/*		if (h >= height)
-						{
-							h = w;
-							w = i + i2;
-							k = kernel[-j2+radius + (-i2+radius)*radius];
-						}
-*///continue;
+						w = (width-1);
 					}
 					if (h < 0)
 					{
-						//h = i + i2;
-						h = -h;
-						//k = kernel[j2+radius + (-i2+radius)*radius];
+						h = 0;
 					}
 					if (h >= height)
 					{
-						//h = i + i2;
-						h = -h + (height-1)*2;
-						//k = kernel[j2+radius + (-i2+radius)*radius];
+						h = height-1;
 					}
-				//	cout << "grabbing" << w << "," << h << endl;
-					//cout << w << ", " << h << endl;
+#elif MIRROR
+					if (w < 0)
+					{
+						w = -w;
+					}
+					if (w >= width)
+					{
+						w = 2*(width-1)-w;
+					}
+					if (h < 0)
+					{
+						h = -h;
+					}
+					if (h >= height)
+					{
+						h = -h + (height-1)*2;
+					}
+#endif
 					unsigned char * px = (data + (w + (h*width))*4);
-					accum[RED] += (px[RED]*k);// /total_weight;
-					accum[GREEN] += (px[GREEN]*k);// /total_weight;
-					accum[BLUE] += (px[BLUE]*k);// /total_weight;
+					accum[RED] += (px[RED]*k);
+					accum[GREEN] += (px[GREEN]*k);
+					accum[BLUE] += (px[BLUE]*k);
 				}
 			}
-			pixel[RED]   = (unsigned char) (accum[RED] /total_weight);
-			pixel[GREEN] = (unsigned char) (accum[GREEN] /total_weight);
-			pixel[BLUE]  = (unsigned char) (accum[BLUE] /total_weight);
+			pixel[RED]   = (unsigned char) (accum[RED]   / total_weight);
+			pixel[GREEN] = (unsigned char) (accum[GREEN] / total_weight);
+			pixel[BLUE]  = (unsigned char) (accum[BLUE]  / total_weight);
 			pixel[ALPHA] = 0xFF;
 		}
 	}
