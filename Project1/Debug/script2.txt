@@ -1,0 +1,4 @@
+
+load checkers.tga
+filter-box
+save checkers-filter-box.tga

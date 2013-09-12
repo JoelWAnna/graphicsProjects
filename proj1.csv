@@ -1,0 +1,64 @@
+"Operation"	"Keyword"	"Arguments"	"Points"	"Finished"	"Details"
+"Load"	"load"	"filename"	"0, provided"	0	"Load the specified image file and make it the current image."
+"Save"	"save"	"filename"	"0, provided"	0	"Save the current image to the specified file."
+"Difference"	"diff"	"filename"	"0, provided"	0	"Subtract the given image file from the current image and put the result in the current image."
+"Run"	"run"	"filename"	"0, provided"	0	"Executes the script named filename. The script should contain a sequence of other commands for the program, one per line. The script must end with a newline."
+"Color to Grayscale"	"gray"		5	5	"Use the formula I = 0.299r + 0.587g + 0.114b to convert color images to grayscale. This will be a key pre-requisite for many other operations. This operation should not affect alpha in any way."
+"24 to 8 bit Color"					"All of these operations assume that the current image has 24 bits of color information. They should still produce 24 bit images, but there should only be 256 different colors in the resulting image (so the image could be stored as an 8 bit indexed color image). Don't be concerned with what happens if you run these operations on something that is already quantized. These operations should not affect alpha - we will only test them on images with alpha = 1 (fully opaque images)."
+"Uniform Quantization"	"quant-unif"		5	5	"Use the uniform quantization algorithm to convert the current image from a 24 bit color image to an 8 bit color image. Use 4 levels of blue, 8 levels of red, and 8 levels of green in the quantized image."
+"Populosity"	"quant-pop"		20	20	"Use the populosity algorithm to convert the current 24 bit color image to an 8 bit color image. Before building the color usage histogram, do a uniform quantization step down to 32 levels of each primary. This gives 32 x 32 x 32 = 32768 possible colors. Then find the 256 most popular colors, then map the original colors onto their closest chosen color. To find the closest color, use the euclidean (L2) distance in RGB space. If (r1,g1,b1) and (r2,g2,b2) are the colors, use sqrt((r1-r2)^2 + (g1-g2)^2 + (b1-b2)^2) suitably converted into C++ code."
+"Dithering"					"All of these operations should convert the current image into an image that only contains black and white pixels, with the exception of dither-color. If the current image is color, you should first convert it to grayscale in the range 0 - 1 (in fact, you could convert all images to grayscale - it won't hurt already gray images). We will only test these operations on images with alpha = 1."
+"Naive Threshold Dithering"	"dither-thresh"		3	3	"Dither an image to black and white using threshold dithering with a threshold of 0.5."
+"Brightness Preserving Threshold Dithering"	"dither-bright"		7	7	"Dither an image to black and white using threshold dithering with a threshold chosen to keep the average brightness constant."
+"Random Dithering"	"dither-rand"		5	5	"Dither an image to black and white using random dithering. Add random values chosen uniformly from the range [-0.2,0.2], assuming that the input image intensity runs from 0 to 1 (scale appropriately). There is no easy way to match the reference result with this method, so do not try. Use either a threshold of 0.5 or the brightness preserving threshold - your choice."
+"Clustered Dithering"	"dither-cluster"		10	10	"Dither an image to black and white using cluster dithering with the matrix shown below. The image pixels should be compared to a threshold that depends on the dither matrix below. The pixel should be drawn white if: I[x][y] >= mask[x%4][y%4]. The matrix is:
+0.7500  0.3750  0.6250  0.2500
+0.0625  1.0000  0.8750  0.4375
+0.5000  0.8125  0.9375  0.1250
+0.1875  0.5625  0.3125  0.6875
+    "
+"Floyd-Steinberg Dithering"	"dither-fs"		15	15	"Dither an image to black and white using Floyd-Steinberg dithering as described in class. (Distribution of error to four neighbors and zig-zag ordering)."
+"Color Floyd-Steinberg Dithering"	"dither-color"		10		"Dither an image to 8 bit color using Floyd-Steinberg dithering as described in class. You should use the color table corresponding to uniform quantization. That is, the table containing all colors with a red value of 0, 36, 73, 109, 146, 182, 219 or 255, green in the same range, and blue in the set 0, 85, 170, 255. If you do this, but not the grayscale version of Floyd-Steinberg, then you get 15 points."
+"Filtering"			"15 for the first
+3 for any additional"		"All of these operations should modify the current image, and assume color images. The alpha channel should NOT be filtered. The alpha channel for all the test images will be 1 for all pixels, so you do not need to worry about the differences between filtering regular pixels or pre-multiplied pixels. Implement whichever approach you prefer."
+"Box Filter"	"filter-box"				"Apply a 5x5 box filter."
+"Bartlett Filter"	"filter-bartlett"				"Apply a 5x5 Bartlett filter."
+"Gaussian Filter"	"filter-gauss"				"Apply a 5x5 Gaussian filter."
+"Edge Detect (High-Pass)"	"filter-edge"				"Apply a 5x5 edge detect filter derived from a Gaussian as indicated in the lectures. (Note that the lecture notes derive the edge detect filter from a Bartlett, so the matrix used in this operation should not be identical). Clamp pixel values that fall outside the range 0-255."
+"Edge Enhance"	"filter-enhance"				"Apply a 5x5 edge enhancement operator, using a Gaussian filter as the underlying smoothing filter. Use the method shown in class to come up with a single filter that does the enhancement in one pass, or use image subtraction operations if you prefer. You should clamp pixel values that fall outside the range 0-255."
+"Arbitrary-Size Gaussian Filter"	"filter-gauss-n"	"N (size)"	10		"Apply an NxN Gaussian filter. Use the binomial method presented in lecture to derive the filter values. Note that this is the same Gaussian you will use if you do the NPR paint task."
+"Image Resizing"					"All of these functions should change the size of the current image by the appropriate amount. They should also operate on the alpha channel."
+"Half Size"	"half"		"8, or nothing if you do scale"		"Halve the image size. Use a Bartlett filter to do the reconstruction. That means that for each output pixel (i,j) you place a 3x3 discrete filter at input pixel (2i,2j) and the filter is:    1/16 1/8 1/16
+    1/8  1/4 1/8
+    1/16 1/8 1/16
+    "
+"Double Size"	"double"		"12, or nothing if you do scale"		"Double the image size. Use a Bartlett filter to compute the reconstructed pixel values. There are four specific cases, depending on whether the desired output pixel is odd or even in x or y. Three of the cases are given here, the other can be derived from the last one given.
+If the output pixel (i,j) has i even and j even, you apply the following filter at input location (i/2,j/2):    1/16 1/8 1/16
+    1/8  1/4 1/8
+    1/16 1/8 1/16
+    If the output pixel (i,j) has i odd and j odd, you apply the following filter covering input locations (i/2-1,j/2-1) through (i/2+2,j/2+2) (integer division):    1/64 3/64 3/64 1/64
+    3/64 9/64 9/64 3/64
+    3/64 9/64 9/64 3/64
+    1/64 3/64 3/64 1/64
+    If the output pixel (i,j) has i even and j odd, you apply the following filter covering input locations (i/2-1,j/2-1) through (i/2+1,j/2+2) (integer division):    1/32 2/32 1/32
+    3/32 6/32 3/32
+    3/32 6/32 3/32
+    1/32 2/32 1/32
+    If the output pixel (i,j) has i odd and j even, you do something very similar to above."
+"Arbitrary Uniform Scale"	"scale"	"amount"	"25 or 10"		"Scale the image up or down by the given multiplicative factor. By uniform scaling I mean scale the x and y axes by the same amount, so the aspect ratio does not change. Use Bartlett filters for the reconstruction. The reconstruction filter should be a Bartlett filter of width 4 pixels, so it always picks up 4x4 values in the input image (although some of these values may be multiplied by 0). You can get 25 points for this if you did not do Arbitrary Rotation, but at most 35 points for the combination of this and Arbitrary Rotation. And if you do this you get no points for double and half, because they can be done in one line if you have this implemented."
+"Arbitrary Rotation"	"rotate"	"amount"	"25 or 10"		"Rotate the image clockwise by the given amount, specified in degrees. The output image should be the same size as the imput image, with black pixels where there is no input image data. Use a Bartlett filter for the reconstruction, as per the resizing operations above. You should note that the reconstruction process for this operation and scale is identical. You can get 25 points for this if you did not do Arbitrary Scale, but at most 35 points for the combination of this and Arbitrary Scale."
+"Compositing"		"image"	"15 for the first
+3 for any additional"		"All of these operations should composite the current image, A, with the specified image, B, using A op B, where op is one of the operations below. The result should replace the current image.
+Note, Lib Targa stores the alpha channel as an unsigned char, which means the alpha value ranges from 0 to 255. To compute the F and G for compositing, we need to map the alpha value to [0, 1]. For the example of the over operator, F=1 and G=1-alpha_f/255.0."
+"Over"	"comp-over"	"image"		15	"See class notes from Jan. 18 and 20."
+"Inside"	"comp-in"	"image"		3	
+"Outside"	"comp-out"	"image"		3	
+"Atop"	"comp-atop"	"image"		3	
+"Xor"	"comp-xor"	"image"		3	
+"Misc"					
+"NPR Paint"	"npr-paint"		50		"Apply a simplified version of Aaron Hertzmann's painterly rendering algorithm from the 1998 SIGGRAPH PaperPainterly Rendering with Curved Brush Strokes of Multiple Sizes. You need only implement the multiple (circular) brush size version from section 2.1 of this paper. A function to do the actual drawing of the circular strokes (TargaImage::Paint_Stroke) has been provided for you.
+To match the reference solution (which is what you're graded on), your implementation should use the brush size radii of 7, 3 and 1. When calling the Gaussian-blur function, use the filter constructed using the binomial coefficients with a filter size of
+2 × radius + 1
+The fg parameter should be set to 1, and the threshold parameter T should be set to 25.
+The difference function in Hertzmann's pseudo-code is simply Euclidean distance (as specified in the text below the paintLayer figure), so you'll need to compute and store these distances on a per-pixel basis."
+				97	

@@ -1,0 +1,2 @@
+load church.tga
+filter-gauss-n 5

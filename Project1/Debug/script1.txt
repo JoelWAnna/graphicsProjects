@@ -1,0 +1,6 @@
+load church.tga
+filter-box
+save church-filter-box.tga
+
+diff result/church-filter-box.tga
+save diff.tga
