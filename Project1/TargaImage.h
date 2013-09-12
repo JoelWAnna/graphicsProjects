@@ -37,8 +37,8 @@ class Stroke;
 class DistanceImage;
 
 #define ROUND_DOWN(x, a)	((x) & ~((a) - 1))
-#define REPLICATE 0
-#define MIRROR 1
+#define REPLICATE 1
+#define MIRROR !REPLICATE
 void Set_rgba_px_black(unsigned char * px);
 void Set_rgba_px_white(unsigned char * px);
 void Set_rgba_px_gray(unsigned char * px, unsigned char gray);
@@ -97,7 +97,9 @@ class TargaImage
 	// helper function for format conversion
         void RGBA_To_RGB(unsigned char *rgba, unsigned char *rgb);
 		void Dither_Threshold(float threshold);
-		unsigned char * Run_Filter(int filter_size, float* kernel);
+		bool Run_2DFilter(int filter_size, float* kernel);
+		bool Run_1DFilter_X(int filter_size, float* kernel);
+		bool Run_1DFilter_Y(int filter_size, float* kernel);
     // reverse the rows of the image, some targas are stored bottom to top
 		TargaImage* Reverse_Rows(void);
 

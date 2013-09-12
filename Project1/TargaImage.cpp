@@ -829,9 +829,9 @@ bool TargaImage::Difference(TargaImage* pImage)
     return true;
 }// Difference
 
-unsigned char * TargaImage::Run_Filter(int filter_size, float* kernel)
+bool TargaImage::Run_2DFilter(int filter_size, float* kernel)
 {
-	if ((filter_size & 1) == 0) return NULL;
+	if ((filter_size & 1) == 0) return false;
 	unsigned char * newImage = new unsigned char[width*height*4];
 
 	float total_weight = 0.0f;
@@ -906,7 +906,9 @@ unsigned char * TargaImage::Run_Filter(int filter_size, float* kernel)
 			pixel[ALPHA] = 0xFF;
 		}
 	}
-	return newImage;
+	delete [] data;
+	data = newImage;
+	return true;
 }
 
 
@@ -920,13 +922,9 @@ bool TargaImage::Filter_Box()
 	const int filter_size = 5;
 	float kernel[25] = {1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1};
 
-	unsigned char * newImage = Run_Filter(filter_size, kernel);
-	if (newImage)
-	{
-		//delete [] data;
-		data = newImage;
-    	return true;
-	}
+	if (Run_2DFilter(filter_size, kernel))
+		return true;
+
 	ClearToBlack();
 	return false;
 }// Filter_Box
@@ -947,13 +945,10 @@ bool TargaImage::Filter_Bartlett()
 						2,4,6,4,2,
 						1,2,3,2,1};
 
-	unsigned char * newImage = Run_Filter(filter_size, kernel);
-	if (newImage)
-	{
-		delete [] data;
-		data = newImage;
-    	return true;
-	}
+
+	if (Run_2DFilter(filter_size, kernel))
+		return true;
+
 
     ClearToBlack();
     return false;
@@ -980,13 +975,9 @@ bool TargaImage::Filter_Gaussian()
 						4,16,26,16,4,
 						1,4,7,4,1};
 
-	unsigned char * newImage = Run_Filter(filter_size, kernel);
-	if (newImage)
-	{
-		delete [] data;
-		data = newImage;
-    	return true;
-	}
+	if (Run_2DFilter(filter_size, kernel))
+		return true;
+
     ClearToBlack();
     return false;
 }// Filter_Gaussian
@@ -1000,6 +991,33 @@ bool TargaImage::Filter_Gaussian()
 
 bool TargaImage::Filter_Gaussian_N( unsigned int N )
 {
+	unsigned int filter_size = N;
+	float *kernel = new float[N*N];
+	for (unsigned int i = 0; i < N; ++i)
+	{
+		kernel[i] = kernel[i*N]
+				  = kernel[N-1+i*N]
+				  = kernel[(N-1)*(N)+i]
+				  = Binomial(N-1, i);
+	}
+
+	for (unsigned int i = 1; i < N-1; ++i)
+	{
+		for (unsigned int j = 1; j < N-1; ++j)
+		{
+			kernel[i*N + j] = kernel[i]*kernel[j*N];
+		}
+	}
+	for (unsigned int i = 0; i < N; ++i)
+	{
+		for (unsigned int j = 0; j < N; ++j)
+		{
+			cout << kernel[i*N + j] << " ";
+		}
+		cout << endl;
+	}
+	if (Run_2DFilter(filter_size, kernel))
+		return true;
     ClearToBlack();
    return false;
 }// Filter_Gaussian_N
