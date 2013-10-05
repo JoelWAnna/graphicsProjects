@@ -5,3 +5,5 @@
 ipch
 *.suo
 *.tga
+*.aux
+*.log

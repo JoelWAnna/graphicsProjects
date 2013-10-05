@@ -1,0 +1,94 @@
+
+\documentclass[12pt]{article}\usepackage{amsmath}
+\begin{document}
+\author{Joel Anna<annajoel@pdx.edu>}
+\noindent
+\underline{Question 1:}\\
+a. How to find the direction vector \textbf{v} that points from \textbf{a} toward \textbf{b}.
+Subtract \textbf{a} from \textbf{b}. $v = b - a$ \\
+\textbf{v} = \textbf{[}$b_{\textit{x}}-a_{\textit{x}}$, $ b_{\textit{y}}-a_{\textit{y}}$\textbf{]}
+\\\\
+b. How the length of \textbf{v} computed.
+The length of \textbf{v},$\|\textbf{v}\|$ can be computed by taking the square root of the dot product of \textbf{v} with itself.\\
+$\|\textbf{v}\|$ = $\sqrt{\textbf{v} \cdot \textbf{v}}$ = $\sqrt{{v_x}^2 + {v_y}^2}$
+\\\\
+c. How to normalize \textbf{v}.\\
+To normalize \textbf{v}, first compute $\|\textbf{v}\|$. Multiply \textbf{v} by the scalar $\frac{1}{\|\textbf{v}\|}$ to get \textbf{\^{v}}.\\
+\textbf{\^{v}} = \textbf{[}$\frac{v_x}{\|\textbf{v}\|}, \frac{v_y}{\|\textbf{v}\|}$\textbf{]}
+\\\\
+\underline{Question 2:}\\
+a. The dot product \textbf{a} $\cdot$ \textbf{b} is computed by taking the sum of the products of the components of \textbf{a} and \textbf{b}\\
+ \textbf{a} $\cdot$ \textbf{b} = $a_{x}b_{x} + a_{y}b_{y} + a_{z}b_{z}$
+ \\
+ \\
+ b. The relationship between \textbf{a} $\cdot$ \textbf{b} and the angle $\theta$ between \textbf{a} and \textbf{b}.\\
+ \textbf{a} $\cdot$ \textbf{b} = $\|\textbf{a}\|\|\textbf{b}\|$cos $\theta$
+ \\\\
+ c. How the cross product vector \textbf{c} = \textbf{a} $\times$ \textbf{b} is computed.\\
+$c_x = a_{y}b_{z} - a_{z}b_{y}$ \\
+$c_y = a_{z}b_{x} - a_{x}b_{z}$ \\
+$c_z = a_{x}b_{y} - a_{y}b_{x}$ \\
+\\\\
+d. The geometric relationship between a,b,c is.\\
+if c is 0, a and b are parallel, otherwise c is orthogonal to a and b.
+\\\\
+e. The geometric relationship between \textbf{a} $\times$ \textbf{b} and \textbf{b} $\times$ \textbf{a}.\\
+\textbf{a} $\times$ \textbf{b} = -(\textbf{b} $\times$ \textbf{a})
+\\\\
+f. The relationship between \textbf{a} $\times$ \textbf{b} and the angle $\theta$ between a and b.\\
+ $\|\textbf{a} \times \textbf{b}\|$ = $\|\textbf{a}\|\|\textbf{b}\|$sin $\theta$
+  \pagebreak
+ \\
+ \underline{Question 3:}\\
+ $x^2 +3x +2 = 0$\\
+ $x = \frac{-3 \pm \sqrt{9-8}}{2} \;=\; \frac{-3 \pm 1}{2} = -1, -2$\\
+$ x = -1 ; \; x = -2$\\
+\\
+\underline{Question 4:}\\
+ The distance from 2D point p to line $ax + by +c = 0$ is:\\
+$\frac{| ap_x + bp_y + c |}{\sqrt{a^2 + b^2}}$\\
+\\
+\underline{Question 5:}\\
+a. The minimum number of points to define a unique line in 3D that passes through all the points is 2. The points must not be co-linear.
+\\\\
+b. In general it is not possible to find one line that passes through more than the minimum number of points.
+\\\\
+c. For the 3D parametric line $\textbf{p} = o + t\textbf{d}$ the vectors \textbf{o} and \textbf{d} are defined by $p_1, p_2$ as:\\
+\textbf{o} = 
+$\begin{bmatrix}
+p_{1x}\\
+p_{1y}\\
+p_{1z}
+\end{bmatrix}$
+\textbf{d} = 
+$\begin{bmatrix}
+p_{2x} - p_{1x}\\
+p_{2y} - p_{1y}\\
+p_{2z} - p_{1z}
+\end{bmatrix}$
+\\
+\\\\
+\underline{Question 6:}\\
+Matrix multiply\\
+$ \begin{bmatrix}
+  1 & 2 & 5 \\
+  4 & 1 & 12 \\
+  3 & 1 & 5
+ \end{bmatrix}$
+ $ \begin{bmatrix}
+   2 \\
+   1 \\
+   3
+  \end{bmatrix}$=
+$\begin{bmatrix}
+1*2 \,+\, 2*1 \,+\,\,5*3 \\
+4*2 \,+\, 1*1 \,+\,12*3 \\
+3*2 \,+\, 1*1 \,+\,\, 5*3
+\end{bmatrix}$=
+$\begin{bmatrix}
+ 19 \\
+ 45 \\
+ 22
+\end{bmatrix}$
+
+\end{document}$\
