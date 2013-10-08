@@ -271,9 +271,9 @@ bool TargaImage::Quant_Uniform()
         {
 			unsigned char* pixel = data + offset + (j*4);
 	        RGBA_To_RGB(pixel, pixel);
-			ROUND_DOWN(pixel[RED], 32);
-			ROUND_DOWN(pixel[GREEN], 32);
-			ROUND_DOWN(pixel[BLUE], 64);
+			pixel[RED]   = ROUND_DOWN(pixel[RED], 32);
+			pixel[GREEN] = ROUND_DOWN(pixel[GREEN], 32);
+			pixel[BLUE]  = ROUND_DOWN(pixel[BLUE], 64);
 	    }
     }
     return true;
@@ -340,7 +340,7 @@ inline void TargaImage::Dither_Threshold(float threshold)
 		{
 			unsigned char* pixel = data + offset + (j*4);
 
-			if (((float)pixel[RED] / 256.0f) < threshold)
+			if (((float)pixel[RED] / 255.0f) < threshold)
 			{
 				Set_rgba_px_black(pixel);
 			}
@@ -410,27 +410,39 @@ bool TargaImage::Dither_Random()
 ///////////////////////////////////////////////////////////////////////////////
 bool TargaImage::Dither_FS()
 {
-	const float threshold = 0.5f;
+	const float threshold = 0.50f;
 	unsigned char * nextpix;
 	unsigned char gray;
 	if (To_Grayscale())
 	{
+
+		float *image = new float[width * height];
+		for (int h = 0; h < height; ++h)
+		{
+			int offset = h*width;
+			for (int w = 0; w < width; ++w)
+			{
+				int px = offset+w;
+				image[px] = data[px*4]/255.0f;
+			}
+		}
+
 		for (int i = 0 ; i < height ; i++)
 		{
-			int offset = i * width * 4;
+			int offset = i * width;
 			if ((i & 1) == 1)
 			{
 				for (int j = width-1; j >= 0; --j)
 				{
-					unsigned char* pixel = data + offset + (j*4);
-					float e = ((float)(pixel[RED]) / 256.0f);
+					float e = image[offset + j];
+
 					if (e < threshold)
 					{
-						Set_rgba_px_black(pixel);
+						image[offset + j] = 0;
 					}
 					else
 					{
-						Set_rgba_px_white(pixel);
+						image[offset + j] = 1;
 						e = e-1;
 					}
 					
@@ -438,30 +450,22 @@ bool TargaImage::Dither_FS()
 					if (j > 0)
 					{
 						// next
-						nextpix = pixel - 4;
-						gray = (nextpix)[RED] + (unsigned char)(e*256.0f * 7.0f/16.0f);
-						Set_rgba_px_gray(nextpix, gray);
+						image[offset + j-1] += (e*7.0f/16.0f);
 					}
 
 					if (i < height-1)
 					{	
-						nextpix = pixel + (width*4);
-						gray = (nextpix)[RED] + (unsigned char)(e*256.0f  * 5.0f/16.0f);
-						Set_rgba_px_gray(nextpix, gray);
-
+						image[offset + j + width] += (e*5.0f/16.0f);
+						
 						if (j > 0)
 						{
 							//
-							nextpix = pixel - 4 + (width*4);
-							gray = (nextpix)[RED] + (unsigned char)(e*256.0f * 1.0f/16.0f);
-							Set_rgba_px_gray(nextpix, gray);
+							image[offset + j-1 + width] += (e*1.0f/16.0f);
 						}
 
 						if ( j < (width - 1))
 						{
-							nextpix = pixel + 4 + (width*4);
-							gray = (nextpix)[RED] + (unsigned char)(e*256.0f * 3.0f/16.0f);
-							Set_rgba_px_gray(nextpix, gray);
+							image[offset + j+1+width] += (e*3.0f/16.0f);
 						}
 					}
 				}
@@ -470,57 +474,57 @@ bool TargaImage::Dither_FS()
 			{
 				for (int j = 0 ; j < width ; j++)
 				{
-					unsigned char* pixel = data + offset + (j*4);
-					
-					float e = ((float)(pixel[RED]) / 256.0f);
+					float e = image[offset + j];					
+
 					if (e < threshold)
 					{
-						Set_rgba_px_black(pixel);						
+						image[offset + j] = 0;
 					}
 					else
 					{
-						Set_rgba_px_white(pixel);
+						image[offset + j] = 1.0f;
 						e = e-1;
 					}
 
 					//Propagate error
 					if (j < width-1)
 					{
-						// next	
-						nextpix = pixel + 4;
-						gray = (nextpix)[RED] + (unsigned char)(e*256.0f * 7.0f/16.0f);
-						Set_rgba_px_gray(nextpix, gray);
-
+						// next
+						image[offset + j+1] += (e*7.0f/16.0f);
 					}
 
 					if (i < height-1)
 					{	
-						nextpix = pixel + (width*4);
-						gray = (nextpix)[RED] + (unsigned char)(e*256.0f  * 5.0f/16.0f);
-						Set_rgba_px_gray(nextpix, gray);
-
+						image[offset + j+width] += (e*5.0f/16.0f);
+						
 						if ( j > 0)
 						{
-							nextpix = pixel - 4 + (width*4);
-							gray = (nextpix)[RED] + (unsigned char)(e*256.0f * 3.0f/16.0f);
-							Set_rgba_px_gray(nextpix, gray);
+							image[offset + j - 1 + width] += (e*3.0f/16.0f);
 						}
 						if (j < width-1)
 						{
-							//
-							nextpix = pixel + 4 + (width*4);
-							gray = (nextpix)[RED] + (unsigned char)(e*256.0f * 1.0f/16.0f);
-							Set_rgba_px_gray(nextpix, gray);
+							image[offset + j + 1 + width] += (e*1.0f/16.0f);
 						}
 					}
 				}
 			}
 		}
+		
+		for (int h = 0; h < height; ++h)
+		{
+			int offset = h*height;
+			for (int w = 0; w < width; ++w)
+			{
+				int px = offset+w;
+				//cout << image[px];
+				Set_rgba_px_gray(data+(px*4), image[px] ? 0xFF : 0);
+			}
+			//cout << endl;
+		}
 		return true;
 	}
 	return false;
-}// Dither_FS
-
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -540,7 +544,7 @@ bool TargaImage::Dither_Bright()
 			{
 				unsigned char* pixel = data + offset + (j*4);
 
-				brightness += ((float)pixel[RED] / 256.0f);
+				brightness += ((float)pixel[RED] / 255.0f);
 			}
 		}
 		brightness /= (width*height);
@@ -849,7 +853,7 @@ bool TargaImage::Run_2DFilter(int filter_size, float* kernel)
 		int offset = i * width * 4;
 		for (int j = 0; j < width; ++j)
 		{
-			float accum[4] = {0,0,0,0};
+			float accum[3] = {0,0,0};
 			unsigned char* pixel = newImage + offset + (j*4);
 			
 			for (int i2 = -radius; i2 <= radius; ++i2)
@@ -1008,6 +1012,7 @@ bool TargaImage::Filter_Gaussian_N( unsigned int N )
 			kernel[i*N + j] = kernel[i]*kernel[j*N];
 		}
 	}
+#if 0
 	for (unsigned int i = 0; i < N; ++i)
 	{
 		for (unsigned int j = 0; j < N; ++j)
@@ -1016,6 +1021,7 @@ bool TargaImage::Filter_Gaussian_N( unsigned int N )
 		}
 		cout << endl;
 	}
+#endif
 	if (Run_2DFilter(filter_size, kernel))
 		return true;
     ClearToBlack();
