@@ -248,7 +248,7 @@ bool TargaImage::To_Grayscale()
         {
 			unsigned char* pixel = data + offset + (j*4);
 	        RGBA_To_RGB(pixel, pixel);
-			unsigned char gray = (unsigned char)((0.299 * pixel[RED]) + (0.587 * pixel[GREEN]) + (0.114 * pixel[BLUE]));
+			unsigned char gray = clampToU8((0.299 * pixel[RED]) + (0.587 * pixel[GREEN]) + (0.114 * pixel[BLUE]));
 			Set_rgba_px_gray(pixel, gray);
 	    }
     }
@@ -288,46 +288,80 @@ bool TargaImage::Quant_Uniform()
 ///////////////////////////////////////////////////////////////////////////////
 bool TargaImage::Quant_Populosity()
 {
-    ClearToBlack();
-    return false;
-	/*
-	std::vector<int> histogram;
-	histogram.reserve(32*32*32);
-	std::fill(histogram.begin(), histogram.end(), 0);
-		//;32*32*32;
-	// First covert colors to 32 levels of coor
+	//ClearToBlack();
+    //return false;
+	int size = 2<<15;
+	int *histogram = new int[size];
+	for (int i = 0; i < size; ++i)
+		histogram[i]=0;
 	for (int i = 0 ; i < height ; i++)
     {
 		int offset = i * width * 4;
 	    for (int j = 0 ; j < width ; j++)
         {
-			unsigned char rgb[3];
 			unsigned char* pixel = data + offset + (j*4);
-	        RGBA_To_RGB(pixel, rgb);			
-			ROUND_DOWN(rgb[RED], 4);
-			//rgb[RED] = ((rgb[RED]) / 4);
-			//rgb[RED]*=4;
-			ROUND_DOWN(rgb[GREEN], 4);
-			//rgb[GREEN] = (rgb[GREEN]) / 4;
-			//rgb[GREEN]*=4;
-			ROUND_DOWN(rgb[BLUE], 4);
-			//rgb[BLUE] = (rgb[BLUE]) / 4;
-			//rgb[BLUE]*=4;
-			++histogram.at( (((rgb[RED]>>2))<<10)  | (((rgb[GREEN]>>2))<<5) |(rgb[BLUE]>>2) );
+	        RGBA_To_RGB(pixel, pixel);
+			unsigned char r = (pixel[RED]/8);
+			unsigned char g = (pixel[GREEN] / 8);
+			unsigned char b = (pixel[BLUE]/8);
+		//	pixel[RED]   = r * 8;
+		//	pixel[GREEN] = g * 8;
+		//	pixel[BLUE]  = b * 8;
+			int x =  r << 10 | g << 5 | b;
+			histogram[x]++;
 	    }
     }
-	std::priority_queue<histPair, vector<histPair>, std::less<histPair>> top;
-	for (int i = 0; i < 32*32*32; ++i)
+	
+	
+	std::vector<std::pair<int,int>> a;
+	for (unsigned i = 0; i < size; ++i)
 	{
-		top.push(histPair(i, histogram[i]));
+		if (histogram[i])
+			a.push_back(std::pair<int,int>(histogram[i], i));
 	}
+	
+	struct greater
+	{
+		bool operator()(std::pair<int,int> const &a, std::pair<int,int> const &b) const { return a.first > b.first; }
+	};
+	std::sort(a.begin(), a.end(), greater());
 
-	for (int i = 0; i < 256; ++i)
-	{
-		cout  << top.top()._val;
-		top.pop();
-	}
-    return true;*/
+	for (int i = 0 ; i < height ; i++)
+    {
+		int offset = i * width * 4;
+	    for (int j = 0 ; j < width ; j++)
+        {
+			unsigned char* pixel = data + offset + (j*4);
+	        int nearest = -1;
+			double distance = INT_MAX;
+			unsigned char r = pixel[RED];
+			unsigned char g = pixel[GREEN];
+			unsigned char b = pixel[BLUE];
+			int maximum = min((int)a.size(), 256);
+			for (int i = 0; i < maximum; ++i)
+			{
+				int packed = a.at(i).second;
+				unsigned char r2 = ((packed >> 10) & 0xFF) *8;
+				unsigned char g2 = ((packed >> 5) & 0xFF) *8;
+				unsigned char b2 = ((packed) & 0xFF) *8;
+				
+				double dist = sqrt(square(r2-r)+square(g2-g)+square(b2-b));
+				if (dist < distance)
+				{
+					distance = dist;
+					nearest = i;
+				}
+
+			}
+			int packed = a.at(nearest).second;
+			pixel[RED]   = ((packed >> 10) & 0xFF) *8;
+			pixel[GREEN] = ((packed >> 5) & 0xFF) *8;
+			pixel[BLUE]  = ((packed) & 0xFF) *8;
+			//RGB_To_RGBA(pixel, pixel);
+		}
+    }
+
+	return true;
 }// Quant_Populosity
 
 inline void TargaImage::Dither_Threshold(float threshold)
@@ -340,7 +374,7 @@ inline void TargaImage::Dither_Threshold(float threshold)
 		{
 			unsigned char* pixel = data + offset + (j*4);
 
-			if (((float)pixel[RED] / 255.0f) < threshold)
+			if (((float)pixel[RED]) < threshold * 256.0f)
 			{
 				Set_rgba_px_black(pixel);
 			}
@@ -534,9 +568,11 @@ bool TargaImage::Dither_FS()
 ///////////////////////////////////////////////////////////////////////////////
 bool TargaImage::Dither_Bright()
 {
-    if (To_Grayscale())
+	// compute average brightness by choosing the middle pixel when sorted by brightness
+	// summing brightness and dividing by pixels creates too large of a threshhold
+	if (To_Grayscale())
 	{
-		float brightness = 0;
+		std::vector<unsigned char> brightness;
 		for (int i = 0 ; i < height ; i++)
 		{
 			int offset = i * width * 4;
@@ -544,14 +580,16 @@ bool TargaImage::Dither_Bright()
 			{
 				unsigned char* pixel = data + offset + (j*4);
 
-				brightness += ((float)pixel[RED] / 255.0f);
+				brightness.push_back(pixel[RED]);
 			}
 		}
-		brightness /= (width*height);
-		float thresh = (float)brightness;
-		Dither_Threshold(thresh);
+
+		sort(brightness.begin(),brightness.end());
+		float thresh = brightness.at(brightness.size()/2);
+		Dither_Threshold(thresh / 256.0f);
 		return true;
 	}
+	ClearToBlack();
     return false;
 }// Dither_Bright
 
@@ -564,9 +602,9 @@ bool TargaImage::Dither_Bright()
 bool TargaImage::Dither_Cluster()
 {
 	float thresh[4][4] = {{ 0.7500f, 0.3750f, 0.6250f, 0.2500f},
-						{ 0.0625f, 1.0000f, 0.8750f, 0.4375f},
-						{ 0.5000f, 0.8125f, 0.9375f, 0.1250f},
-						{ 0.1875f, 0.5625f, 0.3125f, 0.6875f}};
+						  { 0.0625f, 1.0000f, 0.8750f, 0.4375f},
+						  { 0.5000f, 0.8125f, 0.9375f, 0.1250f},
+						  { 0.1875f, 0.5625f, 0.3125f, 0.6875f}};
 
     if (To_Grayscale())
 	{
@@ -577,8 +615,9 @@ bool TargaImage::Dither_Cluster()
 			{
 				unsigned char* pixel = data + offset + (j*4);
 
-				if (((float)pixel[RED] / 255.0f) < thresh[i&3][j&3])
+				if (((float)pixel[RED]) < thresh[i%4][j%4] * 255.0f)
 				{
+
 					Set_rgba_px_black(pixel);
 				}
 				else
@@ -923,6 +962,7 @@ bool TargaImage::Run_2DFilter(int filter_size, float* kernel)
 ///////////////////////////////////////////////////////////////////////////////
 bool TargaImage::Filter_Box()
 {
+	//TODO
 	const int filter_size = 5;
 	float kernel[25] = {1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1};
 
@@ -942,6 +982,7 @@ bool TargaImage::Filter_Box()
 ///////////////////////////////////////////////////////////////////////////////
 bool TargaImage::Filter_Bartlett()
 {
+	//TODO
 	const int filter_size = 5;
 	float kernel[25] = {1,2,3,2,1,
 						2,4,6,4,2,
