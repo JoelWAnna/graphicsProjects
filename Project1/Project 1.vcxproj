@@ -108,6 +108,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ScriptHandler.cpp" />
     <ClCompile Include="TargaImage.cpp" />
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Globals.h" />
@@ -115,8 +116,11 @@
     <ClInclude Include="libtarga.h" />
     <ClInclude Include="ScriptHandler.h" />
     <ClInclude Include="TargaImage.h" />
+    <ClInclude Include="test.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Debug\script.orig.txt" />
+    <None Include="Debug\script.txt" />
     <None Include="Globals.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -30,6 +30,9 @@
     <ClCompile Include="TargaImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Globals.h">
@@ -47,10 +50,19 @@
     <ClInclude Include="TargaImage.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="test.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Globals.inl">
       <Filter>Header Files</Filter>
+    </None>
+    <None Include="Debug\script.txt">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="Debug\script.orig.txt">
+      <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -50,7 +50,8 @@ const char      c_asCommands[][32]      = { "load",                     // valid
                                             "comp-atop",
                                             "comp-xor",
                                             "diff",
-                                            "rotate"
+                                            "rotate",
+											"test"
                                           };
 
 enum ECommands          // command ids
@@ -85,10 +86,11 @@ enum ECommands          // command ids
     COMP_XOR,
     DIFF,
     ROTATE,
+	TEST,
     NUM_COMMANDS
 };// ECommands
 
-
+void test(int);
 ///////////////////////////////////////////////////////////////////////////////
 //
 //      Execute the given command string on the given image.  If the command
@@ -124,6 +126,17 @@ bool CScriptHandler::HandleCommand(const char* sCommand, TargaImage*& pImage)
 
     switch (command)
     {
+		case TEST: 
+			{
+			char* sFilename = strtok(NULL, c_sWhiteSpace);
+			int tests = 0;
+            if (!sFilename)
+                cout << "No test given." << endl;
+			else
+				tests = atoi(sFilename);
+			test(tests);
+			}
+			break;
         case LOAD:
         {
             if (pImage)

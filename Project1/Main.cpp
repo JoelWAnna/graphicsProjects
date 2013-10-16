@@ -15,7 +15,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-
+#include "test.h"
 #include <Fl/Fl.h>
 #include <Fl/Fl_Window.h>
 #include <string.h>
@@ -79,6 +79,7 @@ static int Arg_Callback(int argc, char *argv[], int &i)
 ///////////////////////////////////////////////////////////////////////////////
 int main(int argc, char *argv[])
 {
+	writescript(totest);
     int script_arg;
 
     // Do argument processing. At the end of this, script_arg contains
