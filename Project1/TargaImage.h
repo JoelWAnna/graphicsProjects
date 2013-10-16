@@ -88,8 +88,6 @@ class TargaImage
         void RGBA_To_RGB(unsigned char *rgba, unsigned char *rgb);
 		void Dither_Threshold(float threshold);
 		bool Run_2DFilter(int filter_size, float* kernel);
-		bool Run_1DFilter_X(int filter_size, float* kernel);
-		bool Run_1DFilter_Y(int filter_size, float* kernel);
     // reverse the rows of the image, some targas are stored bottom to top
 		TargaImage* Reverse_Rows(void);
 
