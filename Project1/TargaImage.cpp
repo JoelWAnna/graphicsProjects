@@ -247,8 +247,9 @@ bool TargaImage::To_Grayscale()
 	    for (int j = 0 ; j < width ; j++)
         {
 			unsigned char* pixel = data + offset + (j*4);
-	        RGBA_To_RGB(pixel, pixel);
-			unsigned char gray = clampToU8((0.299 * pixel[RED]) + (0.587 * pixel[GREEN]) + (0.114 * pixel[BLUE]));
+			//RGBA_To_RGB(pixel, pixel);
+			float f_gray = ((0.299f * pixel[RED]) + (0.587f * pixel[GREEN]) + (0.114f * pixel[BLUE]));
+			unsigned char gray = clampToU8(f_gray);
 			Set_rgba_px_gray(pixel, gray);
 	    }
     }
@@ -550,10 +551,9 @@ bool TargaImage::Dither_FS()
 			for (int w = 0; w < width; ++w)
 			{
 				int px = offset+w;
-				//cout << image[px];
 				Set_rgba_px_gray(data+(px*4), image[px] ? 0xFF : 0);
 			}
-			//cout << endl;
+
 		}
 		return true;
 	}
@@ -615,7 +615,7 @@ bool TargaImage::Dither_Cluster()
 			{
 				unsigned char* pixel = data + offset + (j*4);
 
-				if (((float)pixel[RED]) < thresh[i%4][j%4] * 255.0f)
+				if ((pixel[RED]) < (int)ceil(thresh[i%4][j%4] * 255.0f))
 				{
 
 					Set_rgba_px_black(pixel);

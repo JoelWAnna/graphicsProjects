@@ -37,7 +37,9 @@ class Stroke;
 class DistanceImage;
 
 #define ROUND_DOWN(x, a)	((x) & ~((a) - 1))
-#define REPLICATE 1
+#define ROUND_UP(x, a)	((x + (a-1)) & ~((a) - 1))
+inline float square(float x) {return x*x;}
+#define REPLICATE 0
 #define MIRROR !REPLICATE
 void Set_rgba_px_black(unsigned char * px);
 void Set_rgba_px_white(unsigned char * px);
