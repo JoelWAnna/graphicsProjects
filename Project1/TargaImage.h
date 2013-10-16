@@ -19,18 +19,6 @@
 #include <queue>
 #include <time.h>
 #include <stdint.h>
-/*
-class histPair
-{
-	public:
-		histPair(int value, int count): _val(value), _count(count){ ; }
-		int _val, _count;
-
-};
-
-template<class histPair> struct less {
-	bool operator() (const histPair &one, const histPair &other) const { return one._count < other._count;}
-};*/
 
 
 class Stroke;
