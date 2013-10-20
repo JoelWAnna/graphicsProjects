@@ -14,6 +14,8 @@
 #include <Fl/Fl.h>
 #include <Fl/Fl_Gl_Window.h>
 #include "Ground.h"
+#include "Tree.h"
+#include "FerrisWheel.h"
 #include "Track.h"
 
 
@@ -37,7 +39,8 @@ class WorldWindow : public Fl_Gl_Window {
     private:
 	Ground	    ground;	    // The ground object.
 	Track  traintrack;	    // The train and track.
-
+	Tree	tree;			// The Tree
+	FerrisWheel wheel;
 	static const double FOV_X; // The horizontal field of view.
 
 	float	phi;	// Viewer's inclination angle.
