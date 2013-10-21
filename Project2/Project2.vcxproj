@@ -119,6 +119,7 @@
     <ClInclude Include="GenericException.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="libtarga.h" />
+    <ClInclude Include="OGLItem.h" />
     <ClInclude Include="Track.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="WorldWindow.h" />

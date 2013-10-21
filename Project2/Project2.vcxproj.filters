@@ -68,5 +68,8 @@
     <ClInclude Include="FerrisWheel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OGLItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

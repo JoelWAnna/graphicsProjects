@@ -8,10 +8,12 @@
 #ifndef _TRAINTRACK_H_
 #define _TRAINTRACK_H_
 
+#include "OGLItem.h"
 #include <Fl/gl.h>
 #include "CubicBspline.h"
+#include "OGLItem.h"
 
-class Track {
+class Track : public OGLItem {// extends OGLItem{
   private:
     GLubyte 	    track_list;	    // The display list for the track.
     GLubyte 	    train_list;	    // The display list for the train.

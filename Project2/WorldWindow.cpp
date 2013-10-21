@@ -84,10 +84,19 @@ WorldWindow::draw(void)
 	glLightfv(GL_LIGHT0, GL_SPECULAR, color);
 
 	// Initialize all the objects.
-	ground.Initialize();
-	traintrack.Initialize();
-	tree.Initialize();
-	wheel.Initialize();
+	items.push_back(new Ground());
+	items.push_back(new Track());
+	items.push_back(new Tree());
+	items.push_back(new FerrisWheel());
+
+	auto iter = items.begin();
+	auto iterEnd = items.end();
+	while (iter != iterEnd)
+	{
+		(*iter)->Initialize();
+		++iter;
+	}
+
     }
 
     // Stuff out here relies on a coordinate system or must be done on every
@@ -113,10 +122,14 @@ WorldWindow::draw(void)
     glLightfv(GL_LIGHT0, GL_POSITION, dir);
 
     // Draw stuff. Everything.
-    ground.Draw();
-    traintrack.Draw();
-	tree.Draw();
-	wheel.Draw();
+
+	auto iter = items.begin();
+	auto iterEnd = items.end();
+	while (iter != iterEnd)
+	{
+		(*iter)->Draw();
+		++iter;
+	}
 }
 
 
@@ -178,11 +191,18 @@ WorldWindow::Update(float dt)
 	Drag(dt);
 
     // Animate the train.
-    traintrack.Update(dt);
+	auto iter = items.begin();
+	auto iterEnd = items.end();
+	while (iter != iterEnd)
+	{
+		(*iter)->Update(dt);
+		++iter;
+	}
 
     return true;
 }
 
+inline void  runFunction(std::vector<OGLItem*> &vector, void (OGLItem::* )());
 
 int
 WorldWindow::handle(int event)
@@ -210,9 +230,8 @@ WorldWindow::handle(int event)
         button = -1;
 	return 1;
     }
+	
 
     // Pass any other event types on the superclass.
     return Fl_Gl_Window::handle(event);
 }
-
-

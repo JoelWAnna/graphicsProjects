@@ -10,7 +10,9 @@
 #include <Fl/gl.h>
 #include <cmath>
 #define M_PI       3.14159265358979323846
-class FerrisWheel {
+#include "OGLItem.h"
+
+class FerrisWheel : public OGLItem {//extends OGLItem{
   private:
     GLubyte display_list;   // The display list that does all the work.
     GLuint  texture_obj;    // The object for the grass texture.

@@ -7,10 +7,10 @@
 
 #ifndef _GROUND_H_
 #define _GROUND_H_
-
+#include "OGLItem.h"
 #include <Fl/gl.h>
 
-class Ground {
+class Ground : public OGLItem {
   private:
     GLubyte display_list;   // The display list that does all the work.
     GLuint  texture_obj;    // The object for the grass texture.

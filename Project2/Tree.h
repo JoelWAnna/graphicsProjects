@@ -6,11 +6,11 @@
 
 #ifndef _TREE_H_
 #define _TREE_H_
-
+#include "OGLItem.h"
 #include <Fl/gl.h>
 #include <cmath>
 #define M_PI       3.14159265358979323846
-class Tree {
+class Tree  : public OGLItem {
   private:
     GLubyte display_list;   // The display list that does all the work.
     GLuint  texture_obj;    // The object for the grass texture.
@@ -29,6 +29,7 @@ class Tree {
 
     // Does the drawing.
     void    Draw(void);
+	void	newTree(int x, int y, float heightT, float heightL, float radiusT, float radiusL);
 };
 
 

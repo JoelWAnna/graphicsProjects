@@ -42,8 +42,9 @@ main(int argc, char *argv[])
     world_window->show(argc, argv);
 
     Fl::add_timeout(0.0, Timeout_Callback, NULL);
-
-    return Fl::run();
+	int ret = Fl::run();
+	delete world_window;
+    return ret;
 }
 
 

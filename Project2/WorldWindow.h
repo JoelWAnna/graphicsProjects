@@ -13,6 +13,8 @@
 
 #include <Fl/Fl.h>
 #include <Fl/Fl_Gl_Window.h>
+#include <vector>
+
 #include "Ground.h"
 #include "Tree.h"
 #include "FerrisWheel.h"
@@ -24,6 +26,14 @@ class WorldWindow : public Fl_Gl_Window {
     public:
 	// Constructor takes window position and dimensions, the title.
 	WorldWindow(int x, int y, int w, int h, char *label);
+	~WorldWindow()
+	{
+		for (int i = 0; i < items.size(); ++i)
+		{
+			delete items.at(i);
+			items.at(i) = NULL;;
+		}
+	}
 
 	// draw() method invoked whenever the view changes or the window
 	// otherwise needs to be redrawn.
@@ -37,10 +47,7 @@ class WorldWindow : public Fl_Gl_Window {
 	bool	Update(float);
 
     private:
-	Ground	    ground;	    // The ground object.
-	Track  traintrack;	    // The train and track.
-	Tree	tree;			// The Tree
-	FerrisWheel wheel;
+	std::vector<OGLItem*> items;	// Items to draw each frame
 	static const double FOV_X; // The horizontal field of view.
 
 	float	phi;	// Viewer's inclination angle.
