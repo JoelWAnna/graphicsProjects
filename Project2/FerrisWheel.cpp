@@ -15,7 +15,8 @@ FerrisWheel::~FerrisWheel(void)
 {
     if ( initialized )
     {
-	glDeleteLists(display_list, 1);
+	glDeleteLists(display_list_frame, 1);
+	glDeleteLists(display_list_wheel, 1);
     }
 }
 void Quad(GLfloat color[3], GLfloat p1[3] , GLfloat p2[3] , GLfloat p3[3] , GLfloat p4[3] , GLfloat width)
@@ -50,7 +51,26 @@ void Quad(GLfloat color[3], GLfloat p1[3] , GLfloat p2[3] , GLfloat p3[3] , GLfl
 }
 
 void createFrame()
-{	/*
+{	
+	
+	GLfloat  WHITE[3] = {0.33f,0,0.33f};
+	{
+//	GLfloat  WHITE[3] = {0,0,0.33f};
+	GLfloat lb[3] = {7.5f, 0.0f, 11.0f};
+	GLfloat rb[3] = {11.5f, 0.0f, 11.0f};
+	GLfloat lu[3] = {8.0f, 0.0f, 13.0f};
+	GLfloat ru[3] = {11.0f, 0.0f, 13.0f};
+	Quad (WHITE,  lb, rb, lu, ru, 2.0f);
+	}
+	{
+//	GLfloat  WHITE[3] = {0,0,0.33f};
+	GLfloat lb[3] = {7.5f, 0.0f, 11.0f};
+	GLfloat rb[3] = {11.5f, 0.0f, 11.0f};
+	GLfloat lu[3] = {8.0f, 0.0f, 9.0f};
+	GLfloat ru[3] = {11.0f, 0.0f, 9.0f};
+	Quad (WHITE,  lb, rb, lu, ru, 2.0f);
+	}
+	/*
 	glBegin(GL_QUAD_STRIP);
 	glColor3f(0, 0, 0);
 	glVertex3f(5.0, 0.0, 1.0);
@@ -300,9 +320,68 @@ void createFrame()
 bool
 FerrisWheel::Initialize(void)
 {
+	display_list_frame = glGenLists(1);
+    glNewList(display_list_frame, GL_COMPILE);
+	
+	GLfloat  WHITE[3] = {0.75f, 0.75f, 0.75f};
+	{
+	GLfloat lb[3] = {-1.0f, 0.0f, 1.0f};
+	GLfloat rb[3] = {-11.0f, 0.0f, 1.0};	
+	GLfloat lu[3] = {-1.5f, 0.0f, 2.0f};
+	GLfloat ru[3] = {-10.5f, 0.0f, 2.0f};
+	Quad (WHITE,  lb, rb, lu, ru, 2.0f);
+	}
+	
+	{
+//	GLfloat  WHITE[3] = {0.75,0,0.75};
+	GLfloat lb[3] = {-5.0f, 0.0f, 2.0f};
+	GLfloat rb[3] = {-5.0f, 0.0f, 16.0f};
+	GLfloat lu[3] = {-7.0f, 0.0f, 2.0f};
+	GLfloat ru[3] = {-7.0f, 0.0f, 16.0f};
+	Quad (WHITE,  lb, rb, lu, ru, 2.0f);
+	}
+
+	{
+//	GLfloat  WHITE[3] = {0.75,0.75,0};
+	GLfloat lb[3] = {-7.0f, 0.0f, 16.0f};
+	GLfloat rb[3] = {2.0f, 0.0f, 16.0f};
+	GLfloat lu[3] = {-6.5f, 0.0f, 18.0f};
+	GLfloat ru[3] = {3.0f, 0.0f, 18.0f};
+	Quad (WHITE,  lb, rb, lu, ru, 2.0f);
+	}
+
+	{
+//	GLfloat  WHITE[3] = {0,0.75,0};
+	GLfloat lb[3] = {8.0f, 0.0f, 12.0f};
+	GLfloat rb[3] = {2.0f, 0.0f, 16.0f};
+	GLfloat lu[3] = {11, 0.0f, 12.0f};
+	GLfloat ru[3] = {3.0f, 0.0f, 18.0f};
+	Quad (WHITE,  lb, rb, lu, ru, 2.0f);
+	}
+	
+	
+	glTranslatef(0.0,0.0, 2.0);
+	{
+//	GLfloat  WHITE[3] = {0,0,0.33f};
+	GLfloat lb[3] = {8.0f, 0.0f, 11.0f};
+	GLfloat rb[3] = {12.0f, 0.0f, 11.0f};
+	GLfloat lu[3] = {8.5f, 0.0f, 13.0f};
+	GLfloat ru[3] = {11.5f, 0.0f, 13.0f};
+	Quad (WHITE,  lb, rb, lu, ru, 2.0f);
+	}
+	{
+//	GLfloat  WHITE[3] = {0,0,0.33f};
+	GLfloat lb[3] = {8.0f, 0.0f, 11.0f};
+	GLfloat rb[3] = {12.0f, 0.0f, 11.0f};
+	GLfloat lu[3] = {8.5f, 0.0f, 9.0f};
+	GLfloat ru[3] = {11.5f, 0.0f, 9.0f};
+	Quad (WHITE,  lb, rb, lu, ru, 2.0f);
+	}
+	glTranslatef(0.0,0.0, -2.0);
+    glEndList();
 	// Create the display list.
-    display_list = glGenLists(1);
-    glNewList(display_list, GL_COMPILE);
+    display_list_wheel = glGenLists(1);
+    glNewList(display_list_wheel, GL_COMPILE);
 
 	createFrame();
 	glTranslatef(0,10,0);
@@ -389,11 +468,35 @@ FerrisWheel::Draw(void)
 	angle +=0.5;
 
     glPushMatrix();
-	glTranslatef(10,0,11);
-    glRotatef((float)angle, 0.0f, 1.0f, 0.0f);
-	glTranslatef(-10,0,-11);
+	glTranslatef(-30,30,0);
 	glDisable(GL_CULL_FACE);
-    glCallList(display_list);
+	glTranslatef(0,-2.1,-1);
+    glCallList(display_list_frame);
+	glTranslatef(0, 2.1,0);
+	glTranslatef(0, 12.1,0);
+    glCallList(display_list_frame);
+	glTranslatef(0, -12.1,1);
+	glEnable(GL_CULL_FACE);
+
+	glTranslatef(0,0,1);
+	
+	glTranslatef(10, 14,11);
+	glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+	glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+	GLUquadricObj *quadratic;
+	quadratic = gluNewQuadric();
+	gluCylinder(quadratic, 2.0, 2.0, 14.0f, 32,32);
+	glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
+	glRotatef(-90.0f, 0.0f, 1.0f, 0.0f);
+	glTranslatef(-10,-14,-11);
+
+	glTranslatef(9.75f,0,11.0f);
+	glRotatef((float)angle, 0.0f, 1.0f, 0.0f);
+	glTranslatef(-9.75f,0,-11.0f);
+	
+
+    glDisable(GL_CULL_FACE);
+    glCallList(display_list_wheel);
 	glEnable(GL_CULL_FACE);
     glPopMatrix();
 }

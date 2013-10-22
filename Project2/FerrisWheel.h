@@ -14,14 +14,15 @@
 
 class FerrisWheel : public OGLItem {//extends OGLItem{
   private:
-    GLubyte display_list;   // The display list that does all the work.
+    GLubyte display_list_wheel;   // The display list that does all the work.
+    GLubyte display_list_frame;   // The display list that does all the work.
     GLuint  texture_obj;    // The object for the grass texture.
     bool    initialized;    // Whether or not we have been initialised.
 
   public:
     // Constructor. Can't do initialization here because we are
     // created before the OpenGL context is set up.
-    FerrisWheel(void) { display_list = 0; initialized = false; };
+    FerrisWheel(void) { display_list_wheel = 0; display_list_frame = 0; initialized = false; };
 
     // Destructor. Frees the display lists and texture object.
     ~FerrisWheel(void);
