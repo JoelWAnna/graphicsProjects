@@ -1,0 +1,190 @@
+
+\documentclass[12pt]{article}\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\pagestyle{fancy}
+\lhead{\footnotesize \parbox{11cm}{Joel Anna} }
+%\lfoot{\footnotesize \parbox{11cm}{\textit{2}}}
+\cfoot{}
+\rhead{\footnotesize HW3:  \thepage\ of \pageref{LastPage}}
+%\rfoot{\footnotesize Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headheight}{24pt}
+%\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+\author{Joel Anna<annajoel@pdx.edu>}
+\noindent
+\underline{Question 1:}\\
+$near = -2. \;\; far = -6. \;\; left = -2. \;\; right = 6.$
+$top = 4. \;\; bottom = -4$\\
+definition:\\
+$\begin{bmatrix}
+x_{canonical}\\
+y_{canonical}\\
+z_{canonical}\\
+1
+\end{bmatrix}$=
+$\begin{bmatrix}
+\;\; \frac{2}{r-l}&\;\; 0&\;\; 0&\;\; \frac{-(r+l)}{r-l}\\
+\;\; 0 &\;\; \frac{2}{t-b}&\;\; 0&\;\; \frac{-(t+b)}{t-b}\\
+\;\; 0&\;\; 0 &\;\; \frac{2}{n-f}&\;\; \frac{-(n+f)}{n-f}\\
+ \;\;0&\;\; 0&\;\; 0&\;\; 1\\
+\end{bmatrix}$
+$\begin{bmatrix}
+x_{view}\\
+y_{view}\\
+z_{view}\\
+1
+\end{bmatrix}$\\
+$\begin{bmatrix}
+x_{canonical}\\
+y_{canonical}\\
+z_{canonical}\\
+1
+\end{bmatrix}$=
+$\begin{bmatrix}
+\;\; \frac{2}{6-(-2)}&\;\; 0&\;\; 0&\;\; \frac{-(6+(-2)}{6-(-2}\\
+\;\; 0 &\;\; \frac{2}{4-(-4)}&\;\; 0&\;\; \frac{-(4+(-4))}{4-(-4)}\\
+\;\; 0&\;\; 0 &\;\; \frac{2}{(-2)-(-6)}&\;\; \frac{-((-2)+(-6))}{(-2)-(-6)}\\
+ \;\;0&\;\; 0&\;\; 0&\;\; 1\\
+\end{bmatrix}$
+$\begin{bmatrix}
+x_{view}\\
+y_{view}\\
+z_{view}\\
+1
+\end{bmatrix}$\\
+$\begin{bmatrix}
+x_{canonical}\\
+y_{canonical}\\
+z_{canonical}\\
+1
+\end{bmatrix}$=
+$\begin{bmatrix}
+\;\; \frac{1}{4}&\;\; 0&\;\; 0&\;\; \frac{-1}{2}\\
+\;\; 0 &\;\; \frac{1}{4}&\;\; 0&\;\; 0\\
+\;\; 0&\;\; 0 &\;\; \frac{1}{2}&\;\; \frac{4}{3}\\
+ \;\;0&\;\; 0&\;\; 0&\;\; 1\\
+\end{bmatrix}$
+$\begin{bmatrix}
+x_{view}\\
+y_{view}\\
+z_{view}\\
+1
+\end{bmatrix}$\\
+\underline{Question 2:}\\
+a:\\
+$P(x_v, y_v, z_v) = (100,20,20); \;\;d = 10$\\
+$\frac{x_s}{d}=\frac{x_v}{z_v} = \frac{100}{20} = 5$\\
+$x_s = 5\cdot d = 50$\\
+$\frac{y_s}{d}=\frac{y_v}{z_v} = \frac{20}{20} = 1$\\
+$y_s = 1\cdot d = 10$\\
+$P(x_s, y_s) = (50,10)$\\
+b:\\
+$P(x_s, y_s) = (20,10)$\\
+$\frac{x_v}{z_v} = \frac{x_s}{d}= 2\;\;\;$
+$x_v = 2\cdot z_v$\\
+$\frac{y_v}{z_v} = \frac{y_s}{d}= 1\;\;\;$
+$y_v = 1\cdot z_v$\\
+There are 3 variables, but only 2 equations, we cannot uniquely determine the 3D point's coordinate because of this.\\
+Any point on the line $(2\cdot z_v, 1\cdot z_v, z_v)$ could be the original coordinate.\\
+\pagebreak\\
+\underline{Question 3:}\\
+\textbf{($f$ inside $s$) over $b$\\}
+values in r,g,b,a\\
+$f$ =
+$\begin{bmatrix}
+\;\; 1,1,1,1 \;\; & \;\; 1,1,1,1 \;\; & \;\; 1,1,1,1 \;\;\\
+\;\; 1,1,1,1 \;\; & \;\; 1,1,1,1 \;\; & \;\; 1,1,1,1 \;\;\\
+\;\; 1,1,1,1 \;\; & \;\; 1,1,1,1 \;\; & \;\; 1,1,1,1 \;\;\\
+\end{bmatrix}$
+$s$ = 
+$\begin{bmatrix}
+\;\; 1,1,1,1 \;\; & \;\; 0,0,0,0  \;\; & \;\; 1,1,1,1 \;\;\\
+\;\; 0,0,0,0 \;\; & \;\; 1,1,1,1  \;\; & \;\; 0,0,0,0  \;\;\\
+\;\; 1,1,1,1 \;\; & \;\; 0,0,0,0  \;\; & \;\; 1,1,1,1 \;\;\\
+\end{bmatrix}$
+b = 
+$\begin{bmatrix}
+\;\; 1,0,0,1 \;\; & \;\; 1,0,0,1  \;\; & \;\; 1,0,0,1 \;\;\\
+\;\; 1,0,0,1 \;\; & \;\; 1,0,0,1  \;\; & \;\; 1,0,0,1 \;\;\\
+\;\; 1,0,0,1 \;\; & \;\; 1,0,0,1  \;\; & \;\; 1,0,0,1 \;\;\\
+\end{bmatrix}$\\
+($f$ inside $s$) = $f_1$ = $\alpha_s c_f$ =
+$\begin{bmatrix}
+\;\; 1,1,1,1 \;\; & \;\; 0,0,0,0  \;\; & \;\; 1,1,1,1 \;\;\\
+\;\; 0,0,0,0 \;\; & \;\; 1,1,1,1  \;\; & \;\; 0,0,0,0  \;\;\\
+\;\; 1,1,1,1 \;\; & \;\; 0,0,0,0  \;\; & \;\; 1,1,1,1 \;\;\\
+\end{bmatrix}$\\
+$f_1$ over $b$ = $\alpha_s c_f$ = $c_{f_1} + (1-\alpha_{f_1})c_b$=\\
+$\begin{bmatrix}
+\;\; 1,1,1,1 \;\; & \;\; 0,0,0,0  \;\; & \;\; 1,1,1,1 \;\;\\
+\;\; 0,0,0,0 \;\; & \;\; 1,1,1,1  \;\; & \;\; 0,0,0,0  \;\;\\
+\;\; 1,1,1,1 \;\; & \;\; 0,0,0,0  \;\; & \;\; 1,1,1,1 \;\;\\
+\end{bmatrix}$+$\begin{bmatrix}
+\;\; 0,0,0,0 \;\; & \;\; 1,0,0,1  \;\; & \;\;  0,0,0,0 \;\;\\
+\;\; 1,0,0,1 \;\; & \;\; 0,0,0,0  \;\; & \;\; 1,0,0,1 \;\;\\
+\;\; 0,0,0,0 \;\; & \;\; 1,0,0,1  \;\; & \;\;  0,0,0,0 \;\;\\
+\end{bmatrix}$=\\\\
+$\begin{bmatrix}
+\;\; 1,1,1,1 \;\; & \;\; 1,0,0,1  \;\; & \;\; 1,1,1,1 \;\;\\
+\;\; 1,0,0,1 \;\; & \;\; 1,1,1,1  \;\; & \;\; 1,0,0,1  \;\;\\
+\;\; 1,1,1,1 \;\; & \;\; 1,0,0,1  \;\; & \;\; 1,1,1,1 \;\;\\
+\end{bmatrix}$
+\pagebreak\\
+\underline{Question 4:}\\
+$\begin{bmatrix}
+u\\
+v\\
+1
+\end{bmatrix}$=
+$\begin{bmatrix}
+\;\; a \;\; & \;\; b \;\; & \;\; c \;\;\\
+\;\; d \;\; & \;\; e \;\; & \;\; f \;\;\\
+\;\; 0 \;\; & \;\; 0 \;\; & \;\; 1 \;\;\\
+\end{bmatrix}$
+$\begin{bmatrix}
+x\\
+y\\
+1
+\end{bmatrix}$\\
+$u = a\cdot x + b\cdot y + c$\\
+$v = d\cdot x + e\cdot y + f$\\
+$u = a\cdot 1 + b\cdot 1 + c \;\; $ $\;\;
+a+b+c = \frac{\sqrt{3}+1}{2}$ \\
+$v = d\cdot 1 + e\cdot 1 + f\;\;$ $\;\;
+d+e+f = \frac{\sqrt{3}-1}{2}$ \\
+$u = a\cdot 0 + b\cdot 0 + c\;\;$ $\;\;
+c = 1$\\
+$v = d\cdot 0 + e\cdot 0 + f\;$ $\;\;
+f = -1$\\
+$u = a\cdot 1 + b\cdot 0 + c\;\;$ $\;\;
+a+c = \frac{\sqrt{3}+2}{2}
+$\\
+$v = d\cdot 1 + e\cdot 0 + f\;\;$ $\;\;
+d + f = \frac{-1}{2}
+$\\
+$a = \frac{\sqrt{3}+2}{2} - c = \frac{\sqrt{3}+2}{2} - 1 = \frac{\sqrt{3}}{2}$\\
+$d = -\frac{1}{2} - f = -\frac{1}{2} - (-1) = \frac{1}{2}$\\
+$b = \frac{\sqrt{3}+1}{2} - a - c = 
+\frac{\sqrt{3}+1}{2} - \frac{\sqrt{3}}{2} - 1 =
+-\frac{1}{2} 
+$ \\
+$e = \frac{\sqrt{3}-1}{2} -d -f =
+\frac{\sqrt{3}-1}{2} -\frac{1}{2} -(-1) =
+\frac{\sqrt{3}}{2}
+$ \\\\
+$a = \frac{\sqrt{3}}{2}$
+$b = -\frac{1}{2} $ 
+$c = 1$
+$d = \frac{1}{2}$
+$e = \frac{\sqrt{3}}{2}$ 
+$f = -1$
+$\begin{bmatrix}
+\;\; \frac{\sqrt{3}}{2} \;\; & \;\;-\frac{1}{2}\;\; & \;\; 1 \;\;\\
+\;\; \frac{1}{2} \;\; & \;\; \frac{\sqrt{3}}{2} \;\; & \;\; -1 \;\;\\
+\;\; 0 \;\; & \;\; 0 \;\; & \;\; 1 \;\;\\
+\end{bmatrix}$
+\end{document}
+
