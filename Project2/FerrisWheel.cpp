@@ -60,6 +60,66 @@ void Quad(GLfloat color[3], GLfloat p1[3] , GLfloat p2[3] , GLfloat p3[3] , GLfl
 }
 
 void createFrame()
+	{
+	
+	GLfloat  WHITE[3] = {0.75f, 0.75f, 0.75f};
+	{
+	GLfloat lb[3] = {-1.0f, 0.0f, 0.0f};
+	GLfloat rb[3] = {-11.0f, 0.0f, 0.0};	
+	GLfloat lu[3] = {-1.5f, 0.0f, 1.0f};
+	GLfloat ru[3] = {-10.5f, 0.0f, 1.0f};
+	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
+	}
+	
+	{
+//	GLfloat  WHITE[3] = {0.75,0,0.75};
+	GLfloat lb[3] = {-5.0f, 0.0f, 1.0f};
+	GLfloat rb[3] = {-5.0f, 0.0f, 16.0f};
+	GLfloat lu[3] = {-7.0f, 0.0f, 1.0f};
+	GLfloat ru[3] = {-7.0f, 0.0f, 16.0f};
+	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
+	}
+
+	{
+//	GLfloat  WHITE[3] = {0.75,0.75,0};
+	GLfloat lb[3] = {-7.0f, 0.0f, 16.0f};
+	GLfloat rb[3] = {2.0f, 0.0f, 16.0f};
+	GLfloat lu[3] = {-6.5f, 0.0f, 18.0f};
+	GLfloat ru[3] = {3.0f, 0.0f, 18.0f};
+	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
+	}
+
+	{
+//	GLfloat  WHITE[3] = {0,0.75,0};
+	GLfloat lb[3] = {8.0f, 0.0f, 12.0f};
+	GLfloat rb[3] = {2.0f, 0.0f, 16.0f};
+	GLfloat lu[3] = {11, 0.0f, 12.0f};
+	GLfloat ru[3] = {3.0f, 0.0f, 18.0f};
+	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
+	}
+	
+	
+	glTranslatef(0.0,0.0, 2.0);
+	{
+//	GLfloat  WHITE[3] = {0,0,0.33f};
+	GLfloat lb[3] = {8.0f, 0.0f, 11.0f};
+	GLfloat rb[3] = {12.0f, 0.0f, 11.0f};
+	GLfloat lu[3] = {8.5f, 0.0f, 13.0f};
+	GLfloat ru[3] = {11.5f, 0.0f, 13.0f};
+	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
+	}
+	{
+//	GLfloat  WHITE[3] = {0,0,0.33f};
+	GLfloat lb[3] = {8.0f, 0.0f, 11.0f};
+	GLfloat rb[3] = {12.0f, 0.0f, 11.0f};
+	GLfloat lu[3] = {8.5f, 0.0f, 9.0f};
+	GLfloat ru[3] = {11.5f, 0.0f, 9.0f};
+	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
+	}
+	glTranslatef(0.0,0.0, -2.0);
+}
+
+void createWheel()
 {	
 	
 	GLfloat  WHITE[3] = {0.33f,0,0.33f};
@@ -348,93 +408,125 @@ FerrisWheel::Initialize(void)
 {
 	display_list_frame = glGenLists(1);
     glNewList(display_list_frame, GL_COMPILE);
-	
-	GLfloat  WHITE[3] = {0.75f, 0.75f, 0.75f};
-	{
-	GLfloat lb[3] = {-1.0f, 0.0f, 1.0f};
-	GLfloat rb[3] = {-11.0f, 0.0f, 1.0};	
-	GLfloat lu[3] = {-1.5f, 0.0f, 2.0f};
-	GLfloat ru[3] = {-10.5f, 0.0f, 2.0f};
-	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
-	}
-	
-	{
-//	GLfloat  WHITE[3] = {0.75,0,0.75};
-	GLfloat lb[3] = {-5.0f, 0.0f, 2.0f};
-	GLfloat rb[3] = {-5.0f, 0.0f, 16.0f};
-	GLfloat lu[3] = {-7.0f, 0.0f, 2.0f};
-	GLfloat ru[3] = {-7.0f, 0.0f, 16.0f};
-	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
-	}
-
-	{
-//	GLfloat  WHITE[3] = {0.75,0.75,0};
-	GLfloat lb[3] = {-7.0f, 0.0f, 16.0f};
-	GLfloat rb[3] = {2.0f, 0.0f, 16.0f};
-	GLfloat lu[3] = {-6.5f, 0.0f, 18.0f};
-	GLfloat ru[3] = {3.0f, 0.0f, 18.0f};
-	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
-	}
-
-	{
-//	GLfloat  WHITE[3] = {0,0.75,0};
-	GLfloat lb[3] = {8.0f, 0.0f, 12.0f};
-	GLfloat rb[3] = {2.0f, 0.0f, 16.0f};
-	GLfloat lu[3] = {11, 0.0f, 12.0f};
-	GLfloat ru[3] = {3.0f, 0.0f, 18.0f};
-	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
-	}
-	
-	
-	glTranslatef(0.0,0.0, 2.0);
-	{
-//	GLfloat  WHITE[3] = {0,0,0.33f};
-	GLfloat lb[3] = {8.0f, 0.0f, 11.0f};
-	GLfloat rb[3] = {12.0f, 0.0f, 11.0f};
-	GLfloat lu[3] = {8.5f, 0.0f, 13.0f};
-	GLfloat ru[3] = {11.5f, 0.0f, 13.0f};
-	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
-	}
-	{
-//	GLfloat  WHITE[3] = {0,0,0.33f};
-	GLfloat lb[3] = {8.0f, 0.0f, 11.0f};
-	GLfloat rb[3] = {12.0f, 0.0f, 11.0f};
-	GLfloat lu[3] = {8.5f, 0.0f, 9.0f};
-	GLfloat ru[3] = {11.5f, 0.0f, 9.0f};
-	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
-	}
-	glTranslatef(0.0,0.0, -2.0);
+	createFrame();
     glEndList();
 	// Create the display list.
     display_list_wheel = glGenLists(1);
     glNewList(display_list_wheel, GL_COMPILE);
 
-	createFrame();
+	createWheel();
 	glTranslatef(0,10,0);
-	createFrame();
+	createWheel();
     glEndList();
-
+	
 	display_list_seat = glGenLists(1);
     glNewList(display_list_seat, GL_COMPILE);
 	
 	glTranslatef(0,-10,-2);
-	
+	const float y0 = 2.1f, y1 = 9.9f;
 	{
 	GLfloat  g[3] = {0,.5f,0};
-	GLfloat lb[3] = {9.0f, 2.0f, 0.0f};;
-	GLfloat rb[3] = {9.0f, 10.0f, 0.0f};
-	GLfloat lu[3] = {11.0f, 2.0f, 0.0f};
-	GLfloat ru[3] = {11.0f, 10.0f, 0.0f};
-	Quad (g,  lb, rb, lu, ru, 4.0f, 2);
+	GLfloat p1[3] = {9.0f, y0, 0.0f};
+	GLfloat p2[3] = {9.0f, y0, 4.0f};
+	GLfloat p3[3] = {11.0f, y0, 4.0f};
+	GLfloat p4[3] = {11.0f, y0, 0.0f};
+
+	GLfloat p5[3] = {9.0f, y1, 0.0f};
+	GLfloat p6[3] = {9.0f, y1, 4.0f};
+	GLfloat p7[3] = {11.0f, y1, 4.0f};
+	GLfloat p8[3] = {11.0f, y1, 0.0f};
+	
+	glBegin(GL_QUADS);
+		glColor3fv(g);
+		// Top of quad
+		glVertex3fv(p7);
+		glVertex3fv(p6);
+		glVertex3fv(p2);
+		glVertex3fv(p3);
+		//bottom of the quad
+		glVertex3fv(p8);
+		glVertex3fv(p5);
+		glVertex3fv(p1);
+		glVertex3fv(p4);
+		// front
+		glVertex3fv(p3);
+		glVertex3fv(p2);
+		glVertex3fv(p1);
+		glVertex3fv(p4);
+		// back
+		glVertex3fv(p7);
+		glVertex3fv(p6);
+		glVertex3fv(p5);
+		glVertex3fv(p8);
+		// left
+		glVertex3fv(p2);
+		glVertex3fv(p6);
+		glVertex3fv(p5);
+		glVertex3fv(p1);
+		// right
+		glVertex3fv(p2);
+		glVertex3fv(p3);
+		glVertex3fv(p4);
+		glVertex3fv(p8);
+
+	glEnd();
+//	Quad (g,  lb, rb, lu, ru, 4.0f, 2);
 	}
 	{
 	GLfloat  g[3] = {0,.5f,0};
-	GLfloat lb[3] = {13.0f, 2.0f, 0.0f};
+/*	GLfloat lb[3] = {13.0f, 2.0f, 0.0f};
 	GLfloat rb[3] = {13.0f, 10.0f, 0.0f};
 	GLfloat lu[3] = {11.0f, 10.0f, 0.0f};
-	GLfloat ru[3] = {11.0f, 2.0f, 0.0f};
-	Quad (g,  lb, rb, lu, ru, 2.0f, 2);
+	GLfloat ru[3] = {11.0f, 2.0f, 0.0f};*/
+//	Quad (g,  lb, rb, lu, ru, 2.0f, 2);	GLfloat p1[3] = {9.0f, 2.1f, 0.0f};
+	
+	GLfloat p1[3] = {11.0f, y0, 0.0f};
+	GLfloat p4[3] =	{11.0f, y0, 2.0f};
+	GLfloat p2[3] =	{13.0f, y0, 2.0f};
+	GLfloat p3[3] = {13.0f, y0, 0.0f};
+
+	GLfloat p5[3] = {11.0f, y1, 0.0f};
+	GLfloat p8[3] = {11.0f, y1, 2.0f};
+	GLfloat p6[3] = {13.0f, y1, 2.0f};
+	GLfloat p7[3] = {13.0f, y1, 0.0f};
+
+	
+	glBegin(GL_QUADS);
+		glColor3fv(g);
+		// Top of quad
+		glVertex3fv(p7);
+		glVertex3fv(p6);
+		glVertex3fv(p2);
+		glVertex3fv(p3);
+		//bottom of the quad
+		glVertex3fv(p8);
+		glVertex3fv(p5);
+		glVertex3fv(p1);
+		glVertex3fv(p4);
+		// front
+		glVertex3fv(p3);
+		glVertex3fv(p2);
+		glVertex3fv(p1);
+		glVertex3fv(p4);
+		// back
+		glVertex3fv(p7);
+		glVertex3fv(p6);
+		glVertex3fv(p5);
+		glVertex3fv(p8);
+		// left
+		glVertex3fv(p2);
+		glVertex3fv(p6);
+		glVertex3fv(p5);
+		glVertex3fv(p1);
+		// right
+		glVertex3fv(p2);
+		glVertex3fv(p3);
+		glVertex3fv(p4);
+		glVertex3fv(p8);
+
+	glEnd();
 	}
+	
 	
 /*	glTranslatef(0,10,2);
 	glTranslatef(9.75f,0,11.0f);
@@ -477,10 +569,16 @@ FerrisWheel::Initialize(void)
 void
 FerrisWheel::Draw(void)
 {
+	bool rotate = false || 01;
 	angle +=0.5;
-
+	float xInitial = -30.0f,
+		  yInitial = 30.0f;
+	float xWheelCenter = 9.75f,
+		  yWheelCenter = 0.0f,
+		  zWheelCenter = 11.0f;
+	
     glPushMatrix();
-	glTranslatef(-30,30,0);
+	glTranslatef(xInitial, yInitial,0);
 	glDisable(GL_CULL_FACE);
 	glTranslatef(0,-2.1,1);
     glCallList(display_list_frame);
@@ -491,57 +589,166 @@ FerrisWheel::Draw(void)
 	glEnable(GL_CULL_FACE);
 
 	glTranslatef(0,0,3);
-	/*
-	glTranslatef(10, 14,11);
-	glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
-	glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-	GLUquadricObj *quadratic;
-	quadratic = gluNewQuadric();
-	gluCylinder(quadratic, 2.0, 2.0, 14.0f, 32,32);
-	glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
-	glRotatef(-90.0f, 0.0f, 1.0f, 0.0f);
-	glTranslatef(-10,-14,-11);
-*/
-	glTranslatef(9.75f,0,11.0f);
-	glRotatef((float)angle, 0.0f, 1.0f, 0.0f);
-	glTranslatef(-9.75f,0,-11.0f);
+
+	glTranslatef(xWheelCenter, yWheelCenter, zWheelCenter);
+	if (rotate)glRotatef((float)angle, 0.0f, 1.0f, 0.0f);
+	glTranslatef(-xWheelCenter, -yWheelCenter, -zWheelCenter);
 	
 
     glDisable(GL_CULL_FACE);
     glCallList(display_list_wheel);
 	glTranslatef(10.0f,5.0f,1.0f);
-	glRotatef(-angle, 0, 1.0f, 0);
+	if (rotate)glRotatef(-angle, 0, 1.0f, 0);
 	glTranslatef(-10.0f,-5.0f,-1.0f);
-	glCallList(display_list_seat);
+	glCallList(display_list_seat);   //Black
 
 	glTranslatef(10.0f,5.0f,1.0f);
-	glRotatef(angle, 0, 1.0f, 0);
+	if (rotate)glRotatef(angle, 0, 1.0f, 0);
 	glTranslatef(-10.0f,-5.0f,-1.0f);
 	
-	glTranslatef(9.75f,0,11.0f);
+	glTranslatef(xWheelCenter, yWheelCenter, zWheelCenter);
 	glRotatef(45, 0.0f, 1.0f, 0.0f);
-	glTranslatef(-9.75f,0,-11.0f);
+	glTranslatef(-xWheelCenter, -yWheelCenter, -zWheelCenter);
 	
 	glTranslatef(10.0f,5.0f,1.0f);
-	glRotatef(-angle-45, 0, 1.0f, 0);
+	if (rotate)glRotatef(-angle-45, 0, 1.0f, 0);
 	glTranslatef(-10.0f,-5.0f,-1.0f);
-	glTranslatef(0.0f,10.0f,1.0f);
-	glCallList(display_list_seat);
-	/*
-	glTranslatef(0.0f,-10.0f,1.0f);
+	glTranslatef(0.0f,10.0f,2.5f);
+	glCallList(display_list_seat);//red
+/*	
+	glTranslatef(0.0f,-10.0f,-2.5f);
 	glTranslatef(10.0f,5.0f,1.0f);
-	glRotatef(angle+45, 0, 1.0f, 0);
+	if (rotate)glRotatef(angle+45, 0, 1.0f, 0);
 	glTranslatef(-10.0f,-5.0f,-1.0f);
-	
-	glTranslatef(9.75f,0,11.0f);
-	glRotatef(90, 0.0f, 1.0f, 0.0f);
-	glTranslatef(-9.75f,0,-11.0f);
-	
+
+	glTranslatef(xWheelCenter, yWheelCenter, zWheelCenter);
+	glRotatef(-45, 0.0f, 1.0f, 0.0f);
+	glTranslatef(-xWheelCenter, -yWheelCenter, -zWheelCenter);
 	glTranslatef(10.0f,5.0f,1.0f);
-	glRotatef(-angle-90, 0, 1.0f, 0);
+	if (rotate)glRotatef(angle, 0, 1.0f, 0);
 	glTranslatef(-10.0f,-5.0f,-1.0f);
-	glTranslatef(0.0f,10.0f,1.0f);
-	glCallList(display_list_seat);*/
+		
+	
+	glCallList(display_list_seat);//
+	*/
+	glPopMatrix();
+    glPushMatrix();
+	glTranslatef(xInitial, yInitial,0);
+	glTranslatef(0,0,3);
+	glTranslatef(0,10,0);
+	
+	glTranslatef(xWheelCenter, yWheelCenter, zWheelCenter);
+	if (rotate)glRotatef((float)angle, 0.0f, 1.0f, 0.0f);
+	glTranslatef(-xWheelCenter, -yWheelCenter, -zWheelCenter);
+	glTranslatef(0,0,20);
+
+	glTranslatef(10.0f,5.0f,1.0f);
+	if (rotate)glRotatef(-angle, 0, 1.0f, 0);
+	glTranslatef(-10.0f,-5.0f,-1.0f);
+
+    glCallList(display_list_seat);//green
+
+    glPopMatrix();
+    glPushMatrix();
+	
+	glTranslatef(xInitial, yInitial,0);
+	glTranslatef(0,0,3);
+	glTranslatef(0,10,0);
+	
+	glTranslatef(xWheelCenter, yWheelCenter, zWheelCenter);
+	if (rotate)glRotatef((float)angle, 0.0f, 1.0f, 0.0f);
+	glTranslatef(-xWheelCenter, -yWheelCenter, -zWheelCenter);
+
+	glTranslatef(10,0,10);
+
+	glTranslatef(10.0f,5.0f,1.0f);
+	if (rotate)glRotatef(-angle, 0, 1.0f, 0);
+	glTranslatef(-10.0f,-5.0f,-1.0f);
+
+    glCallList(display_list_seat);//purple
+
+    glPopMatrix();
+    glPushMatrix();
+	glTranslatef(xInitial, yInitial,0);
+	glTranslatef(0,0,3);
+	glTranslatef(0,10,0);
+	
+	glTranslatef(xWheelCenter, yWheelCenter, zWheelCenter);
+	if (rotate)glRotatef((float)angle, 0.0f, 1.0f, 0.0f);
+	glTranslatef(-xWheelCenter, -yWheelCenter, -zWheelCenter);
+	glTranslatef(-10,0,10);
+
+	glTranslatef(10.0f,5.0f,1.0f);
+	if (rotate)glRotatef(-angle, 0, 1.0f, 0);
+	glTranslatef(-10.0f,-5.0f,-1.0f);
+
+    glCallList(display_list_seat); //orange
+	
+	glPopMatrix();
+    glPushMatrix();
+
+	glTranslatef(xInitial, yInitial,0);
+	glTranslatef(0,0,3);
+	glTranslatef(0,10,0);
+	
+	glTranslatef(xWheelCenter, yWheelCenter, zWheelCenter);
+	if (rotate)glRotatef((float)angle, 0.0f, 1.0f, 0.0f);
+	glTranslatef(-xWheelCenter, -yWheelCenter, -zWheelCenter);
+
+	glTranslatef(0.0f,0,14.5f);
+	glTranslatef(xWheelCenter, yWheelCenter, zWheelCenter);
+	glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
+	glTranslatef(-xWheelCenter, -yWheelCenter, -zWheelCenter);
+
+	glTranslatef(10.0f,5.0f,1.0f);
+	if (rotate)glRotatef(-angle-45, 0, 1.0f, 0);
+	glTranslatef(-10.0f,-5.0f,-1.0f);
+
+    glCallList(display_list_seat); //yellow
+	
+	glPopMatrix();
+    glPushMatrix();
+
+	glTranslatef(xInitial, yInitial,0);
+	glTranslatef(0,0,3);
+	glTranslatef(0,10,0);
+	
+	glTranslatef(xWheelCenter, yWheelCenter, zWheelCenter);
+	if (rotate)glRotatef((float)angle, 0.0f, 1.0f, 0.0f);
+	glTranslatef(-xWheelCenter, -yWheelCenter, -zWheelCenter);
+
+	glTranslatef(1.0f,0,14.5f);
+	glTranslatef(xWheelCenter, yWheelCenter, zWheelCenter);
+	glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
+	glTranslatef(-xWheelCenter, -yWheelCenter, -zWheelCenter);
+
+	glTranslatef(10.0f,5.0f,1.0f);
+	if (rotate)glRotatef(-angle+45, 0, 1.0f, 0);
+	glTranslatef(-10.0f,-5.0f,-1.0f);
+
+    glCallList(display_list_seat); // blue
+		
+	glPopMatrix();
+    glPushMatrix();
+
+	glTranslatef(xInitial, yInitial,0);
+	glTranslatef(0,0,3);
+	glTranslatef(0,10,0);
+	
+	glTranslatef(xWheelCenter, yWheelCenter, zWheelCenter);
+	if (rotate)glRotatef((float)angle, 0.0f, 1.0f, 0.0f);
+	glTranslatef(-xWheelCenter, -yWheelCenter, -zWheelCenter);
+
+	glTranslatef(0.0f,0,-1.0f);
+	glTranslatef(xWheelCenter, yWheelCenter, zWheelCenter);
+	glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
+	glTranslatef(-xWheelCenter, -yWheelCenter, -zWheelCenter);
+
+	glTranslatef(10.0f,5.0f,1.0f);
+	if (rotate)glRotatef(-angle+45, 0, 1.0f, 0);
+	glTranslatef(-10.0f,-5.0f,-1.0f);
+
+    glCallList(display_list_seat); // 
 	glEnable(GL_CULL_FACE);
     glPopMatrix();
 }
