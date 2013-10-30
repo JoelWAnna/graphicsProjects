@@ -110,6 +110,7 @@
     <ClCompile Include="libtarga.c" />
     <ClCompile Include="Track.cpp" />
     <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="Wall.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="WorldWindow.cpp" />
   </ItemGroup>
@@ -119,9 +120,11 @@
     <ClInclude Include="GenericException.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="libtarga.h" />
+    <ClInclude Include="Objects.h" />
     <ClInclude Include="OGLItem.h" />
     <ClInclude Include="Track.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="Wall.h" />
     <ClInclude Include="WorldWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -15,10 +15,7 @@
 #include <Fl/Fl_Gl_Window.h>
 #include <vector>
 
-#include "Ground.h"
-#include "Tree.h"
-#include "FerrisWheel.h"
-#include "Track.h"
+#include "Objects.h"
 
 
 // Subclass the Fl_Gl_Window because we want to draw OpenGL in here.

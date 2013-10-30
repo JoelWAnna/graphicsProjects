@@ -85,6 +85,7 @@ WorldWindow::draw(void)
 
 	// Initialize all the objects.
 	items.push_back(new Ground());
+	items.push_back(new Wall());
 	items.push_back(new Track());
 	items.push_back(new Tree());
 	items.push_back(new FerrisWheel());
