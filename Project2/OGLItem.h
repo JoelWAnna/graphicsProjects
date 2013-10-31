@@ -18,6 +18,7 @@ class OGLItem {
 
     // Does the drawing.
     virtual void    Draw(void)=0;
+	virtual void    View(void) {};
 };
 
 

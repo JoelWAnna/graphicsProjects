@@ -5,7 +5,7 @@
  */
 
 
-#include "FerrisWheel.h"
+#include "Objects.h"
 #include "libtarga.h"
 #include <stdio.h>
 #include <GL/glu.h>
@@ -60,28 +60,31 @@ void Quad(GLfloat color[3], GLfloat p1[3] , GLfloat p2[3] , GLfloat p3[3] , GLfl
 }
 
 void createFrame()
-	{
-	
+{
 	GLfloat  WHITE[3] = {0.75f, 0.75f, 0.75f};
 	{
-	GLfloat lb[3] = {-1.0f, 0.0f, 0.0f};
-	GLfloat rb[3] = {-11.0f, 0.0f, 0.0};	
-	GLfloat lu[3] = {-1.5f, 0.0f, 1.0f};
-	GLfloat ru[3] = {-10.5f, 0.0f, 1.0f};
-	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
+	GLfloat flb[3] = {-1.0f, 2.0f, 0.0f};
+	GLfloat fru[3] = {-1.5f, 0.0f, 1.0f};
+	GLfloat blb[3] = {-11.0f, 2.0f, 0.0f};
+	GLfloat bru[3] = {-10.5f, 0.0f, 1.0f};
+
+	glBegin(GL_QUADS);
+		MyQuad a(WHITE, flb, fru,blb, bru);
+		a.Construct();
+	glEnd();
 	}
 	
 	{
-//	GLfloat  WHITE[3] = {0.75,0,0.75};
-	GLfloat lb[3] = {-5.0f, 0.0f, 1.0f};
-	GLfloat rb[3] = {-5.0f, 0.0f, 16.0f};
-	GLfloat lu[3] = {-7.0f, 0.0f, 1.0f};
-	GLfloat ru[3] = {-7.0f, 0.0f, 16.0f};
-	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
+	GLfloat flb[3] = {-5.0f, 0.0f, 1.0f};
+	GLfloat bru[3] = {-7.0f, 2.0f, 16.0f};
+
+	glBegin(GL_QUADS);
+		MyQuad a(WHITE, flb, bru);
+		a.Construct();
+	glEnd();
 	}
 
 	{
-//	GLfloat  WHITE[3] = {0.75,0.75,0};
 	GLfloat lb[3] = {-7.0f, 0.0f, 16.0f};
 	GLfloat rb[3] = {2.0f, 0.0f, 16.0f};
 	GLfloat lu[3] = {-6.5f, 0.0f, 18.0f};
@@ -106,7 +109,17 @@ void createFrame()
 	GLfloat rb[3] = {12.0f, 0.0f, 11.0f};
 	GLfloat lu[3] = {8.5f, 0.0f, 13.0f};
 	GLfloat ru[3] = {11.5f, 0.0f, 13.0f};
-	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
+	
+	GLfloat flb[3] = {8.0f, 0.0f, 11.0f};
+	GLfloat fru[3] = {8.5f, 2.0f, 13.0f};
+	GLfloat blb[3] = {12.0f, 0.0f, 11.0f};
+	GLfloat bru[3] = {11.5f, 2.0f, 13.0f};
+
+	//Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
+		MyQuad a(WHITE, flb, fru, blb, bru);
+		glBegin(GL_QUADS);
+		a.Construct();
+		glEnd();
 	}
 	{
 //	GLfloat  WHITE[3] = {0,0,0.33f};
@@ -114,7 +127,18 @@ void createFrame()
 	GLfloat rb[3] = {12.0f, 0.0f, 11.0f};
 	GLfloat lu[3] = {8.5f, 0.0f, 9.0f};
 	GLfloat ru[3] = {11.5f, 0.0f, 9.0f};
-	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
+//	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
+		
+	GLfloat flb[3] = {8.0f, 0.0f, 11.0f};
+	GLfloat fru[3] = {8.5f, 2.0f, 9.0f};
+	GLfloat blb[3] = {12.0f, 0.0f, 11.0f};
+	GLfloat bru[3] = {11.5f, 2.0f, 9.0f};
+
+	//Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
+		MyQuad a(WHITE, flb, fru, blb, bru);
+		glBegin(GL_QUADS);
+		a.Construct();
+		glEnd();
 	}
 	glTranslatef(0.0,0.0, -2.0);
 }
@@ -139,60 +163,6 @@ void createWheel()
 	GLfloat ru[3] = {11.0f, 0.0f, 9.0f};
 	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
 	}
-	/*
-	glBegin(GL_QUAD_STRIP);
-	glColor3f(0, 0, 0);
-	glVertex3f(5.0, 0.0, 1.0);
-	glVertex3f(15.0, 0.0, 1.0);
-	glVertex3f(6.0, 0.0, 2.0);
-	glVertex3f(14.0, 0.0, 2.0);
-	
-	glColor3f(1, 0, 0);
-	glVertex3f(5.0, 0.0, 1.0);
-	glVertex3f(6.0, 0.0, 2.0);
-	glVertex3f(0.0, 0.0, 7.0);
-	glVertex3f(1.0, 0.0, 8.0);
-
-	
-	glColor3f(1, .5, 0);
-	glVertex3f(0.0, 0.0, 7.0);
-	glVertex3f(1.0, 0.0, 8.0);
-	glVertex3f(0.0, 0.0, 17.0);
-	glVertex3f(1.0, 0.0, 16.0);
-
-	
-	glColor3f(1, 1, 0);
-	glVertex3f(0.0, 0.0, 17.0);
-	glVertex3f(1.0, 0.0, 16.0);
-	glVertex3f(5.0, 0.0, 23.0);
-	glVertex3f(6.0, 0.0, 22.0);
-
-	glColor3f(0, 1, 0);
-	glVertex3f(5.0, 0.0, 23.0);
-	glVertex3f(6.0, 0.0, 22.0);
-	glVertex3f(16.0, 0.0, 23.0);
-	glVertex3f(15.0, 0.0, 22.0);
-
-	
-	glColor3f(0, 0, 1);
-	glVertex3f(16.0, 0.0, 23.0);
-	glVertex3f(15.0, 0.0, 22.0);
-	glVertex3f(20.0, 0.0, 17.0);
-	glVertex3f(19.0, 0.0, 16.0);
-	
-	glColor3f(.5, 0, 1);
-	glVertex3f(20.0, 0.0, 17.0);
-	glVertex3f(19.0, 0.0, 16.0);
-	glVertex3f(20.0, 0.0, 7.0);
-	glVertex3f(19.0, 0.0, 8.0);
-
-	glColor3f(1, 1, 1);
-	glVertex3f(20.0, 0.0, 7.0);
-	glVertex3f(19.0, 0.0, 8.0);
-	glVertex3f(15.0, 0.0, 1.0);
-	glVertex3f(14.0, 0.0, 2.0);
-
-	glEnd();*/
 	{
 	GLfloat  BLACK[3] = {0,0,0};
 	GLfloat lb[3] = {9.0f, 0.5f, 20.0f};	
@@ -210,33 +180,6 @@ void createWheel()
 	GLfloat ru[3] = {14.5f, 0.0f, 2.0f};
 	Quad (BLACK,  lb, rb, lu, ru, 2.0f, 1);
 	}
-/*	
-
-	glBegin(GL_QUAD_STRIP);
-
-	glColor3f(0, 0, 0);
-	glVertex3f(5.0, 0.0, 1.0);
-	glVertex3f(15.0, 0.0, 1.0);
-	glVertex3f(5.5, 0.0, 2.0);
-	glVertex3f(14.5, 0.0, 2.0);
-	
-	glVertex3f(5.5, 2.0, 2.0);
-	glVertex3f(14.5, 2.0, 2.0);
-	glVertex3f(5.0, 2.0, 1.0);
-	glVertex3f(15.0, 2.0, 1.0);
-	
-	glVertex3f(5.0, 0.0, 1.0);
-	glVertex3f(15.0, 0.0, 1.0);
-	glVertex3f(5.5, 2.0, 2.0);
-	glVertex3f(14.5, 2.0, 2.0);
-
-	
-	glVertex3f(5.5, 0.0, 2.0);
-	glVertex3f(14.5, 0.0, 2.0);
-	glVertex3f(5.0, 0.0, 1.0);
-	glVertex3f(15.0, 0.0, 1.0);
-
-	glEnd();*/
 	{
 	GLfloat  RED[3] = {1,0,0};
 	GLfloat lb[3] = {5.0f, 0.0f, 1.0f};
@@ -244,27 +187,17 @@ void createWheel()
 	GLfloat lu[3] = {5.5f, 0.0f, 2.0f};
 	GLfloat ru[3] = {1.0f, 0.0f, 6.5f};
 	Quad (RED,  lb, rb, lu, ru, 2.0f, 1);
-	}/*
-	glBegin(GL_QUAD_STRIP);
-	glColor3f(1, 0, 0);
-	glVertex3f(5.0, 0.0, 1.0);
-	glVertex3f(5.5, 0.0, 2.0);
-	glVertex3f(0.0, 0.0, 6.0);
-	glVertex3f(1.0, 0.0, 6.5);
-
-	glVertex3f(0.0, 2.0, 6.0);
-	glVertex3f(1.0, 2.0, 6.5);
-	glVertex3f(5.0, 2.0, 1.0);
-	glVertex3f(5.5, 2.0, 2.0);
-
-		glEnd();*/
-	{
+	}
+	if (1){
 	GLfloat  ORANGE[3] = {1,0.5f,0};
-	GLfloat lb[3] = {19.0f, 0.5f, 10.0f};	
-	GLfloat rb[3] = {19.0f, 0.5f, 12.0f};
-	GLfloat lu[3] = {1.0f, 0.5f, 10.0f};	
-	GLfloat ru[3] = {1.0f, 0.5f, 12.0f};
-	Quad (ORANGE,  lb, rb, lu, ru, 1.0f, 1);
+	GLfloat lb[3] = {19.0f, 0.5f, 10.0f};
+	GLfloat ru[3] = {1.0f, 1.5f, 12.0f};
+	glBegin(GL_QUADS);
+
+	MyQuad a(ORANGE, lb, ru);
+	a.Construct();
+	glEnd();
+	//Quad (ORANGE,  lb, rb, lu, ru, 1.0f, 1);
 	}
 
 	{
@@ -275,20 +208,6 @@ void createWheel()
 	GLfloat ru[3] = {1.0f, 0.0f, 15.5f};
 	Quad (ORANGE,  lb, rb, lu, ru, 2.0f, 1);
 	}
-	/*
-	glBegin(GL_QUAD_STRIP);
-	glColor3f(1, .5, 0);
-	glVertex3f(0.0, 0.0, 6.0);
-	glVertex3f(1.0, 0.0, 6.5);
-	glVertex3f(0.0, 0.0, 16.0);
-	glVertex3f(1.0, 0.0, 15.5);
-	
-	glVertex3f(0.0, 2.0, 16.0);
-	glVertex3f(1.0, 2.0, 15.5);
-	glVertex3f(0.0, 2.0, 6.0);
-	glVertex3f(1.0, 2.0, 6.5);
-
-	*/
 
 	{
 	GLfloat  YELLOW[3] = {1,1,0};
@@ -298,18 +217,6 @@ void createWheel()
 	GLfloat ru[3] = {5.5f, 0.0f, 20.0f};
 	Quad (YELLOW,  lb, rb, lu, ru, 2.0f, 1);
 	}
-	/*
-	glColor3f(1, 1, 0);
-	glVertex3f(0.0, 0.0, 16.0);
-	glVertex3f(1.0, 0.0, 15.5);
-	glVertex3f(5.0, 0.0, 21.0);
-	glVertex3f(5.5, 0.0, 20.0);
-	
-	glVertex3f(5.0, 2.0, 21.0);
-	glVertex3f(5.5, 2.0, 20.0);
-	glVertex3f(0.0, 2.0, 16.0);
-	glVertex3f(1.0, 2.0, 15.5);
-	*/
 	{
 	GLfloat  GREEN[3] = {0,1,0};
 	GLfloat lb[3] = {5.0f, 0.0f, 21.0f};
@@ -318,18 +225,6 @@ void createWheel()
 	GLfloat ru[3] = {15.5f, 0.0f, 20.0f};
 	Quad (GREEN,  lb, rb, lu, ru, 2.0f, 1);
 	}
-	/*
-	glColor3f(0, 1, 0);
-	glVertex3f(5.0, 0.0, 21.0);
-	glVertex3f(5.5, 0.0, 20.0);
-	glVertex3f(16.0, 0.0, 21.0);
-	glVertex3f(15.5, 0.0, 20.0);
-	
-	glVertex3f(16.0, 2.0, 21.0);
-	glVertex3f(15.5, 2.0, 20.0);
-	glVertex3f(5.0, 2.0, 21.0);
-	glVertex3f(5.5, 2.0, 20.0);
-	*/
 	{
 	GLfloat  BLUE[3] = {0,0,1};
 	GLfloat lb[3] = {16.0f, 0.0f, 21.0f};
@@ -338,18 +233,6 @@ void createWheel()
 	GLfloat ru[3] = {19.0f, 0.0f, 15.5f};
 	Quad (BLUE,  lb, rb, lu, ru, 2.0f, 1);
 	}
-	/*
-	glColor3f(0, 0, 1);
-	glVertex3f(16.0, 0.0, 21.0);
-	glVertex3f(15.5, 0.0, 20.0);
-	glVertex3f(20.0, 0.0, 16.0);
-	glVertex3f(19.0, 0.0, 15.5);
-	
-	glVertex3f(20.0, 2.0, 16.0);
-	glVertex3f(19.0, 2.0, 15.5);
-	glVertex3f(16.0, 2.0, 21.0);
-	glVertex3f(15.5, 2.0, 20.0);
-	*/
 	{
 	GLfloat  PURPLE[3] = {0.5f,0,1};
 	GLfloat lb[3] = {20.0f, 0.0f, 16.0f};
@@ -358,19 +241,6 @@ void createWheel()
 	GLfloat ru[3] = {19.0f, 0.0f, 6.5f};
 	Quad (PURPLE,  lb, rb, lu, ru, 2.0f, 1);
 	}
-	/*
-	// Purple
-	glColor3f(.5, 0, 1);
-	glVertex3f(20.0, 0.0, 16.0);
-	glVertex3f(19.0, 0.0, 15.5);
-	glVertex3f(20.0, 0.0, 6.0);
-	glVertex3f(19.0, 0.0, 6.5);
-	
-	glVertex3f(20.0, 2.0, 6.0);
-	glVertex3f(19.0, 2.0, 6.5);
-	glVertex3f(20.0, 2.0, 16.0);
-	glVertex3f(19.0, 2.0, 15.5);
-	*/
 	{
 	GLfloat  WHITE[3] = {1.0f,1,1};
 	GLfloat lb[3] = {20.0f, 0.0f, 6.0f};
@@ -379,28 +249,6 @@ void createWheel()
 	GLfloat ru[3] = {14.5f, 0.0f, 2.0f};
 	Quad (WHITE,  lb, rb, lu, ru, 2.0f, 1);
 	}
-	/*
-	// White
-	glColor3f(1, 1, 1);
-	glVertex3f(20.0, 0.0, 6.0);
-	glVertex3f(19.0, 0.0, 6.5);
-	glVertex3f(15.0, 0.0, 1.0);
-	glVertex3f(14.5, 0.0, 2.0);
-
-	glVertex3f(20.0, 2.0, 6.0);
-	glVertex3f(19.0, 2.0, 6.5);
-	glVertex3f(15.0, 2.0, 1.0);
-	glVertex3f(14.5, 2.0, 2.0);
-
-	glEnd();
-	/*a = 0.0 ;
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(0.0, 0.0, 1.0);
-	for (int i = 0 ; i < res ; i++ ){
-		glVertex3f(cos(a), sin(a), 4.0);
-		a += d ;
-	}
-	glEnd() ;*/
 }
 // Initializer. Returns false if something went wrong, 
 bool
@@ -437,7 +285,10 @@ FerrisWheel::Initialize(void)
 	GLfloat p8[3] = {11.0f, y1, 0.0f};
 	
 	glBegin(GL_QUADS);
-		glColor3fv(g);
+	glColor3fv(g);
+	MyQuad a(g, p1, p7);
+	a.Construct();
+/*		
 		// Top of quad
 		glVertex3fv(p7);
 		glVertex3fv(p6);
@@ -468,9 +319,8 @@ FerrisWheel::Initialize(void)
 		glVertex3fv(p3);
 		glVertex3fv(p4);
 		glVertex3fv(p8);
-
+		*/
 	glEnd();
-//	Quad (g,  lb, rb, lu, ru, 4.0f, 2);
 	}
 	{
 	GLfloat  g[3] = {0,.5f,0};
@@ -492,8 +342,10 @@ FerrisWheel::Initialize(void)
 
 	
 	glBegin(GL_QUADS);
-		glColor3fv(g);
-		// Top of quad
+	glColor3fv(g);
+	MyQuad b(g, p1, p6);
+	b.Construct();
+	/*	// Top of quad
 		glVertex3fv(p7);
 		glVertex3fv(p6);
 		glVertex3fv(p2);
@@ -523,39 +375,10 @@ FerrisWheel::Initialize(void)
 		glVertex3fv(p3);
 		glVertex3fv(p4);
 		glVertex3fv(p8);
-
+		*/
 	glEnd();
 	}
-	
-	
-/*	glTranslatef(0,10,2);
-	glTranslatef(9.75f,0,11.0f);
-	glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
-	glTranslatef(-9.75f,0,-11.0f);
-	glTranslatef(0,-10,-2);
-	
-	{
-	GLfloat  g[3] = {0,.5f,0};
-	GLfloat lb[3] = {9.0f, 1.0f, 0.0f};
-	GLfloat rb[3] = {11.0f, 10.0f, 0.0f};
-	GLfloat lu[3] = {9.0f, 10.0f, 0.0f};
-	GLfloat ru[3] = {11.0f, 1.0f, 0.0f};
-	Quad (g,  lb, rb, lu, ru, 4.0f, 2);
-	}
-	{
-	GLfloat  g[3] = {0,.5f,0};
-	GLfloat lb[3] = {13.0f, 1.0f, 0.0f};
-	GLfloat rb[3] = {13.0f, 10.0f, 0.0f};
-	GLfloat lu[3] = {11.0f, 10.0f, 0.0f};
-	GLfloat ru[3] = {11.0f, 1.0f, 0.0f};
-	Quad (g,  lb, rb, lu, ru, 2.0f, 2);
-	}
-	
-	glTranslatef(0,10,2);
-	glTranslatef(9.75f,0,11.0f);
-	glRotatef(-45.0f, 0.0f, 1.0f, 0.0f);
-	glTranslatef(-9.75f,0,-11.0f);
-	*/
+
 	glEndList();
 
     // We only do all this stuff once, when the GL context is first set up.
@@ -580,12 +403,12 @@ FerrisWheel::Draw(void)
     glPushMatrix();
 	glTranslatef(xInitial, yInitial,0);
 	glDisable(GL_CULL_FACE);
-	glTranslatef(0,-2.1,1);
+	glTranslatef(0.0f, -2.1f, 1.0f);
     glCallList(display_list_frame);
-	glTranslatef(0, 2.1,0);
-	glTranslatef(0, 12.1,0);
+	glTranslatef(0.0f, 2.1f, 0.0f);
+	glTranslatef(0.0f, 12.1f, 0.0f);
     glCallList(display_list_frame);
-	glTranslatef(0, -12.1,-1);
+	glTranslatef(0.0f, -12.1f, -1.0f);
 	glEnable(GL_CULL_FACE);
 
 	glTranslatef(0,0,3);

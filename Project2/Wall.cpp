@@ -120,77 +120,43 @@ Wall::Initialize(void)
 
 	// Draw the Wall as a quadrilateral, specifying texture coordinates.
 	glBegin(GL_QUADS);
-	GLfloat color[3]={1,1,1},
-			flb[3]={50.0, 50.0, 0.0},
-			flu[3]={50.0, 50.0, 5.0},
-			fru[3]={45.0, 50.0, 5.0},
-			frb[3]={45.0, 50.0, 0.0},
-			blb[3]={50.0, 45.0, 0.0},
-			blu[3]={50.0, 45.0, 5.0},
-			bru[3]={45.0, 45.0, 5.0},
-			brb[3]={45.0, 45.0, 0.0};
-	
-	glTranslatef(100,100,0);
-	MyQuad(color, flb, bru).Construct();
+	GLfloat color[3]={1,1,1};
 
-	
-	glTranslatef(-50,-50,0);
-	
-	glVertex3fv(blu); //top
-	glVertex3fv(flu);
-	glVertex3fv(fru);	
-	glVertex3fv(bru);
+	GLfloat	flbX[3]={2.5, 2.5f, 0.0},
+			bruX[3]={0.0, 0.0, 5.0}
+			;
 
-	glVertex3fv(bru); //back
-	glVertex3fv(brb);
-	glVertex3fv(blb);	
-	glVertex3fv(blu);
-
-	glVertex3fv(blu); // left
-	glVertex3fv(blb);
-	glVertex3fv(flb);	
-	glVertex3fv(flu);
-
-	glVertex3fv(flu); //front
-	glVertex3fv(flb);
-	glVertex3fv(frb);	
-	glVertex3fv(fru);
-
-	glVertex3fv(frb); //front
-	glVertex3fv(brb);
-	glVertex3fv(bru);	
-	glVertex3fv(fru);
-	glVertex3fv(frb); 
-
-	glVertex3fv(flb); // bottom
-	glVertex3fv(blb);
-	glVertex3fv(brb);	
-	glVertex3fv(frb);
-	
-
-	//Quad(color, lb, lu, ru,rb, 5.0f, 1);
-
-	/*glVertex3f(50.0, 50.0, 0.0);
-	glVertex3f(50.0, 50.0, 5.0);		
-	glVertex3f(50.0, 45.0, 5.0);				
-	glVertex3f(45.0, 45.0, 5.0);
-	  */  
-	/*
-	    glTexCoord2f(100.0, 100.0);
-	    glVertex3f(50.0, 50.0, 0.0);
-	    glVertex3f(50.0, 50.0, 5.0);		
-	    glVertex3f(50.0, 45.0, 5.0);				
-	    glVertex3f(45.0, 45.0, 5.0);
-	    glTexCoord2f(-100.0, 100.0);
-	    glVertex3f(-50.0, 50.0, 0.0);
-		glVertex3f(-50.0, 50.0, 5.0);
-	    glTexCoord2f(-100.0, -100.0);
-	    glVertex3f(-50.0, -50.0, 0.0);
-	    glTexCoord2f(100.0, -100.0);
-	    glVertex3f(50.0, -50.0, 0.0);
-		glVertex3f(-50.0, -50.0, 5.0);
-		*/
+		//MyQuad brickY(color, flbY, bruY);
+		//brickY.Translatef(-50.0f, 50.0f, 0.0f);
+		MyQuad brickX(color, flbX, bruX);
+		brickX.Translatef(47.5f, 47.5f, 0.0f);
+		brickX.Construct();
 	glEnd();
+	for (int i = 0; i < 39; ++i)
+	{
+	glBegin(GL_QUADS);
+		brickX.TranslateXf(-2.5f);
+		brickX.Construct();
+	glEnd();
+	}
+
+	for (int i = 0; i < 39; ++i)
+	{
+	glBegin(GL_QUADS);
+		brickX.TranslateYf(-2.5f);
+		brickX.Construct();
+
+	glEnd();
+	}
+	//brickX.Translatef(-2.5f, -100.0f, 0);
+	for (int i = 0; i < 39; ++i)
+	{
+	glBegin(GL_QUADS);
+		brickX.TranslateXf(2.5f);
+		brickX.Construct();
+
+	glEnd();
+	}
 
 	// Turn texturing off again, because we don't want everything else to
 	// be textured.

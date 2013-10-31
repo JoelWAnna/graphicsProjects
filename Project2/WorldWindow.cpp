@@ -19,7 +19,7 @@ WorldWindow::WorldWindow(int x, int y, int width, int height, char *label)
 	: Fl_Gl_Window(x, y, width, height, label)
 {
     button = -1;
-
+	rideCoaster = false;
     // Initial viewing parameters.
     phi = 45.0f;
     theta = 0.0f;
@@ -84,9 +84,9 @@ WorldWindow::draw(void)
 	glLightfv(GL_LIGHT0, GL_SPECULAR, color);
 
 	// Initialize all the objects.
+	items.push_back(new Track());
 	items.push_back(new Ground());
 	items.push_back(new Wall());
-	items.push_back(new Track());
 	items.push_back(new Tree());
 	items.push_back(new FerrisWheel());
 
@@ -106,6 +106,13 @@ WorldWindow::draw(void)
     // Clear the screen. Color and depth.
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
+
+	if (rideCoaster)
+	{
+		items[0]->View();
+	}
+	else
+	{
     // Set up the viewing transformation. The viewer is at a distance
     // dist from (x_at, y_ay, 2.0) in the direction (theta, phi) defined
     // by two angles. They are looking at (x_at, y_ay, 2.0) and z is up.
@@ -115,7 +122,7 @@ WorldWindow::draw(void)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(eye[0], eye[1], eye[2], x_at, y_at, 2.0, 0.0, 0.0, 1.0);
-
+	}
     // Position the light source. This has to happen after the viewing
     // transformation is set up, so that the light stays fixed in world
     // space. This is a directional light - note the 0 in the w component.
@@ -213,7 +220,17 @@ WorldWindow::handle(int event)
     // of where the mouse is and what mouse button is down, if any.
     switch ( event )
     {
+	  case FL_KEYDOWN:	
+	  //case FL_KEYUP:
+		  MessageBoxA(NULL, "a", "b", 0);
+		  if (FL_Tab == Fl::event_key())
+		  {
+			 
+			  rideCoaster ^= 1;
+		  }
+		  break;
       case FL_PUSH:
+		  if (rideCoaster) break;
         button = Fl::event_button();
 	x_last = x_down = Fl::event_x();
 	y_last = y_down = Fl::event_y();
@@ -224,6 +241,7 @@ WorldWindow::handle(int event)
 	y_at_down = y_at;
 	return 1;
       case FL_DRAG:
+		  if (rideCoaster) break;
 	x_last = Fl::event_x();
 	y_last = Fl::event_y();
 	return 1;

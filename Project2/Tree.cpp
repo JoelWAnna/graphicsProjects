@@ -52,8 +52,8 @@ Tree::Initialize(void)
     display_list = glGenLists(1);
     glNewList(display_list, GL_COMPILE);
 	
-	newTree(-45, 0, 2.0, 3.0, 0.5f, 1.0f);
-	newTree(-45, 4, 2.0, 3.0, 0.25f, 1.5f);
+	newTree(-40, 0, 2.0, 3.0, 0.5f, 1.0f);
+	newTree(-40, 4, 2.0, 3.0, 0.25f, 1.5f);
 	newTree(45, 0, 1.5, 4.0, 1.0, 2.0);
 	newTree(0, 30, 3.0, 6.0, 1.5, 3.0);
 	glEnd();

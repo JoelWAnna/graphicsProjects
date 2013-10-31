@@ -44,6 +44,7 @@ class WorldWindow : public Fl_Gl_Window {
 	bool	Update(float);
 
     private:
+	bool rideCoaster;
 	std::vector<OGLItem*> items;	// Items to draw each frame
 	static const double FOV_X; // The horizontal field of view.
 
