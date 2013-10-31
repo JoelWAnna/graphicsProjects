@@ -20,47 +20,6 @@ Wall::~Wall(void)
 	glDeleteTextures(1, &texture_obj);
     }
 }
-void Quad(GLfloat color[3], GLfloat p1[3] , GLfloat p2[3] , GLfloat p3[3] , GLfloat p4[3] , GLfloat width, int widx);/*
-{
-	glBegin(GL_QUAD_STRIP);
-	GLfloat p5[3], p6[3], p7[3], p8[3];
-	p5[0]=p1[0];
-	p5[1]=p1[1];
-	p5[2]=p1[2];
-	p6[0]=p2[0];
-	p6[1]=p2[1];
-	p6[2]=p2[2];
-	p7[0]=p3[0];
-	p7[1]=p3[1];
-	p7[2]=p3[2];
-	p8[0]=p4[0];
-	p8[1]=p4[1];
-	p8[2]=p4[2];
-	
-	p5[widx]=p1[widx]+width;
-	p6[widx]=p2[widx]+width;
-	p7[widx]=p3[widx]+width;
-	p8[widx]=p4[widx]+width;
-
-	glColor3fv(color);
-	
-	glVertex3fv(p1);
-	glVertex3fv(p2);
-	glVertex3fv(p3);
-	glVertex3fv(p4);
-	glVertex3fv(p7);
-	glVertex3fv(p8);
-	glVertex3fv(p5);
-	glVertex3fv(p6);
-	glVertex3fv(p1);
-	glVertex3fv(p2);
-	glVertex3fv(p5);
-	glVertex3fv(p6);
-	
-	glEnd();
-}
-
-*/
 
 // Initializer. Returns false if something went wrong, like not being able to
 // load the texture.
@@ -77,7 +36,7 @@ Wall::Initialize(void)
     {
 		
 	fprintf(stderr, "Wall::Initialize: Couldn't load wall.tga\n");
-	return false;
+	//return false;
     }
 
     // This creates a texture object and binds it, so the next few operations

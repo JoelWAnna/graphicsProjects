@@ -8,6 +8,7 @@
 #include "Track.h"
 #include <stdio.h>
 #include <FL/math.h>
+#include <GL/glu.h>
 
 
 // The control points for the track spline.
@@ -219,3 +220,38 @@ Track::Update(float dt)
 }
 
 
+void Track::View()
+{
+    float   posn[3];
+    float   tangent[3];
+    double  angle1, angle2;
+	
+    // Figure out where the train is
+    track->Evaluate_Point(posn_on_track, posn);
+
+    // Translate the train to the point
+ //   glTranslatef(posn[0], posn[1], posn[2]);
+
+    // ...and what it's orientation is
+    track->Evaluate_Derivative(posn_on_track, tangent);
+    Normalize_3(tangent);
+
+    // Rotate it to poitn along the track, but stay horizontal
+    angle2 = atan2(tangent[1], tangent[0]) * 180.0 / M_PI;
+   // glRotatef((float)angle, 0.0f, 0.0f, 1.0f);
+
+    // Another rotation to get the tilt right.
+    angle1 = asin(-tangent[2]) * 180.0 / M_PI;
+  //  glRotatef((float)angle, 0.0f, 1.0f, 0.0f);
+	posn[2] += 1.0;
+	GLfloat eye[3], dist=1;
+	float x_at = posn[0],
+		  y_at = posn[1];
+	eye[0] = x_at + dist * cos(angle1 * M_PI / 180.0) * cos(angle2 * M_PI / 180.0);
+    eye[1] = y_at + dist * sin(angle1 * M_PI / 180.0) * cos(angle2 * M_PI / 180.0);
+    eye[2] = posn[2] + dist * sin(angle2 * M_PI / 180.0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(eye[0], eye[1], eye[2], x_at, y_at, posn[2], 0.0, 0.0, 1.0);
+	
+}
