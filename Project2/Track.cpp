@@ -258,5 +258,5 @@ void Track::View()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(eye[0], eye[1], eye[2], x_at, y_at, posn[2], 0.0, 0.0, 1.0);
-	
+
 }

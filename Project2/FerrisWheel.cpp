@@ -388,6 +388,27 @@ FerrisWheel::Initialize(void)
 }
 
 void
+FerrisWheel::View()
+{
+	float xInitial = -30.0f,
+		  yInitial = 30.0f;
+    float   posn[3];
+    float   tangent[3];
+    double  angle1, angle2;
+	
+	posn[2] += 1;//.5;
+	GLfloat eye[3], dist=2;
+	float x_at = -posn[0],
+		  y_at = -posn[1];
+	eye[0] = x_at + dist * cos(angle1 * M_PI / 180.0) * cos(angle2 * M_PI / 180.0);
+    eye[1] = y_at + dist * sin(angle1 * M_PI / 180.0) * cos(angle2 * M_PI / 180.0);
+    eye[2] = posn[2] + dist * sin(angle2 * M_PI / 180.0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(eye[0], eye[1], eye[2], x_at, y_at, posn[2], 0.0, 0.0, 1.0);
+}
+
+void
 FerrisWheel::Update(float dt)	// Updates the speed
 {
 	const int speed = 20; // 20 degree rotation per second

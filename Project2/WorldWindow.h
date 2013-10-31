@@ -16,7 +16,14 @@
 #include <vector>
 
 #include "Objects.h"
-
+enum
+{
+	DEFAULT = 0,
+	ROLLERCOASTER,
+	WALK,
+	FERRISWHEEL,
+	MAX_DISPLAY_MODES
+};
 
 // Subclass the Fl_Gl_Window because we want to draw OpenGL in here.
 class WorldWindow : public Fl_Gl_Window {
@@ -25,7 +32,7 @@ class WorldWindow : public Fl_Gl_Window {
 	WorldWindow(int x, int y, int w, int h, char *label);
 	~WorldWindow()
 	{
-		for (int i = 0; i < items.size(); ++i)
+		for (unsigned i = 0; i < items.size(); ++i)
 		{
 			delete items.at(i);
 			items.at(i) = NULL;;
@@ -44,8 +51,9 @@ class WorldWindow : public Fl_Gl_Window {
 	bool	Update(float);
 
     private:
-	bool rideCoaster;
+	int display_mode;
 	std::vector<OGLItem*> items;	// Items to draw each frame
+	int rollercoaster, ferriswheel;
 	static const double FOV_X; // The horizontal field of view.
 
 	float	phi;	// Viewer's inclination angle.
