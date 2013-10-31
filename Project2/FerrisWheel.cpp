@@ -387,13 +387,18 @@ FerrisWheel::Initialize(void)
     return true;
 }
 
+void
+FerrisWheel::Update(float dt)	// Updates the speed
+{
+	const int speed = 20; // 20 degree rotation per second
+	angle += dt*speed;
+}
 
 // Draw just calls the display list we set up earlier.
 void
 FerrisWheel::Draw(void)
 {
-	bool rotate = false || 01;
-	angle +=0.5;
+	bool rotate = true;
 	float xInitial = -30.0f,
 		  yInitial = 30.0f;
 	float xWheelCenter = 9.75f,

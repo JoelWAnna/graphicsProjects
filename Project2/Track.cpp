@@ -170,6 +170,11 @@ Track::Draw(void)
     glRotatef((float)angle, 0.0f, 1.0f, 0.0f);
 
     // Draw the train
+	glTranslatef(-1,0,0);
+    glCallList(train_list);
+	glTranslatef(1,0,0);
+    glCallList(train_list);
+	glTranslatef(1,0,0);
     glCallList(train_list);
 
     glPopMatrix();
@@ -237,16 +242,16 @@ void Track::View()
     Normalize_3(tangent);
 
     // Rotate it to poitn along the track, but stay horizontal
-    angle2 = atan2(tangent[1], tangent[0]) * 180.0 / M_PI;
+    angle1 = atan2(tangent[1], tangent[0]) * 180.0 / M_PI;
    // glRotatef((float)angle, 0.0f, 0.0f, 1.0f);
 
     // Another rotation to get the tilt right.
-    angle1 = asin(-tangent[2]) * 180.0 / M_PI;
+    angle2 = asin(-tangent[2]) * 180.0 / M_PI;
   //  glRotatef((float)angle, 0.0f, 1.0f, 0.0f);
-	posn[2] += 1.0;
-	GLfloat eye[3], dist=1;
-	float x_at = posn[0],
-		  y_at = posn[1];
+	posn[2] += 1;//.5;
+	GLfloat eye[3], dist=2;
+	float x_at = -posn[0],
+		  y_at = -posn[1];
 	eye[0] = x_at + dist * cos(angle1 * M_PI / 180.0) * cos(angle2 * M_PI / 180.0);
     eye[1] = y_at + dist * sin(angle1 * M_PI / 180.0) * cos(angle2 * M_PI / 180.0);
     eye[2] = posn[2] + dist * sin(angle2 * M_PI / 180.0);

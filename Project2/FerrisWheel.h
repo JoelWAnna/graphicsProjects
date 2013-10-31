@@ -32,6 +32,8 @@ class FerrisWheel : public OGLItem {//extends OGLItem{
     // Initializer. Creates the display list.
     bool    Initialize(void);
 
+	void    Update(float);	// Updates the speed
+
     // Does the drawing.
     void    Draw(void);
 };
