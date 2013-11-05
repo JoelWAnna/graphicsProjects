@@ -1,69 +1,46 @@
 #include "Objects.h"
 MyQuad::MyQuad(GLfloat c[3], GLfloat frontLeftBottom[3], GLfloat backRightTop[3])
 	{
-		//memcpy(color, c, 3*sizeof(GLfloat));
+		memcpy(color, c, 3*sizeof(GLfloat));
 		//memcpy(flb, frontLeftBottom, 3*sizeof(GLfloat));
 		//memcpy(bru, backRightTop, 3*sizeof(GLfloat));
-		copyvector(color, c);
-		/*color[0] = c[0];
+		
+		color[0] = c[0];
 		color[1] = c[1];
-		color[2] = c[2];*/
+		color[2] = c[2];
 
-	/*NUM_POINTS = 8,*/
-		/*	points[FLB][3],
-			points[FLU][3],
-			points[FRU][3],
-			points[FRB][3],
-			points[BLB][3],
-			points[BLU][3],
-			points[BRU][3],
-			points[BRB][3],*/
-		copyvector(points[FLB], frontLeftBottom);
-		/*flb[X] = frontLeftBottom[X];
+		flb[X] = frontLeftBottom[X];
 		flb[Y] = frontLeftBottom[Y];
-		flb[Z] = frontLeftBottom[Z];*/
+		flb[Z] = frontLeftBottom[Z];
 
-		copyvector(points[BRU], backRightTop);
-		/*bru[X] = backRightTop[X];
+		
+		bru[X] = backRightTop[X];
 		bru[Y] = backRightTop[Y];
-		bru[Z] = backRightTop[Z];*/
-		copyvector(points[FLU], points[FLB]);
-		points[FLU][Z] = points[BRU][Z];
-		/*
+		bru[Z] = backRightTop[Z];
+
 		flu[X] = flb[X];
 		flu[Y] = flb[Y];
 		flu[Z] = bru[Z];
-*/
-		copyvector(points[FRB], points[FLB]);
-		points[FRB][X] = points[BRU][X];
-		/*frb[X] = bru[X];
+
+		frb[X] = bru[X];
 		frb[Y] = flb[Y];
-		frb[Z] = flb[Z];*/
+		frb[Z] = flb[Z];
 		
-		copyvector(points[FRU], points[BRU]);
-		points[FRU][Y] = points[FLB][Y];
-		/*fru[X] = bru[X];
+		fru[X] = bru[X];
 		fru[Y] = flb[Y];
 		fru[Z] = bru[Z];
-		*/
-		copyvector(points[BLB], points[FLB]);
-		points[BLB][Y] = points[BRU][Y];
-		/*blb[X] = flb[X];
-		blb[Y] = bru[Y];
-		blb[Z] = flb[Z];*/
 		
-		copyvector(points[BLU], points[BRU]);
-		points[BLU][X] = points[FLB][X];
-		/*blu[X] = flb[X];
+		blb[X] = flb[X];
+		blb[Y] = bru[Y];
+		blb[Z] = flb[Z];
+		
+		blu[X] = flb[X];
 		blu[Y] = bru[Y];
 		blu[Z] = bru[Z];
-*/
-		copyvector(points[BRB], points[BRU]);
-		points[BRB][Z] = points[FLB][Z];
-		/*
+
 		brb[X] = bru[X];
 		brb[Y] = bru[Y];
-		brb[Z] = flb[Z];*/
+		brb[Z] = flb[Z];
 
 	}
 	
@@ -72,54 +49,42 @@ MyQuad::MyQuad(GLfloat c[3], GLfloat frontLeftBottom[3], GLfloat frontRightTop[3
 		//memcpy(color, c, 3*sizeof(GLfloat));
 		//memcpy(flb, frontLeftBottom, 3*sizeof(GLfloat));
 		//memcpy(bru, backRightTop, 3*sizeof(GLfloat));
-		copyvector(color, c);
-		/*color[0] = c[0];
-		color[1] = c[1];
-		color[2] = c[2];*/
-
-		copyvector(points[FLB], frontLeftBottom);
-		/*flb[X] = frontLeftBottom[X];
-		flb[Y] = frontLeftBottom[Y];
-		flb[Z] = frontLeftBottom[Z];*/
-		copyvector(points[FRU], frontRightTop);
-		/*fru[X] = frontRightTop[X];
-		fru[Y] = frontRightTop[Y];
-		fru[Z] = frontRightTop[Z];*/
 		
-		copyvector(points[FLU], points[FRU]);
-		points[FLU][Y] = points[FLB][Y];
-		/*
+		color[0] = c[0];
+		color[1] = c[1];
+		color[2] = c[2];
+
+		flb[X] = frontLeftBottom[X];
+		flb[Y] = frontLeftBottom[Y];
+		flb[Z] = frontLeftBottom[Z];
+
+		fru[X] = frontRightTop[X];
+		fru[Y] = frontRightTop[Y];
+		fru[Z] = frontRightTop[Z];
+				
 		flu[X] = frontRightTop[X];
 		flu[Y] = flb[Y];
-		flu[Z] = frontRightTop[Z];*/
-		
-		copyvector(points[FRB], points[FLB]);
-		points[FRB][Y] = points[FRU][Y];
-		/*frb[X] = flb[X];
+		flu[Z] = frontRightTop[Z];
+
+		frb[X] = flb[X];
 		frb[Y] = fru[Y];
-		frb[Z] = flb[Z];*/
+		frb[Z] = flb[Z];
 
-		copyvector(points[BLB], backLeftBottom);
-		/*blb[X] = backLeftBottom[X];
+		blb[X] = backLeftBottom[X];
 		blb[Y] = backLeftBottom[Y];
-		blb[Z] = backLeftBottom[Z];*/
-		copyvector(points[BRU], backRightTop);
-		/*bru[X] = backRightTop[X];
+		blb[Z] = backLeftBottom[Z];
+
+		bru[X] = backRightTop[X];
 		bru[Y] = backRightTop[Y];
-		bru[Z] = backRightTop[Z];*/
+		bru[Z] = backRightTop[Z];
 
-		copyvector(points[BLU], points[BRU]);
-		points[BLU][Y] = points[BLB][Y];
-		/*blu[X] = bru[X];
+		blu[X] = bru[X];
 		blu[Y] = backLeftBottom[Y];
-		blu[Z] = bru[Z];*/
+		blu[Z] = bru[Z];
 
-		points[BRB][X] = points[BLB][X];
-		points[BRB][Y] = points[BRU][Y];
-		points[BRB][Z] = points[FLB][Z];
-		/*brb[X] = blb[X];
+		brb[X] = blb[X];
 		brb[Y] = bru[Y];
-		brb[Z] = flb[Z];*/
+		brb[Z] = flb[Z];
 
 	}
 
@@ -158,14 +123,14 @@ void MyQuad::Rotatef(float angle, int XYZ)
 			center[Y] = brb[Y] - flb[Y];
 			center[Z] = fru[Z] - frb[Z];
 		Translatef(center[X], center[Y], center[Z]);
-		Rotatef(angle, XYZ, points[FLB]);
-		Rotatef(angle, XYZ, points[FLU]);
-		Rotatef(angle, XYZ, points[FRB]);
-		Rotatef(angle, XYZ, points[FRU]);
-		Rotatef(angle, XYZ, points[BLB]);
-		Rotatef(angle, XYZ, points[BLU]);
-		Rotatef(angle, XYZ, points[BRB]);
-		Rotatef(angle, XYZ, points[BRU]);
+		Rotatef(angle, XYZ, flb);
+		Rotatef(angle, XYZ, flu);
+		Rotatef(angle, XYZ, frb);
+		Rotatef(angle, XYZ, fru);
+		Rotatef(angle, XYZ, blb);
+		Rotatef(angle, XYZ, blu);
+		Rotatef(angle, XYZ, brb);
+		Rotatef(angle, XYZ, bru);
 		Translatef(-center[X], -center[Y], -center[Z]);
 	}
 
@@ -185,13 +150,7 @@ void MyQuad::MatrixMul(float m[4][4], GLfloat p[3])
 	}
 void MyQuad::Translatef(float x, float y, float z)
 	{
-		for (int i = FLB; i < NUM_POINTS; ++i)
-		{
-			points[i][X] += x;
-			points[i][Y] += y;
-			points[i][Z] += z;
-		}
-		/*flb[X] += x;
+		flb[X] += x;
 		flb[Y] += y;
 		flb[Z] += z;
 
@@ -222,7 +181,7 @@ void MyQuad::Translatef(float x, float y, float z)
 		brb[X] += x;
 		brb[Y] += y;
 		brb[Z] += z;
-*/
+
 	}
 
 void MyQuad::Construct() {
@@ -231,59 +190,59 @@ void MyQuad::Construct() {
 	glTexCoord2f(0, 1);
 	glVertex3fv(blu); //top
 	glTexCoord2f(0, 0);
-	glVertex3fv(points[FLU]);
+	glVertex3fv(flu);
 	glTexCoord2f(1, 0);
-	glVertex3fv(points[FRU]);
+	glVertex3fv(fru);
 	glTexCoord2f(1, 1);
-	glVertex3fv(points[BRU]);
+	glVertex3fv(bru);
 
 	glTexCoord2f(0, 1);
-	glVertex3fv(points[BRU]); //back
+	glVertex3fv(bru); //back
 	glTexCoord2f(0, 0);
-	glVertex3fv(points[BRB]);
+	glVertex3fv(brb);
 	glTexCoord2f(1, 0);
-	glVertex3fv(points[BLB]);
+	glVertex3fv(blb);
 	glTexCoord2f(1, 1);
-	glVertex3fv(points[BLU]);
+	glVertex3fv(blu);
 
 	
 	glTexCoord2f(0,1);
-	glVertex3fv(points[BLU]); // left
+	glVertex3fv(blu); // left
 	glTexCoord2f(0, 0);
-	glVertex3fv(points[BLB]);
+	glVertex3fv(blb);
 	glTexCoord2f(1,0);
-	glVertex3fv(points[FLB]);
+	glVertex3fv(flb);
 	glTexCoord2f(1, 1);
-	glVertex3fv(points[FLU]);
+	glVertex3fv(flu);
 
 	
 	glTexCoord2f(0, 1);
-	glVertex3fv(points[FLU]); //front
+	glVertex3fv(flu); //front
 	glTexCoord2f(0, 0);
-	glVertex3fv(points[FLB]);
+	glVertex3fv(flb);
 	glTexCoord2f(1, 0);
-	glVertex3fv(points[FRB]);
+	glVertex3fv(frb);
 	glTexCoord2f(1, 1);
-	glVertex3fv(points[FRU]);
+	glVertex3fv(fru);
 
 	glTexCoord2f(0, 1);
-	glVertex3fv(points[FRB]); //front
+	glVertex3fv(frb); //front
 	glTexCoord2f(0, 0);
-	glVertex3fv(points[BRB]);
+	glVertex3fv(brb);
 	glTexCoord2f(1, 0);
-	glVertex3fv(points[BRU]);
+	glVertex3fv(bru);
 	glTexCoord2f(1, 1);
-	glVertex3fv(points[FRU]);
-	glVertex3fv(points[FRB]); 
+	glVertex3fv(fru);
+	glVertex3fv(frb); 
 
 	glTexCoord2f(0, 1);
-	glVertex3fv(points[FLB]); // bottom
+	glVertex3fv(flb); // bottom
 	glTexCoord2f(0, 0);
-	glVertex3fv(points[BLB]);
+	glVertex3fv(blb);
 	glTexCoord2f(1, 0);
-	glVertex3fv(points[BRB]);
+	glVertex3fv(brb);
 	glTexCoord2f(1, 1);
-	glVertex3fv(points[FRB]);
+	glVertex3fv(frb);
 	}
 
 
