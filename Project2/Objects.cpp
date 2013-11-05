@@ -1,30 +1,6 @@
-/*
- * FerrisWheel.h: Header file for a class that draws the FerrisWheel.
- *
- */
-
-
-#ifndef _OBJECTS__
-#define _OBJECTS__
-
-#include "Ground.h"
-#include "Tree.h"
-#include "FerrisWheel.h"
-#include "Track.h"
-#include "Wall.h"
-
-struct MyQuad
-{
-	enum
+#include "Objects.h"
+MyQuad::MyQuad(GLfloat c[3], GLfloat frontLeftBottom[3], GLfloat backRightTop[3])
 	{
-		X = 0,
-		Y = 1,
-		Z = 2,
-		RGB = 3
-	};
-
-	MyQuad(GLfloat c[3], GLfloat frontLeftBottom[3], GLfloat backRightTop[3])
-	;/*{
 		memcpy(color, c, 3*sizeof(GLfloat));
 		//memcpy(flb, frontLeftBottom, 3*sizeof(GLfloat));
 		//memcpy(bru, backRightTop, 3*sizeof(GLfloat));
@@ -66,10 +42,10 @@ struct MyQuad
 		brb[Y] = bru[Y];
 		brb[Z] = flb[Z];
 
-	}*/
+	}
 	
-	MyQuad(GLfloat c[3], GLfloat frontLeftBottom[3], GLfloat frontRightTop[3], GLfloat backLeftBottom[3], GLfloat backRightTop[3])
-	;/*{
+MyQuad::MyQuad(GLfloat c[3], GLfloat frontLeftBottom[3], GLfloat frontRightTop[3], GLfloat backLeftBottom[3], GLfloat backRightTop[3])
+	{
 		//memcpy(color, c, 3*sizeof(GLfloat));
 		//memcpy(flb, frontLeftBottom, 3*sizeof(GLfloat));
 		//memcpy(bru, backRightTop, 3*sizeof(GLfloat));
@@ -109,10 +85,11 @@ struct MyQuad
 		brb[X] = blb[X];
 		brb[Y] = bru[Y];
 		brb[Z] = flb[Z];
-		
-	}*/
-	static void Rotatef(float angle, int XYZ, GLfloat p[3])
-	;/*{
+
+	}
+
+void MyQuad::Rotatef(float angle, int XYZ, GLfloat p[3])
+	{
 		float matrix[4][4] = {1,0,0,0,
 							  0,1,0,0,
 							  0,0,1,0,
@@ -137,10 +114,10 @@ struct MyQuad
 			break;
 		}
 		MatrixMul(matrix, p);
-	}*/
+	}
 
-	void Rotatef(float angle, int XYZ)
-	; /*{
+void MyQuad::Rotatef(float angle, int XYZ)
+	{
 		float center[3];
 			center[X] = blb[X] - flb[X];
 			center[Y] = brb[Y] - flb[Y];
@@ -155,9 +132,10 @@ struct MyQuad
 		Rotatef(angle, XYZ, brb);
 		Rotatef(angle, XYZ, bru);
 		Translatef(-center[X], -center[Y], -center[Z]);
-	}*/
-	static void MatrixMul(float m[4][4], GLfloat p[3])
-	;/*{
+	}
+
+void MyQuad::MatrixMul(float m[4][4], GLfloat p[3])
+	{
 		GLfloat original[4] = {p[0], p[1], p[2], 1};
 		for (int i=0; i < 3; ++i)
 		{
@@ -169,12 +147,9 @@ struct MyQuad
 			p[i]=accum;
 		}
 
-	}*/
-	void TranslateXf(float x) { Translatef(x, 0, 0); }
-	void TranslateYf(float y) { Translatef(0, y, 0); }
-	void TranslateZf(float z) { Translatef(0, 0, z); }
-	void Translatef(float x, float y, float z)
-	;/*{
+	}
+void MyQuad::Translatef(float x, float y, float z)
+	{
 		flb[X] += x;
 		flb[Y] += y;
 		flb[Z] += z;
@@ -207,47 +182,9 @@ struct MyQuad
 		brb[Y] += y;
 		brb[Z] += z;
 
-	}*/
+	}
 
-	GLfloat color[3],
-			flb[3],
-			flu[3],
-			fru[3],
-			frb[3],
-			blb[3],
-			blu[3],
-			bru[3],
-			brb[3];
-/*
-
-	    glTexCoord2f(100.0, 100.0);
-	    glVertex3f(50.0, 50.0, 0.0);
-	    glVertex3f(50.0, 50.0, 5.0);		
-	    glVertex3f(50.0, 45.0, 5.0);				
-	    glVertex3f(45.0, 45.0, 5.0);
-	    glTexCoord2f(-100.0, 100.0);
-	    glVertex3f(-50.0, 50.0, 0.0);
-		glVertex3f(-50.0, 50.0, 5.0);
-	    glTexCoord2f(-100.0, -100.0);
-	    glVertex3f(-50.0, -50.0, 0.0);
-	    glTexCoord2f(100.0, -100.0);
-	    glVertex3f(50.0, -50.0, 0.0);
-		glVertex3f(-50.0, -50.0, 5.0);
-		
-*/
-/*
-
-glNormal3d(1, 0, 0);
-glTexCoord2f(0, 1);
-glVertex3dv(c);
-glTexCoord2f(0, 0);
-glVertex3dv(b);
-glTexCoord2f(1, 0);
-glVertex3dv(f);
-glTexCoord2f(1, 1);
-*/
-	void Construct();
-	/*{
+void MyQuad::Construct() {
 	glColor3fv(color);
 	
 	glTexCoord2f(0, 1);
@@ -306,8 +243,7 @@ glTexCoord2f(1, 1);
 	glVertex3fv(brb);
 	glTexCoord2f(1, 1);
 	glVertex3fv(frb);
-	}*/
-};
+	}
 
 
-#endif
+

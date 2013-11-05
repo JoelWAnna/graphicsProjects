@@ -108,6 +108,7 @@
     <ClCompile Include="GenericException.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="libtarga.c" />
+    <ClCompile Include="Objects.cpp" />
     <ClCompile Include="Track.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="Wall.cpp" />
