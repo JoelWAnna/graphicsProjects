@@ -127,40 +127,6 @@ Track::Initialize(void)
 		{
 		posta.print();
 
-/*		if ((posta.flu[MyQuad::X] > posta.blu[MyQuad::X]) ||
-		   (posta.flu[MyQuad::Y] > posta.blu[MyQuad::Y]))
-		{
-				posta.flu[MyQuad::Z] = -.125;
-				posta.fru[MyQuad::Z] = -.125;
-				posta.blu[MyQuad::Z] = -.625;
-				posta.bru[MyQuad::Z] = -.625;
-		
-		}
-		else
-		{
-			posta.flu[MyQuad::Z] = -.525;
-			posta.fru[MyQuad::Z] = -.525;
-			posta.blu[MyQuad::Z] = -.125;
-			posta.bru[MyQuad::Z] = -.125;
-		}
-		posta.flb[MyQuad::Z] = -p[2];
-		posta.frb[MyQuad::Z] = -p[2];
-		
-		posta.blb[MyQuad::Z] = -p[2];
-		posta.brb[MyQuad::Z] = -p[2];
-		*/
-		//MyQuad::Rotatef(-angle1, MyQuad::Z,posta.flu);
-		//MyQuad::Rotatef(-angle2, MyQuad::Y,posta.flu);
-		//posta.fru[MyQuad::Z] = 0;
-		//MyQuad::Rotatef(-angle1, MyQuad::Z,posta.fru);
-		//MyQuad::Rotatef(-angle2, MyQuad::Y,posta.fru);
-		//posta.blu[MyQuad::Z] = 0;
-		//MyQuad::Rotatef(-angle1, MyQuad::Z,posta.blu);
-		//MyQuad::Rotatef(-angle2, MyQuad::Y,posta.blu);
-		//posta.bru[MyQuad::Z] = 0;
-		//MyQuad::Rotatef(-angle1, MyQuad::Z,posta.bru);
-		//MyQuad::Rotatef(-angle2, MyQuad::Y,posta.bru);
-		//MyQuad postb(color, flb3, bru3);
 		glBegin(GL_QUADS);
 		posta.color[0] = 1;
 		posta.color[1] = 1;
@@ -168,44 +134,7 @@ Track::Initialize(void)
 		posta.Construct();		
 		glEnd();
 		}
-	/*	glBegin(GL_QUADS);
-		postb.color[0] = 0;
-		postb.color[1] = 1;
-		postb.color[2] = 0;
-		postb.Construct();		
-		glEnd();
-		*/
 
-		
-		
-
-	/*	GLfloat fluP[3] = {0.2,.2,-.125},
-				fruP[3] = {0.4,.2,-.125},
-				bluP[3] = {.2, .4, -.1250},
-				bruP[3] = {.2, .4, -.125};
-		MyQuad::Rotatef(angle1, 2, fluP);
-		MyQuad::Rotatef(angle2, 1, fluP);
-		MyQuad::Rotatef(angle1, 2, fruP);
-		MyQuad::Rotatef(angle2, 1, fruP);
-		MyQuad::Rotatef(angle1, 2, bluP);
-		MyQuad::Rotatef(angle2, 1, bluP);
-		MyQuad::Rotatef(angle1, 2, bruP);
-		MyQuad::Rotatef(angle2, 1, bruP);*/
-		//flb{.2, .2,  -p[2]},
-		//	bru2[3] = {.4, .4, -.125};
-		/*GLfloat flbP[3] = {0.2,.2,-.125},
-				frbP[3] = {.4,.2,-.125},
-				blbP[3] = {.2, .4, -.125},
-				brbP[3] = {.4, .4, -.125};
-		MyQuad c(color, flbP, fluP, fruP, frbP, blbP, bluP, bruP, brbP);
-		glBegin(GL_QUADS);
-		c.color[0] = .5;
-		c.color[1] = 0;
-		c.color[2] = 0.5;
-		c.Construct();		
-		glEnd();*/
-//		cout << p[0] << " " << p[1] <<  " " << p[2] << endl;
-	//	cout << tangent[0] << " " << tangent[1] <<  " " << tangent[2] << endl;
 		glRotatef((float)angle1, 0.0f, 0.0f, 1.0f);
 		glRotatef((float)angle2, 0.0f, 1.0f, 0.0f);
 
@@ -238,18 +167,13 @@ Track::Initialize(void)
 		
 		MyQuad::Rotatef(angle1, 2, x.brb);
 		MyQuad::Rotatef(angle2, 1, x.brb);
-
+		
 		MyQuad::Swap(x.brb, x.blb);
-	//	if (i == 64)
-		{
-//			x.print();
-		}
+		MyQuad::Swap(x.frb, x.flb);
+
 		glBegin(GL_QUADS);
 		x.Construct();
 		glEnd();
-//		x.Rotatef(-angle2, MyQuad::Y);
-//		x.Rotatef(-angle1, MyQuad::Z);
-//		x.print();
 		glPopMatrix();
 	    }
 		glEndList();
