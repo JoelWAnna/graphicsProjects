@@ -565,6 +565,7 @@ bool TargaImage::Dither_Bright()
 {
 	// compute average brightness by choosing the middle pixel when sorted by brightness
 	// summing brightness and dividing by pixels creates too large of a threshhold
+	float average = 0;
 	if (To_Grayscale())
 	{
 		std::vector<unsigned char> brightness;
@@ -574,13 +575,14 @@ bool TargaImage::Dither_Bright()
 			for (int j = 0 ; j < width ; j++)
 			{
 				unsigned char* pixel = data + offset + (j*4);
-
+				average += pixel[RED]/255.0f;
 				brightness.push_back(pixel[RED]);
 			}
 		}
-
+		average /= (width*height);
+		average = 1 - average;
 		sort(brightness.begin(),brightness.end());
-		float thresh = brightness.at(brightness.size()/2);
+		float thresh = brightness.at(brightness.size()*average);
 		Dither_Threshold(thresh / 256.0f);
 		return true;
 	}
