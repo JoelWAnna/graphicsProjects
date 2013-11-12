@@ -57,81 +57,7 @@ Tree::Initialize(void)
 	newTree(45, 0, 1.5, 4.0, 1.0, 2.0);
 	newTree(0, 30, 3.0, 6.0, 1.5, 3.0);
 	glEnd();
-	/*a = 0.0 ;
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex3f(0.0, 0.0, 1.0);
-	for (int i = 0 ; i < res ; i++ ){
-		glVertex3f(cos(a), sin(a), 4.0);
-		a += d ;
-	}
-	glEnd() ;*/
-
 	
-
-	/*
-	glBegin(GL_TRIANGLES);
-	glColor3f(.5,0,.5);
-	glVertex3f(35, 35, -2);
-	glVertex3f(35, -35, -2);
-	glVertex3f(-35, 35, -2);
-	
-	glColor3f(.5,.5, 0);
-	glVertex3f(35, 35, 2);
-	glVertex3f(35, -35, 2);
-	glVertex3f(-35, 35, 2);
-	glEnd();
-	glBegin(GL_QUADS);
-		
-	  glColor3f(.75,0,.75);
-	  glVertex3f(20, 20, 1);
-	  glVertex3f(-20, 20, 1);
-	  glVertex3f(20, -20, 1);
-	  glVertex3f(-20, -20, 1);
-	glEnd();
-	glBegin(GL_QUADS);
-	// front
-      glColor3f(1, 0, 0);
-      glVertex3f(-1, 1, 1);
-      glVertex3f(-1, -1, 1);
-      glVertex3f(1, -1, 1);
-      glVertex3f(1, 1, 1);
-
-      // back
-      glColor3f(0, 1, 0);
-      glVertex3f(-1, 1, -1);
-      glVertex3f(1, 1, -1);
-      glVertex3f(1, -1, -1);
-      glVertex3f(-1, -1, -1);
-
-      // top
-      glColor3f(0, 0, 1);
-      glVertex3f(-1, 1, -1);
-      glVertex3f(-1, 1, 1);
-      glVertex3f(1, 1, 1);
-      glVertex3f(1, 1, -1);
-
-      // bottom
-      glColor3f(1, 1, 0);
-      glVertex3f(-1, -1, -1);
-      glVertex3f(1, -1, -1);
-      glVertex3f(1, -1, 1);
-      glVertex3f(-1, -1, 1);
-
-      // left
-      glColor3f(0, 1, 1);
-      glVertex3f(-1, 1, -1);
-      glVertex3f(-1, -1, -1);
-      glVertex3f(-1, -1, 1);
-      glVertex3f(-1, 1, 1);
-
-      // right
-      glColor3f(1, 0, 1);
-      glVertex3f(1, 1, 1);
-      glVertex3f(1, -1, 1);
-      glVertex3f(1, -1, -1);
-      glVertex3f(1, 1, -1);
-   glEnd();
-   */
     glEndList();
 
     // We only do all this stuff once, when the GL context is first set up.
@@ -145,11 +71,11 @@ Tree::Initialize(void)
 void
 Tree::Draw(void)
 {
-	static float angle=0;
-	angle +=0.5;
-
+	
     glPushMatrix();
+	glDisable(GL_CULL_FACE);
     glCallList(display_list);
+	glEnable(GL_CULL_FACE);
     glPopMatrix();
 }
 

@@ -12,7 +12,7 @@
 #include <Fl/gl.h>
 #include <GL/glu.h>
 #include <stdio.h>
-
+#include <iostream>
 const double WorldWindow::FOV_X = 45.0;
 
 WorldWindow::WorldWindow(int x, int y, int width, int height, char *label)
@@ -21,11 +21,11 @@ WorldWindow::WorldWindow(int x, int y, int width, int height, char *label)
     button = -1;
 	display_mode = false;
     // Initial viewing parameters.
-    phi = 45.0f;
-    theta = 0.0f;
-    dist = 100.0f;
-    x_at = 0.0f;
-    y_at = 0.0f;
+    home_phi = phi = 45.0f;
+    home_theta = theta = 0.0f;
+    home_dist = dist = 100.0f;
+    home_x = x_at = 0.0f;
+    home_y = y_at = 0.0f;
 
 }
 
@@ -85,10 +85,10 @@ WorldWindow::draw(void)
 
 	// Initialize all the objects.
 	items.push_back(new Track()); rollercoaster = 0; // update roller coaster to the index in items of the track
-	items.push_back(new FerrisWheel()); ferriswheel = 1; // update ferris wheel to the index in items of the track
 	items.push_back(new Ground());
 	items.push_back(new Wall());
 	items.push_back(new Tree());
+	items.push_back(new FerrisWheel()); ferriswheel = 4; // update ferris wheel to the index in items of the track
 	
 
 	auto iter = items.begin();
@@ -219,20 +219,150 @@ WorldWindow::Update(float dt)
 
 inline void  runFunction(std::vector<OGLItem*> &vector, void (OGLItem::* )());
 
+void WorldWindow::KeyMove(int key)
+{
+	if (display_mode == ROLLERCOASTER)
+		return;
+	float dx = 0;
+	float dy = 0;
+	switch(key)
+	{
+	case '\\':
+		std::cout << "phi: "<< phi << std::endl
+				  << "theta: "<< theta << std::endl
+				  << "dist: "<< dist << std::endl
+				  << "x_at: "<< x_at << std::endl
+				  << "y_at: "<< y_at << std::endl;
+		break;
+	case '-':
+		if (dist < 360)
+			dist += .5;
+		break;
+	case '=':
+		if (dist > 1.5)
+			dist -= .5;
+		break;
+	case 'd': //right 
+		theta += 1;
+		while (theta > 360)
+			theta -= 360;
+		break;
+	case 'a': // LEFT
+		theta -= 1;
+		while (theta < -360)
+			theta +=360;
+		break;
+	case 's': // DOWN
+		phi -= 1;
+		
+		if (phi < -89)
+			phi = -89;
+	//	if (phi < -5)
+	//		phi = -5;
+		break;
+	case 'w': // UP
+		phi += 1;
+		if (phi > 89)
+			phi = 89;
+		break;
+	case FL_Home:
+		if (display_mode == DEFAULT || display_mode == WALK || display_mode == FERRISWHEEL)
+		{
+			phi = home_phi;
+			theta = home_theta;
+			dist = home_dist;
+				
+			x_at = home_x;
+			y_at = home_y;
+		}
+		break;
+	case FL_Left:
+		dx = -5;
+		break;
+	case FL_Up:
+		dy = -5;
+		break;
+	case FL_Right:
+		dx = +5;
+		break;
+	case FL_Down:
+		dy = +5;
+		break;
+	}
+
+	if (dx != 0 || dy != 0)
+	{
+			float x_axis[2],y_axis[2];
+			x_axis[0] = -(float)sin(theta * M_PI / 180.0);
+			x_axis[1] = (float)cos(theta * M_PI / 180.0);
+			y_axis[0] = x_axis[1];
+			y_axis[1] = -x_axis[0];
+
+			x_at = x_at + 100.0f * ( x_axis[0] * dx / (float)w()
+				    + y_axis[0] * dy / (float)h() );
+			y_at = y_at + 100.0f * ( x_axis[1] * dx / (float)w()
+				    + y_axis[1] * dy / (float)h() );
+
+		}
+}
 int
 WorldWindow::handle(int event)
 {
     // Event handling routine. Only looks at mouse events.
     // Stores a bunch of values when the mouse goes down and keeps track
     // of where the mouse is and what mouse button is down, if any.
+	
+	float	x_axis[2];
+	float	y_axis[2];
+	if (display_mode == WALK)
+	{
+			// Right mouse button moves the look-at point around, so the world
+	// appears to move under the viewer.
+
+	x_axis[0] = -(float)sin(theta * M_PI / 180.0);
+	x_axis[1] = (float)cos(theta * M_PI / 180.0);
+	y_axis[0] = x_axis[1];
+	y_axis[1] = -x_axis[0];
+
+	}
+
+
     switch ( event )
     {
 	  case FL_KEYDOWN:	
 	  //case FL_KEYUP:
-		  switch(Fl::event_key())
+	  {
+		  int key = Fl::event_key();
+		  switch(key)
 		  {
 		  case FL_Tab:
 			display_mode = (display_mode + 1) % MAX_DISPLAY_MODES;
+			if (display_mode == DEFAULT)
+			{
+				home_phi = phi = 45.0f;
+				home_theta = theta = 0.0f;
+				home_dist = dist = 100.0f;
+				home_x = x_at = 0.0f;
+				home_y = y_at = 0.0f;
+			}
+
+			if (display_mode == WALK)
+			{
+				home_phi = phi;
+				home_theta = theta;
+				home_dist = dist;
+				home_x = x_at;
+				home_y = y_at;
+			}
+			if (display_mode == FERRISWHEEL)
+			{
+				home_phi = 10.0f;
+				home_theta = -100.0f;
+				home_dist = 106.5f;
+				home_x = -10.6072f;
+				home_y = 94.9089f;
+				KeyMove(FL_Home);
+			}
 			break;
 		  case FL_F + 1:
 			{
@@ -240,10 +370,15 @@ WorldWindow::handle(int event)
 							   "Press Tab to switch display modes";
 			MessageBoxA(NULL, msg, "Help Window", 0);
 			}
-
+			break;
+		  default:
+			KeyMove(key);
+			break;
 		  }
 
-		  break;
+		
+	  }
+	  break;
       case FL_PUSH:
 		  if (display_mode) break;
         button = Fl::event_button();
@@ -257,8 +392,8 @@ WorldWindow::handle(int event)
 	return 1;
       case FL_DRAG:
 		  if (display_mode) break;
-	x_last = Fl::event_x();
-	y_last = Fl::event_y();
+		x_last = Fl::event_x();
+		y_last = Fl::event_y();
 	return 1;
       case FL_RELEASE:
         button = -1;

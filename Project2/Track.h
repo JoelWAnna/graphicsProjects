@@ -17,6 +17,7 @@ class Track : public OGLItem {// extends OGLItem{
   private:
     GLubyte 	    track_list;	    // The display list for the track.
     GLubyte 	    train_list;	    // The display list for the train.
+	GLubyte 	    wheel_list;	// The display list for the train.
     bool    	    initialized;    // Whether or not we have been initialized.
     CubicBspline    *track;	    // The spline that defines the track.
     float	    posn_on_track;  // The train's parametric position on the
@@ -26,7 +27,7 @@ class Track : public OGLItem {// extends OGLItem{
     static const int	TRACK_NUM_CONTROLS;	// Constants about the track.
     static const float 	TRACK_CONTROLS[][3];
     static const float 	TRAIN_ENERGY;
-
+	int n_refined;
   public:
     // Constructor
     Track(void) { initialized = false; posn_on_track = 0.0f; speed = 0.0f; };

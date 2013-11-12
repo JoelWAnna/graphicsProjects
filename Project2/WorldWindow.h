@@ -59,6 +59,12 @@ class WorldWindow : public Fl_Gl_Window {
 	float	phi;	// Viewer's inclination angle.
 	float	theta;	// Viewer's azimuthal angle.
 	float	dist;	// Viewer's distance from the look-at point.
+	float home_x;
+	float home_y;
+	float home_phi;
+	float home_theta;
+	float home_dist;
+				
 	float	x_at;	// The x-coord to look at.
 	float	y_at;	// The y-coord to look at. z_at is assumed 2.0.
 
@@ -76,6 +82,7 @@ class WorldWindow : public Fl_Gl_Window {
 	float	y_at_down;  // The y-coord to look at when the mouse went down.
 
 	void	Drag(float);	// The function to call for mouse drag events
+	void KeyMove(int key);
 };
 
 

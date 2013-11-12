@@ -9,7 +9,10 @@
 #include <stdio.h>
 #include <FL/math.h>
 #include <GL/glu.h>
-
+#include "Objects.h"
+#include <iostream>
+#include <fstream>
+using namespace std;
 
 // The control points for the track spline.
 const int   Track::TRACK_NUM_CONTROLS = 4;
@@ -52,7 +55,7 @@ bool
 Track::Initialize(void)
 {
     CubicBspline    refined(3, true);
-    int		    n_refined;
+    //int		    n_refined;
     float	    p[3];
     int		    i;
 
@@ -80,13 +83,186 @@ Track::Initialize(void)
 		glVertex3fv(p);
 	    }
 	glEnd();
-    glEndList();
+	
+    //////////////
+	//std::ofstream file("./REPORT.txt");
+	    for (int i = 0 ; i <= n_refined ; i++ )
+	    {
+		//cout << i << endl;
+		glPushMatrix();
+		
+		float p[3];
+
+		track->Evaluate_Point((float)i/n_refined*4, p);
+		glTranslatef(p[0], p[1], p[2]);
+		float tangent[3];
+		track->Evaluate_Derivative((float)i/n_refined*4, tangent);
+		Normalize_3(tangent);
+		float angle1 = (float)(atan2(tangent[1], tangent[0]) * 180.0 / M_PI);
+		float angle2 = (float)(asin(-tangent[2]) * 180.0 / M_PI);
+		
+
+		GLfloat color[3] = {(float)i/n_refined, 0.0f, 0.5f};
+		
+		GLfloat flb2[3] = {-.2f, -.2f,  0.0f},//-p[2]},
+			bru2[3] = {.2f, .2f, 0.0f};//-.125};
+//		-.125
+
+		MyQuad posta(color, flb2, bru2);
+		posta.flu[MyQuad::Z] = -.125f;
+		posta.fru[MyQuad::Z] = 0.0f;
+		
+		posta.blu[MyQuad::Z] = -.125f;
+		posta.bru[MyQuad::Z] = 0.0f;
+
+		posta.Rotatef(angle1, MyQuad::Z);
+		posta.Rotatef(-angle2, MyQuad::Y);
+		posta.flb[MyQuad::Z] = -p[2];
+		posta.frb[MyQuad::Z] = -p[2];
+		
+		posta.blb[MyQuad::Z] = -p[2];
+		posta.brb[MyQuad::Z] = -p[2];
+		if (0 && (i < 32))
+		{
+		posta.print();
+
+/*		if ((posta.flu[MyQuad::X] > posta.blu[MyQuad::X]) ||
+		   (posta.flu[MyQuad::Y] > posta.blu[MyQuad::Y]))
+		{
+				posta.flu[MyQuad::Z] = -.125;
+				posta.fru[MyQuad::Z] = -.125;
+				posta.blu[MyQuad::Z] = -.625;
+				posta.bru[MyQuad::Z] = -.625;
+		
+		}
+		else
+		{
+			posta.flu[MyQuad::Z] = -.525;
+			posta.fru[MyQuad::Z] = -.525;
+			posta.blu[MyQuad::Z] = -.125;
+			posta.bru[MyQuad::Z] = -.125;
+		}
+		posta.flb[MyQuad::Z] = -p[2];
+		posta.frb[MyQuad::Z] = -p[2];
+		
+		posta.blb[MyQuad::Z] = -p[2];
+		posta.brb[MyQuad::Z] = -p[2];
+		*/
+		//MyQuad::Rotatef(-angle1, MyQuad::Z,posta.flu);
+		//MyQuad::Rotatef(-angle2, MyQuad::Y,posta.flu);
+		//posta.fru[MyQuad::Z] = 0;
+		//MyQuad::Rotatef(-angle1, MyQuad::Z,posta.fru);
+		//MyQuad::Rotatef(-angle2, MyQuad::Y,posta.fru);
+		//posta.blu[MyQuad::Z] = 0;
+		//MyQuad::Rotatef(-angle1, MyQuad::Z,posta.blu);
+		//MyQuad::Rotatef(-angle2, MyQuad::Y,posta.blu);
+		//posta.bru[MyQuad::Z] = 0;
+		//MyQuad::Rotatef(-angle1, MyQuad::Z,posta.bru);
+		//MyQuad::Rotatef(-angle2, MyQuad::Y,posta.bru);
+		//MyQuad postb(color, flb3, bru3);
+		glBegin(GL_QUADS);
+		posta.color[0] = 1;
+		posta.color[1] = 1;
+		posta.color[2] = 1;
+		posta.Construct();		
+		glEnd();
+		}
+	/*	glBegin(GL_QUADS);
+		postb.color[0] = 0;
+		postb.color[1] = 1;
+		postb.color[2] = 0;
+		postb.Construct();		
+		glEnd();
+		*/
+
+		
+		
+
+	/*	GLfloat fluP[3] = {0.2,.2,-.125},
+				fruP[3] = {0.4,.2,-.125},
+				bluP[3] = {.2, .4, -.1250},
+				bruP[3] = {.2, .4, -.125};
+		MyQuad::Rotatef(angle1, 2, fluP);
+		MyQuad::Rotatef(angle2, 1, fluP);
+		MyQuad::Rotatef(angle1, 2, fruP);
+		MyQuad::Rotatef(angle2, 1, fruP);
+		MyQuad::Rotatef(angle1, 2, bluP);
+		MyQuad::Rotatef(angle2, 1, bluP);
+		MyQuad::Rotatef(angle1, 2, bruP);
+		MyQuad::Rotatef(angle2, 1, bruP);*/
+		//flb{.2, .2,  -p[2]},
+		//	bru2[3] = {.4, .4, -.125};
+		/*GLfloat flbP[3] = {0.2,.2,-.125},
+				frbP[3] = {.4,.2,-.125},
+				blbP[3] = {.2, .4, -.125},
+				brbP[3] = {.4, .4, -.125};
+		MyQuad c(color, flbP, fluP, fruP, frbP, blbP, bluP, bruP, brbP);
+		glBegin(GL_QUADS);
+		c.color[0] = .5;
+		c.color[1] = 0;
+		c.color[2] = 0.5;
+		c.Construct();		
+		glEnd();*/
+//		cout << p[0] << " " << p[1] <<  " " << p[2] << endl;
+	//	cout << tangent[0] << " " << tangent[1] <<  " " << tangent[2] << endl;
+		glRotatef((float)angle1, 0.0f, 0.0f, 1.0f);
+		glRotatef((float)angle2, 0.0f, 1.0f, 0.0f);
+
+		//track->Evaluate_Point((float)((i+1)%(n_refined+1)), q);
+		
+		GLfloat flb[3] = {0.125f,-1.0f,-.125f},
+			bru[3] = {.625f, 1.0f, 0.0f};
+		glBegin(GL_QUADS);
+		MyQuad board(color, flb, bru);
+		board.Construct();
+		glEnd();
+		GLfloat flba[3] = {0.2f,-.2f,-.125f},
+			brua[3] = {.4f, .2f, -.125f};
+		MyQuad x(color, flba, brua);
+		x.flb[2] = -p[2];
+		MyQuad::Rotatef(angle1, 2, x.flb);
+		MyQuad::Rotatef(angle2, 1, x.flb);
+		x.frb[2] = -p[2];
+		
+		MyQuad::Rotatef(angle1, 2, x.frb);
+		MyQuad::Rotatef(angle2, 1, x.frb);
+		x.blb[2] = -p[2];
+		
+		MyQuad::Rotatef(angle1, 2, x.blb);
+		MyQuad::Rotatef(angle2, 1, x.blb);
+		x.brb[2] = -p[2];
+		MyQuad::Rotatef(angle1, 2, x.brb);
+		MyQuad::Rotatef(angle2, 1, x.brb);
+		
+		glBegin(GL_QUADS);
+		x.Construct();
+		glEnd();
+
+		glPopMatrix();
+	    }
+		glEndList();
 
     // Set up the train. At this point a cube is drawn. NOTE: The
     // x-axis will be aligned to point along the track. The origin of the
     // train is assumed to be at the bottom of the train.
-    train_list = glGenLists(1);
-    glNewList(train_list, GL_COMPILE);
+	wheel_list = glGenLists(1);
+	glNewList(wheel_list, GL_COMPILE);
+    
+	GLUquadric *a = gluNewQuadric();
+	
+	
+	glTranslatef(0, -1, .125);
+	glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
+	
+	glColor3f(0.0, 1.0, 0.0);
+	gluCylinder(a, 0.25f, 0.25f, 0.5f, 32,32);
+	
+	glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+	glTranslatef(0, 1, -.125);
+	glEndList();
+    
+	train_list = glGenLists(1);
+	glNewList(train_list, GL_COMPILE);
     glColor3f(1.0, 0.0, 0.0);
     glBegin(GL_QUADS);
 	glNormal3f(0.0f, 0.0f, 1.0f);
@@ -145,10 +321,11 @@ Track::Draw(void)
 	return;
 
     glPushMatrix();
-
+	
+   // glDisable(GL_CULL_FACE);
     // Draw the track
     glCallList(track_list);
-
+	//
     glPushMatrix();
 
     // Figure out where the train is
@@ -172,7 +349,22 @@ Track::Draw(void)
     // Draw the train
 	glTranslatef(-1,0,0);
     glCallList(train_list);
+	
 	glTranslatef(1,0,0);
+	glDisable(GL_CULL_FACE);
+	glPushMatrix();
+	glPopMatrix();
+	static float lastpos = 0;
+
+	lastpos += speed;
+	glTranslatef(0,0, .125);
+	glRotatef(lastpos, 0, 1, 0);
+	glTranslatef(0,0, -.125);
+	glCallList(wheel_list);
+	glTranslatef(0,0, .125);
+	glRotatef(-lastpos, 0, 1, 0);
+	glTranslatef(0,0, -.125);
+	glEnable(GL_CULL_FACE);
     glCallList(train_list);
 	glTranslatef(1,0,0);
     glCallList(train_list);
@@ -232,29 +424,29 @@ void Track::View()
     double  angle1, angle2;
 	
     // Figure out where the train is
-    track->Evaluate_Point(posn_on_track, posn);
+    track->Evaluate_Point((posn_on_track + n_refined - 2), posn);
 
     // Translate the train to the point
  //   glTranslatef(posn[0], posn[1], posn[2]);
 
     // ...and what it's orientation is
-    track->Evaluate_Derivative(posn_on_track, tangent);
+    track->Evaluate_Derivative((posn_on_track + n_refined - 2), tangent);
     Normalize_3(tangent);
 
     // Rotate it to poitn along the track, but stay horizontal
-    angle1 = atan2(tangent[1], tangent[0]) * 180.0 / M_PI;
+    angle1 = atan2(tangent[1], tangent[0]) * 180.0 / M_PI;// +30;
    // glRotatef((float)angle, 0.0f, 0.0f, 1.0f);
 
     // Another rotation to get the tilt right.
-    angle2 = asin(-tangent[2]) * 180.0 / M_PI;
+    angle2 = asin(-tangent[2]) * 180.0 / M_PI ;
   //  glRotatef((float)angle, 0.0f, 1.0f, 0.0f);
-	posn[2] += 1;//.5;
-	GLfloat eye[3], dist=2;
+	posn[2] += 3;//.5;
+	GLfloat eye[3], dist=5;
 	float x_at = -posn[0],
 		  y_at = -posn[1];
-	eye[0] = x_at + dist * cos(angle1 * M_PI / 180.0) * cos(angle2 * M_PI / 180.0);
-    eye[1] = y_at + dist * sin(angle1 * M_PI / 180.0) * cos(angle2 * M_PI / 180.0);
-    eye[2] = posn[2] + dist * sin(angle2 * M_PI / 180.0);
+	eye[0] = (float)(x_at + dist * cos(angle1 * M_PI / 180.0) * cos(angle2 * M_PI / 180.0));
+    eye[1] = (float)(y_at + dist * sin(angle1 * M_PI / 180.0) * cos(angle2 * M_PI / 180.0));
+    eye[2] = (float)(posn[2] + dist * sin(angle2 * M_PI / 180.0));
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(eye[0], eye[1], eye[2], x_at, y_at, posn[2], 0.0, 0.0, 1.0);
