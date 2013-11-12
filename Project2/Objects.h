@@ -42,6 +42,16 @@ struct MyQuad
 			dest[i]=src[i];
 		}
 	}
+	static void Swap(GLfloat* x, GLfloat* y, int size=3)
+	{		
+		float  temp;
+		for (int i = 0; i < size; ++i)
+		{
+			temp = x[i];
+			x[i] = y[i];
+			y[i] = temp;
+		}
+	}
 	GLfloat color[3],
 			flb[3],
 			flu[3],

@@ -76,14 +76,15 @@ Track::Initialize(void)
     track_list = glGenLists(1);
     glNewList(track_list, GL_COMPILE);
 	glColor3f(1.0f, 1.0, 1.0f);
-	glBegin(GL_LINE_STRIP);
+/*	glBegin(GL_LINE_STRIP);
 	    for ( i = 0 ; i <= n_refined ; i++ )
 	    {
 		refined.Evaluate_Point((float)i, p);
 		glVertex3fv(p);
 	    }
 	glEnd();
-	
+	*/
+
     //////////////
 	//std::ofstream file("./REPORT.txt");
 	    for (int i = 0 ; i <= n_refined ; i++ )
@@ -216,9 +217,12 @@ Track::Initialize(void)
 		MyQuad board(color, flb, bru);
 		board.Construct();
 		glEnd();
-		GLfloat flba[3] = {0.2f,-.2f,-.125f},
-			brua[3] = {.4f, .2f, -.125f};
+	//	angle2 = -angle2;
+	//	angle1 = -angle1;
+		GLfloat flba[3] = {0.2f,.2f,-.125f},
+			brua[3] = {.4f, .4f, -.125f};
 		MyQuad x(color, flba, brua);
+
 		x.flb[2] = -p[2];
 		MyQuad::Rotatef(angle1, 2, x.flb);
 		MyQuad::Rotatef(angle2, 1, x.flb);
@@ -231,13 +235,21 @@ Track::Initialize(void)
 		MyQuad::Rotatef(angle1, 2, x.blb);
 		MyQuad::Rotatef(angle2, 1, x.blb);
 		x.brb[2] = -p[2];
+		
 		MyQuad::Rotatef(angle1, 2, x.brb);
 		MyQuad::Rotatef(angle2, 1, x.brb);
-		
+
+		MyQuad::Swap(x.brb, x.blb);
+	//	if (i == 64)
+		{
+//			x.print();
+		}
 		glBegin(GL_QUADS);
 		x.Construct();
 		glEnd();
-
+//		x.Rotatef(-angle2, MyQuad::Y);
+//		x.Rotatef(-angle1, MyQuad::Z);
+//		x.print();
 		glPopMatrix();
 	    }
 		glEndList();

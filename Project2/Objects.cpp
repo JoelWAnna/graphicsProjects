@@ -106,6 +106,10 @@ void MyQuad::print()
 			  << "FRU: "<< fru[X] << " " << fru[Y] <<" " << fru[Z] << std::endl
 			  << "BLU: "<< blu[X] << " " << blu[Y] << " " << blu[Z] << std::endl
 			  << "BRU: "<< bru[X] << " " << bru[Y] <<" " << bru[Z] << std::endl;
+	std::cout << "FLB: "<< flb[X] << " " << flb[Y] << " " << flb[Z] << std::endl
+			  << "FRB: "<< frb[X] << " " << frb[Y] <<" " << frb[Z] << std::endl
+			  << "BLB: "<< blb[X] << " " << blb[Y] << " " << blb[Z] << std::endl
+			  << "BRB: "<< brb[X] << " " << brb[Y] <<" " << brb[Z] << std::endl;
 	//std::	cin.get();
 }
 void MyQuad::Rotatef(float angle, int XYZ, GLfloat p[3])
