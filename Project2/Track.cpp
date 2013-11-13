@@ -144,8 +144,14 @@ Track::Initialize(void)
 			bru[3] = {.625f, 1.0f, 0.0f};
 		glBegin(GL_QUADS);
 		MyQuad board(color, flb, bru);
+		//board.Translatef(p[0], p[1], p[2]);
+		//board.Rotatef(angle2, 1);
+		//board.Rotatef(angle1, 2);
+		//board.Translatef(-p[0], -p[1], -p[2]);
 		board.Construct();
 		glEnd();
+		//GLUquadric * q = gluNewQuadric();
+		//gluCylinder(q, 1,1,2,32,32);
 	//	angle2 = -angle2;
 	//	angle1 = -angle1;
 		GLfloat flba[3] = {0.2f,.2f,-.125f},
@@ -153,23 +159,43 @@ Track::Initialize(void)
 		MyQuad x(color, flba, brua);
 
 		x.flb[2] = -p[2];
+		float X =x.flb[0],
+			  Y = x.flb[1];
+		x.flb[0] = x.flb[1] = 0;
 		MyQuad::Rotatef(angle1, 2, x.flb);
 		MyQuad::Rotatef(angle2, 1, x.flb);
+		x.flb[0] += X;
+		x.flb[1] += Y;
+	
 		x.frb[2] = -p[2];
-		
+		X = x.frb[0],
+		Y = x.frb[1];
 		MyQuad::Rotatef(angle1, 2, x.frb);
 		MyQuad::Rotatef(angle2, 1, x.frb);
+		x.frb[0] += X;
+		x.frb[1] += Y;
+		
 		x.blb[2] = -p[2];
+		X = x.blb[0],
+		Y = x.blb[1];
 		
 		MyQuad::Rotatef(angle1, 2, x.blb);
 		MyQuad::Rotatef(angle2, 1, x.blb);
+		x.blb[0] += X;
+		x.blb[1] += Y;
+	
 		x.brb[2] = -p[2];
+		X = x.brb[0],
+		Y = x.brb[1];
+		
 		
 		MyQuad::Rotatef(angle1, 2, x.brb);
 		MyQuad::Rotatef(angle2, 1, x.brb);
+		x.brb[0] += X;
+		x.brb[1] += Y;
 		
-		MyQuad::Swap(x.brb, x.blb);
-		MyQuad::Swap(x.frb, x.flb);
+	//	MyQuad::Swap(x.brb, x.blb);
+	//	MyQuad::Swap(x.frb, x.flb);
 
 		glBegin(GL_QUADS);
 		x.Construct();
