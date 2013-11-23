@@ -1,0 +1,104 @@
+
+\documentclass[12pt]{article}\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\pagestyle{fancy}
+\lhead{\footnotesize \parbox{11cm}{Joel Anna} }
+%\lfoot{\footnotesize \parbox{11cm}{\textit[2]}}
+\cfoot{}
+\rhead{\footnotesize HW4:  \thepage\ of \pageref{LastPage}}
+%\rfoot{\footnotesize Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headheight}{24pt}
+%\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+\author{Joel Anna<annajoel@pdx.edu>}
+\noindent
+\underline{Question 1:}\\
+a:
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline 
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\
+\hline 
+0 & 1/6 & 1/3 & 1/3 & 1/3 & 1/3 & 1/6 & 0 \\
+\hline 
+0 & 1/3 & 2/3 & 2/3 & 2/3 & 2/3 & 1/3 & 0 \\
+\hline 
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+\hline
+
+\end{tabular}\\
+\vspace{10pt} \\
+b:
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline 
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 1  \\
+\hline 
+1 & 1/4 & 1/2 & 1/2 & 1/2 & 1/2 & 1/4 & 1 \\
+\hline 
+1 & 1/4 & 1/2 & 1/2 & 1/2 & 1/2 & 1/4 & 1 \\
+\hline 
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 1  \\
+\hline
+\end{tabular}\\
+\vspace{10pt} \\
+\underline{Question 3:}\\
+a:\\ L1
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+1/4 & 1/2 & 1/2 & 1/2 & 1/2 & 1/2 & 1/2 & 1/4
+\\
+\hline
+1/2 & 0 & 0 & 0 & 0 & 0 & 0 & 1/2\\
+\hline
+1/2 & 0 & 1 & 1 & 1 & 1 & 0 & 1/2\\
+\hline
+1/2 & 0 & 1 & 0 & 0 & 1 & 0 & 1/2\\
+\hline
+1/2 & 0 & 1 & 0 & 0 & 1 & 0 & 1/2\\
+\hline
+1/2 & 0 & 1 & 1 & 1 & 1 & 0 & 1/2\\
+\hline
+1/2 & 0 & 0 & 0 & 0 & 0 & 0 & 1/2\\
+\hline
+1/4 & 1/2 & 1/2 & 1/2 & 1/2 & 1/2 & 1/2 & 1/4
+\\
+\hline
+\end{tabular}\\
+\vspace{10pt} \\
+L2
+\begin{tabular}[]{|c|c|c|c|}
+\hline
+5/16 & 1/4 & 1/4 & 5/16\\
+\hline
+1/4 & 3/4 & 3/4 & 1/4 \\
+\hline
+1/4 & 3/4 & 3/4 & 1/4 \\
+\hline
+5/16 & 1/4 & 1/4 & 5/16
+\\
+\hline
+\end{tabular}
+L3
+\begin{tabular}{|c|c|}
+\hline
+25/64 & 25/64\\
+\hline
+25/64 & 25/64\\
+\hline
+\end{tabular}
+\\
+b:\\
+$\rho_x = \frac{48}{3\times3} = 5\frac{1}{3}$
+\hspace{10pt}
+$\rho_y = \frac{32}{1.5\times 3} = 7\frac{1}{9}$\\
+$\rho = max(\rho_x, \rho_y) = 7\frac{1}{9}$\\
+$\lambda_x = log_2 (5\frac{1}{3}) = 2.4$
+\hspace{10pt}
+$\lambda_x = log_2 (7\frac{1}{9}) = 2.8$\\
+$\lambda = max(\lambda_x, \lambda_y) = 2.8$\\
+For nearest mipmap nearest, mipmap L3 should be used
+
+\end{document}
+
