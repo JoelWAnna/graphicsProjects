@@ -7,7 +7,7 @@
 
 #include "Track.h"
 #include <stdio.h>
-#include <FL/math.h>
+#include <Fl/math.h>
 #include <GL/glu.h>
 #include "Objects.h"
 #include <iostream>

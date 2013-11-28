@@ -13,6 +13,14 @@
 #include <GL/glu.h>
 #include <stdio.h>
 #include <iostream>
+
+#include <FL/fl_ask.H>
+const char * HELPmsg = "Press F1 to show this help window\n" \
+		   "Press Tab to switch display modes\n" \
+		"A and D change theta\n W and S change phi\n" \
+		"arrow keys move through the world\n" \
+		"- and = change the distance\n" \
+		"Home returns to the starting point of the current display mode."; 
 const double WorldWindow::FOV_X = 45.0;
 
 WorldWindow::WorldWindow(int x, int y, int width, int height, char *label)
@@ -89,7 +97,7 @@ WorldWindow::draw(void)
 	items.push_back(new Wall());
 	items.push_back(new Tree());
 	items.push_back(new FerrisWheel()); ferriswheel = 4; // update ferris wheel to the index in items of the track
-	
+
 
 	auto iter = items.begin();
 	auto iterEnd = items.end();
@@ -99,6 +107,7 @@ WorldWindow::draw(void)
 		++iter;
 	}
 
+fl_message(HELPmsg);
     }
 
     // Stuff out here relies on a coordinate system or must be done on every
@@ -136,7 +145,6 @@ WorldWindow::draw(void)
     dir[0] = 1.0; dir[1] = 1.0; dir[2] = 1.0; dir[3] = 0.0;
     glLightfv(GL_LIGHT0, GL_POSITION, dir);
 
-    // Draw stuff. Everything.
 
 	auto iter = items.begin();
 	auto iterEnd = items.end();
@@ -366,9 +374,9 @@ WorldWindow::handle(int event)
 			break;
 		  case FL_F + 1:
 			{
-			const char * msg = "Press F1 to show this help window\n" \
-							   "Press Tab to switch display modes";
-			MessageBoxA(NULL, msg, "Help Window", 0);
+
+			fl_message(HELPmsg);
+			//MessageBoxA(NULL, msg, "Help Window", 0);
 			}
 			break;
 		  default:

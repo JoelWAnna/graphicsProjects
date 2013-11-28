@@ -1,4 +1,5 @@
 #include "Objects.h"
+#include <string.h>
 #include <iostream>
 MyQuad::MyQuad(GLfloat c[3], GLfloat _flb[3], GLfloat _flu[3], GLfloat _fru[3], GLfloat _frb[3], GLfloat _blb[3], GLfloat _blu[3], GLfloat _bru[3], GLfloat _brb[3])
 {
