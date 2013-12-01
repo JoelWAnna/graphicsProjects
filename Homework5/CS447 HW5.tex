@@ -1,0 +1,100 @@
+
+\documentclass[12pt]{article}\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\pagestyle{fancy}
+\lhead{\footnotesize \parbox{11cm}{Joel Anna} }
+%\lfoot{\footnotesize \parbox{11cm}{\textit[2]}}
+\cfoot{}
+\rhead{\footnotesize CS447 HW5:  \thepage\ of \pageref{LastPage}}
+%\rfoot{\footnotesize Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headheight}{24pt}
+%\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+\author{Joel Anna<annajoel@pdx.edu>}
+\noindent
+\underline{Question 1:}\\
+a:
+This is a convenient way to represent a mesh for flat shading, because flat shading uses 1 normal per face.\\
+b:
+A cube, or any other object with only 90 degree angles, so that all of the vertices would share the normal if stored in another way.\\
+c:
+A spherical object, or any object that has non 90degree angles, because the vertices would not share the normal, and there will be banding, because there is effectively no interpolation for the normal on the face.\\\\
+\underline{Question 2:}\\
+new vetex 3-4:\\
+midpoint = ($\frac{-1}{2}$, $\frac{-1}{2}$, 0)
+distance from origin = $\sqrt{(\frac{-1}{2})^2+(\frac{-1}{2})^2} = \sqrt{\frac{1}{2}}$\\
+normalized = ($\frac{\frac{-1}{2}}{\sqrt{\frac{1}{2}}}$, $\frac{\frac{-1}{2}}{\sqrt{\frac{1}{2}}}$, 0) = ($-\sqrt{\frac{1}{2}}$,$-\sqrt{\frac{1}{2}}$, 0)\\
+New vertex location = normalized $\times$ $||\overrightarrow{3}||$ = normalized\\
+ ($-\sqrt{\frac{1}{2}}$,$-\sqrt{\frac{1}{2}}$, 0)\\\\
+%
+% %
+%
+%
+%
+new vetex 3-5:\\
+midpoint = ($\frac{-1}{2}$, 0, $\frac{-1}{2}$)
+distance from origin = $\sqrt{(\frac{-1}{2})^2+(\frac{-1}{2})^2} = \sqrt{\frac{1}{2}}$\\
+normalized = ($\frac{\frac{-1}{2}}{\sqrt{\frac{1}{2}}}$, 0, $\frac{\frac{-1}{2}}{\sqrt{\frac{1}{2}}}$) = ($-\sqrt{\frac{1}{2}}$, 0,$-\sqrt{\frac{1}{2}}$)\\
+New vertex location = normalized $\times$ $||\overrightarrow{3}||$ = normalized\\
+ ($-\sqrt{\frac{1}{2}}$, 0, $-\sqrt{\frac{1}{2}}$)\\
+%
+% %
+%
+%
+%
+new vetex 4-5:\\
+midpoint = (0, $\frac{-1}{2}$, $\frac{-1}{2}$)
+distance from origin = $\sqrt{(\frac{-1}{2})^2+(\frac{-1}{2})^2} = \sqrt{\frac{1}{2}}$\\
+normalized = (0, $\frac{\frac{-1}{2}}{\sqrt{\frac{1}{2}}}$, $\frac{\frac{-1}{2}}{\sqrt{\frac{1}{2}}}$) = (0, $-\sqrt{\frac{1}{2}}$, $-\sqrt{\frac{1}{2}}$)\\
+New vertex location = normalized $\times$ $||\overrightarrow{3}||$ = normalized\\
+ (0, $-\sqrt{\frac{1}{2}}$, $-\sqrt{\frac{1}{2}}$)\\
+ \\
+\textbf{Vertex 3-4: 
+ ($-\sqrt{\frac{1}{2}}$, $-\sqrt{\frac{1}{2}}$, 0).\\
+ Vertex 3-5:
+ ($-\sqrt{\frac{1}{2}}$, 0, $-\sqrt{\frac{1}{2}}$)\\
+ Vertex 4-5:
+  (0, $-\sqrt{\frac{1}{2}}$, $-\sqrt{\frac{1}{2}}$)}\\
+  \\
+  \underline{Question 3:}\\
+  a: The final control point x3 should be at (0, 1, 0).\\
+  b: To make the magnitude of the parametric derivative of the curve equal 1 at the start and end of the curve the control points x1, x2 should be at\\
+  x1: (0, $\frac{1}{3}$, 0).\\
+  x2: (0, $\frac{2}{3}$, 0)\\
+  B'(t) = $3 (1-t)^2(P_1 - P_0) + 6(1-t)t(P_2-P_1)+ 3t^2(P_3-P_2)$\\
+  wrt y:\\
+  B'(t) $\;= 3 (1-t)^2(\frac{1}{3} - 0) + 6(1-t)t(\frac{2}{3} - \frac{1}{3} )+ 3t^2(1 - \frac{2}{3})$\\
+   \indent
+    $\,\;\;\;\; = 3 (1-t)^2(\frac{1}{3}) + 6(1-t)t(\frac{1}{3})+ 3t^2(\frac{1}{3})$\\
+\indent
+   $\,\;\;\;\; = (1-t)^2 + 2(1-t)t + t^2$\\
+      \indent
+     $\,\;\;\;\; = (1-t)^2 + 2t - 2t^2 + t^2$\\
+  \indent
+ $\,\;\;\;\; = (1-t)^2 + 2t - t^2$\\
+ wrt y:\\
+ B'(0) = $(1-0)^2 + 2(0) - (0)^2 = 1$\\
+ B'(1) = $(1-1)^2 + 2(1) - (1)^2 = 1$\\
+ \\
+ c: wrt y:\\
+   B'(t) $\,= (1-t)^2 + 2t - t^2$\\
+  \indent$\;\;\;\; = (1-t)(1-t) + 2t - t^2$\\
+ \indent$\;\;\;\; = t^2 - 2t + 1 + 2t - t^2$\\
+  \indent$\;\;\;\; = 1$\\
+ 
+  \underline{Question 4:}\\
+  a: do the arcs join with $C_1$ continuity?\\
+  No, because the parametric derivative for arc 1 at t=1 will
+  be roughly 1/2 of the parametric derivative for arc 2 at t=0.\\
+\\
+  b: do the arcs join with $G_1$ continuity\\
+  Yes because the points for the parametric derivative, and joined point are colinear.\\
+ \underline{Question 5:}\\
+ \textbf{C} must not be a cubic Bezier curve because the curve is not contained by the convex hull of the control points\\
+ \textbf{D} must not be a cubic Bezier curve because the control point p3 is not the end of the curve. The curve does not interpolate p0 and p3.
+
+\end{document}
+
